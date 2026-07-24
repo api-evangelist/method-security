@@ -1,0 +1,38 @@
+openapi: 3.1.0
+info:
+  title: API Reference audit reports API
+  version: 1.0.0
+tags:
+- name: reports
+paths:
+  /method-api-gateway/api/v1/reports/{reportId}:
+    get:
+      operationId: getReport
+      summary: Get Report
+      description: Retrieve a report document as markdown.
+      tags:
+      - reports
+      parameters:
+      - name: reportId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_v1/reports:ReportId'
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/reports:Report'
+components:
+  securitySchemes:
+    client-credentials:
+      type: http
+      scheme: bearer

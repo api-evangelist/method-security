@@ -1,0 +1,85 @@
+openapi: 3.1.0
+info:
+  title: API Reference audit issues API
+  version: 1.0.0
+tags:
+- name: issues
+paths:
+  /method-api-gateway/api/v1/issues/{id}:
+    get:
+      operationId: getIssue
+      summary: Get Issue
+      description: Retrieve an issue from Method using its ID
+      tags:
+      - issues
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_v1/issues:IssueId'
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/issues:Issue'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/issues:IssueId'
+  /method-api-gateway/api/v1/issues/{id}/update:
+    post:
+      operationId: updateIssue
+      summary: Update Issue
+      description: 'Update an issue''s workflow fields. All provided fields are updated atomically.
+
+        Only include fields you want to change - omitted fields remain unchanged.
+
+        When closing an issue, you must provide a closeReason.'
+      tags:
+      - issues
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_v1/issues:IssueId'
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/issues:Issue'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/issues:IssueId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/issues:UpdateIssueRequest'
+components:
+  securitySchemes:
+    client-credentials:
+      type: http
+      scheme: bearer

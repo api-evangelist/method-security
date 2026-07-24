@@ -1,0 +1,120 @@
+openapi: 3.1.0
+info:
+  title: API Reference audit skills API
+  version: 1.0.0
+tags:
+- name: skills
+paths:
+  /method-api-gateway/api/v1/skills/search:
+    post:
+      operationId: searchSkills
+      summary: Search Skills
+      description: Search the skills available to agents.
+      tags:
+      - skills
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/skills:SearchSkillsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/skills:SearchSkillsRequest'
+  /method-api-gateway/api/v1/skills/{skillId}:
+    get:
+      operationId: getSkill
+      summary: Get Skill
+      description: Retrieve a skill, including its markdown content.
+      tags:
+      - skills
+      parameters:
+      - name: skillId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_v1/skills:SkillId'
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/skills:Skill'
+    put:
+      operationId: updateSkill
+      summary: Update Skill
+      description: Update an existing skill's content, metadata, and labels.
+      tags:
+      - skills
+      parameters:
+      - name: skillId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_v1/skills:SkillId'
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/skills:Skill'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/skills:UpdateSkillRequest'
+  /method-api-gateway/api/v1/skills/:
+    post:
+      operationId: createSkill
+      summary: Create Skill
+      description: Create a skill from markdown content.
+      tags:
+      - skills
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/skills:Skill'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/skills:CreateSkillRequest'
+components:
+  securitySchemes:
+    client-credentials:
+      type: http
+      scheme: bearer

@@ -1,0 +1,74 @@
+openapi: 3.1.0
+info:
+  title: API Reference audit environments API
+  version: 1.0.0
+tags:
+- name: environments
+paths:
+  /method-api-gateway/api/v1/environments/:
+    post:
+      operationId: createEnvironment
+      summary: Create Environment
+      description: Create a new Method environment.
+      tags:
+      - environments
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/environments:CreateEnvironmentResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/environments:CreateEnvironmentRequest'
+  /method-api-gateway/api/v1/environments/{environmentId}/intel:
+    post:
+      operationId: uploadEnvironmentIntel
+      summary: Upload Environment Intel
+      description: Upload an intelligence attachment and associate it with an environment.
+      tags:
+      - environments
+      parameters:
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_common:EnvironmentId'
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/environments:UploadEnvironmentIntelResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/environments:UploadEnvironmentIntelRequest'
+components:
+  schemas:
+    type_common:EnvironmentId:
+      type: string
+      description: The unique identifier for an environment in Method
+      title: EnvironmentId
+  securitySchemes:
+    client-credentials:
+      type: http
+      scheme: bearer

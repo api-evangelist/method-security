@@ -1,0 +1,33 @@
+openapi: 3.1.0
+info:
+  title: API Reference audit system API
+  version: 1.0.0
+tags:
+- name: system
+paths:
+  /method-api-gateway/api/v1/system/externalIp:
+    get:
+      operationId: getExternalIPAddresses
+      summary: Get External IP Addresses
+      description: Retrieves the source IP addresses for scans from the Method platform
+      tags:
+      - system
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/system:ExternalIPAddresses'
+components:
+  securitySchemes:
+    client-credentials:
+      type: http
+      scheme: bearer

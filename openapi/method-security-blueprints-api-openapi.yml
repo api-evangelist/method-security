@@ -1,0 +1,64 @@
+openapi: 3.1.0
+info:
+  title: API Reference audit blueprints API
+  version: 1.0.0
+tags:
+- name: blueprints
+paths:
+  /method-api-gateway/api/v1/blueprints/:
+    get:
+      operationId: listBlueprints
+      summary: List Blueprints
+      description: List available Method blueprints and their parameter definitions.
+      tags:
+      - blueprints
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/blueprints:ListBlueprintsResponse'
+  /method-api-gateway/api/v1/blueprints/{blueprintId}/run:
+    post:
+      operationId: runBlueprint
+      summary: Run Blueprint
+      description: Run a blueprint in an environment.
+      tags:
+      - blueprints
+      parameters:
+      - name: blueprintId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_v1/blueprints:BlueprintId'
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/blueprints:RunBlueprintResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/blueprints:RunBlueprintRequest'
+components:
+  securitySchemes:
+    client-credentials:
+      type: http
+      scheme: bearer

@@ -1,0 +1,48 @@
+openapi: 3.1.0
+info:
+  title: API Reference audit API
+  version: 1.0.0
+tags:
+- name: audit
+paths:
+  /method-api-gateway/api/v1/audit/getAuditEvents:
+    post:
+      operationId: getAuditEvents
+      summary: Get Audit Events
+      description: Retrieves all audit events in the specified time range
+      tags:
+      - audit
+      parameters:
+      - name: pageSize
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: token
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/audit:AuditEventsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/audit:GetAuditEventsRequest'
+components:
+  securitySchemes:
+    client-credentials:
+      type: http
+      scheme: bearer

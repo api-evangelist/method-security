@@ -1,0 +1,90 @@
+openapi: 3.1.0
+info:
+  title: API Reference audit targets API
+  version: 1.0.0
+tags:
+- name: targets
+paths:
+  /method-api-gateway/api/v1/targets/search:
+    post:
+      operationId: searchTargets
+      summary: Search Targets
+      description: Search targeting runs with an optional filter.
+      tags:
+      - targets
+      parameters:
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/targets:SearchTargetsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/targets:SearchTargetsRequest'
+  /method-api-gateway/api/v1/targets/{targetId}:
+    get:
+      operationId: getTarget
+      summary: Get Target
+      description: Retrieve a targeting run by ID.
+      tags:
+      - targets
+      parameters:
+      - name: targetId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_v1/targets:TargetId'
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/targets:Target'
+  /method-api-gateway/api/v1/targets/{targetId}/reports:
+    get:
+      operationId: getTargetReports
+      summary: Get Target Reports
+      description: Retrieve reports linked to a targeting run.
+      tags:
+      - targets
+      parameters:
+      - name: targetId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_v1/targets:TargetId'
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/targets:GetTargetReportsResponse'
+components:
+  securitySchemes:
+    client-credentials:
+      type: http
+      scheme: bearer
