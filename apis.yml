@@ -1,8 +1,20 @@
 aid: method-security
 name: Method Security
-description: Method Security is a company surfaced as a portfolio company of general-catalyst and added
-  to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment
-  pipeline.
+description: >-
+  Method Security is a cybersecurity company delivering cyber resilience to the
+  U.S. Government and critical enterprises through an AI-native, full-spectrum
+  security platform. The Method Platform blends offensive and defensive
+  operations across cloud, on-premise, and internet-denied environments, and
+  ships two flagship products: Bastion (digital-twin driven exposure and
+  attack-surface management that maps, validates, and controls resources and
+  attack paths) and Reaper/Operations (software-defined offensive operations and
+  red-team execution). The platform is built around an Ontology object model,
+  AI Agents governed by granular Policies, Jackal C2 agents, Overwatch terminal
+  session recording, and an Explorer/Automator workspace. Method exposes a public
+  REST API (OpenAPI 3.1) through the method-api-gateway, a published Python SDK
+  (methodsdk), a docs MCP server, and OAuth 2.0 client-credentials authentication
+  backed by Keycloak. Backed by OpenAI, Palantir, Andreessen Horowitz, General
+  Catalyst, and Blackstone.
 url: https://raw.githubusercontent.com/api-evangelist/method-security/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -10,14 +22,224 @@ x-backed-by:
 - general-catalyst
 x-tier: stub
 x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://www.method.security/content/seo/method-graphic-social-1200x628.png
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
-apis: []
+- Security
+- Cybersecurity
+- Offensive Security
+- Exposure Management
+- Attack Surface Management
+- Vulnerability Management
+- Red Team
+- AI Agents
+- Government
+apis:
+- aid: method-security:method-security-audit-api
+  name: Method Security audit API
+  description: The audit API from Method Security — 1 operation(s) for audit.
+  humanURL: https://docs.method.security/developer/api-reference/api-reference
+  baseURL: https://your-instance.method.delivery/method-api-gateway/api
+  tags:
+  - audit
+  properties:
+  - type: OpenAPI
+    url: openapi/method-security-audit-api-openapi.yml
+  - type: x-openapi-original
+    url: openapi/method-security-openapi-original.yml
+- aid: method-security:method-security-auth-api
+  name: Method Security auth API
+  description: The auth API from Method Security — 1 operation(s) for auth.
+  humanURL: https://docs.method.security/developer/api-reference/api-reference
+  baseURL: https://your-instance.method.delivery/method-api-gateway/api
+  tags:
+  - auth
+  properties:
+  - type: OpenAPI
+    url: openapi/method-security-auth-api-openapi.yml
+  - type: x-openapi-original
+    url: openapi/method-security-openapi-original.yml
+- aid: method-security:method-security-blueprints-api
+  name: Method Security blueprints API
+  description: The blueprints API from Method Security — 2 operation(s) for blueprints.
+  humanURL: https://docs.method.security/developer/api-reference/api-reference
+  baseURL: https://your-instance.method.delivery/method-api-gateway/api
+  tags:
+  - blueprints
+  properties:
+  - type: OpenAPI
+    url: openapi/method-security-blueprints-api-openapi.yml
+  - type: x-openapi-original
+    url: openapi/method-security-openapi-original.yml
+- aid: method-security:method-security-environments-api
+  name: Method Security environments API
+  description: The environments API from Method Security — 2 operation(s) for environments.
+  humanURL: https://docs.method.security/developer/api-reference/api-reference
+  baseURL: https://your-instance.method.delivery/method-api-gateway/api
+  tags:
+  - environments
+  properties:
+  - type: OpenAPI
+    url: openapi/method-security-environments-api-openapi.yml
+  - type: x-openapi-original
+    url: openapi/method-security-openapi-original.yml
+- aid: method-security:method-security-issues-api
+  name: Method Security issues API
+  description: The issues API from Method Security — 2 operation(s) for issues.
+  humanURL: https://docs.method.security/developer/api-reference/api-reference
+  baseURL: https://your-instance.method.delivery/method-api-gateway/api
+  tags:
+  - issues
+  properties:
+  - type: OpenAPI
+    url: openapi/method-security-issues-api-openapi.yml
+  - type: x-openapi-original
+    url: openapi/method-security-openapi-original.yml
+- aid: method-security:method-security-reports-api
+  name: Method Security reports API
+  description: The reports API from Method Security — 1 operation(s) for reports.
+  humanURL: https://docs.method.security/developer/api-reference/api-reference
+  baseURL: https://your-instance.method.delivery/method-api-gateway/api
+  tags:
+  - reports
+  properties:
+  - type: OpenAPI
+    url: openapi/method-security-reports-api-openapi.yml
+  - type: x-openapi-original
+    url: openapi/method-security-openapi-original.yml
+- aid: method-security:method-security-signals-api
+  name: Method Security signals API
+  description: The signals API from Method Security — 1 operation(s) for signals.
+  humanURL: https://docs.method.security/developer/api-reference/api-reference
+  baseURL: https://your-instance.method.delivery/method-api-gateway/api
+  tags:
+  - signals
+  properties:
+  - type: OpenAPI
+    url: openapi/method-security-signals-api-openapi.yml
+  - type: x-openapi-original
+    url: openapi/method-security-openapi-original.yml
+- aid: method-security:method-security-skills-api
+  name: Method Security skills API
+  description: The skills API from Method Security — 3 operation(s) for skills.
+  humanURL: https://docs.method.security/developer/api-reference/api-reference
+  baseURL: https://your-instance.method.delivery/method-api-gateway/api
+  tags:
+  - skills
+  properties:
+  - type: OpenAPI
+    url: openapi/method-security-skills-api-openapi.yml
+  - type: x-openapi-original
+    url: openapi/method-security-openapi-original.yml
+- aid: method-security:method-security-system-api
+  name: Method Security system API
+  description: The system API from Method Security — 1 operation(s) for system.
+  humanURL: https://docs.method.security/developer/api-reference/api-reference
+  baseURL: https://your-instance.method.delivery/method-api-gateway/api
+  tags:
+  - system
+  properties:
+  - type: OpenAPI
+    url: openapi/method-security-system-api-openapi.yml
+  - type: x-openapi-original
+    url: openapi/method-security-openapi-original.yml
+- aid: method-security:method-security-targets-api
+  name: Method Security targets API
+  description: The targets API from Method Security — 3 operation(s) for targets.
+  humanURL: https://docs.method.security/developer/api-reference/api-reference
+  baseURL: https://your-instance.method.delivery/method-api-gateway/api
+  tags:
+  - targets
+  properties:
+  - type: OpenAPI
+    url: openapi/method-security-targets-api-openapi.yml
+  - type: x-openapi-original
+    url: openapi/method-security-openapi-original.yml
+common:
+- type: Website
+  url: https://method.security
+- type: DeveloperPortal
+  url: https://docs.method.security
+- type: Documentation
+  url: https://docs.method.security
+- type: APIReference
+  url: https://docs.method.security/developer/api-reference/api-reference
+- type: GettingStarted
+  url: https://docs.method.security/guides/overview/get-started
+- type: Blog
+  url: https://method.security/blog
+- type: GitHubOrganization
+  url: https://github.com/method-security
+- type: TermsOfService
+  url: https://method.security/legal/terms-and-conditions
+- type: PrivacyPolicy
+  url: https://method.security/legal/privacy-policy
+- type: Authentication
+  url: authentication/method-security-authentication.yml
+- type: AgenticAccess
+  url: agentic-access/method-security-agentic-access.yml
+- type: MCPServer
+  url: mcp/method-security-mcp.yml
+- type: LLMsTxt
+  url: llms/method-security-llms.txt
+- type: WellKnown
+  url: well-known/method-security-well-known.yml
+- type: APICatalog
+  url: well-known/method-security-api-catalog.json
+- type: Packages
+  url: packages/method-security-packages.yml
+- type: SDKs
+  url: packages/method-security-packages.yml
+- type: CLI
+  url: cli/method-security-cli.yml
+- type: Conventions
+  url: conventions/method-security-conventions.yml
+- type: ErrorCatalog
+  url: errors/method-security-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/method-security-lifecycle.yml
+- type: ChangeLog
+  url: changelog/method-security-changelog.yml
+- type: DataModel
+  url: data-model/method-security-data-model.yml
+- type: Conformance
+  url: conformance/method-security-conformance.yml
+- type: Webhooks
+  url: asyncapi/method-security-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DomainSecurity
+  url: security/method-security-domain-security.yml
+- type: VulnerabilityDisclosure
+  url: security/method-security-vulnerability-disclosure.yml
+- type: Security
+  url: https://docs.method.security/platform/security-governance/reporting-security-concerns
+- type: TrustCenter
+  url: security/method-security-trust-center.yml
+- type: Compliance
+  url: security/method-security-trust-center.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 25
+  pass: local-v1
