@@ -1,0 +1,32 @@
+generated: '2026-07-20'
+method: searched
+spec_type: Webhooks
+source: https://docs.method.security/release-notes/new/latest
+summary: >-
+  Method documents an outbound webhooks capability (no published AsyncAPI
+  document). Webhooks and the SDK are used to sync Issues out of Method into
+  external ticketing systems, and Method can push new-Issue alerts to Slack and
+  Microsoft Teams via configurable rules. Method states it will expand the API
+  and webhook/SDK surface over time based on usage.
+events:
+- name: issue.discovered
+  description: >-
+    New Issue discovered — can trigger a Slack / Microsoft Teams alert filtered
+    by environment, issue type, and issue severity.
+  channels: [slack, microsoft-teams]
+  source: release-notes 2025-09-08
+- name: issue.sync
+  description: >-
+    Issue data synchronized to an external ticketing / project-management system
+    (track, assign, and close issues off-platform), driven by the webhooks
+    integration plus the Method SDK.
+  status: beta
+  source: release-notes 2025-09-22
+delivery:
+  style: outbound-webhook
+  catalog_published: false
+notes: >-
+  No AsyncAPI/event-schema document is published, so no AsyncAPI spec is
+  asserted (not fabricated). This artifact captures the documented webhook
+  surface and wires a Webhooks pointer. Alerting destinations (Slack/Teams) are
+  configured in-platform via alert rules.

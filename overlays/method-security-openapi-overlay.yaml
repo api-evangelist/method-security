@@ -1,0 +1,32 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Method Platform API
+  version: 1.0.0
+extends: openapi/method-security-openapi-original.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: method-security
+    x-apievangelist-review-date: '2026-07-20'
+    x-api-auth: oauth2-client-credentials (bearer, Keycloak)
+    x-api-base-pattern: https://<instance>.method.delivery/method-api-gateway/api
+    description: >-
+      The Method Platform REST API, served through the method-api-gateway.
+      Authenticate with OAuth 2.0 client credentials (POST /api/auth/getToken)
+      and pass the resulting bearer token as the Authorization header on every
+      call. Base host is per-tenant on *.method.delivery.
+- target: $.servers
+  update:
+  - url: https://your-instance.method.delivery
+    description: Per-tenant Method Platform instance (replace with your instance host)
+- target: $.info.x-artifacts
+  update:
+    authentication: authentication/method-security-authentication.yml
+    conventions: conventions/method-security-conventions.yml
+    errors: errors/method-security-problem-types.yml
+    data_model: data-model/method-security-data-model.yml
+    agentic_access: agentic-access/method-security-agentic-access.yml
+notes: >-
+  Overlay of API Evangelist enrichments. The original spec declares no servers[]
+  block and no info.description; this overlay adds a per-tenant server template
+  and a description without mutating the harvested original.

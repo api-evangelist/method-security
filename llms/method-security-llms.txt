@@ -1,0 +1,113 @@
+# Method Platform | Documentation
+
+> Documentation for the Method Platform
+
+## Instructions for AI Agents
+
+- For clean Markdown of any page, append `.md` to the page URL
+- For section-specific indexes, append `/llms.txt` to any section URL
+- For AI client integration (Claude Code, Cursor, etc.), connect to the MCP server at https://docs.method.security/_mcp/server
+
+## Docs
+
+- [Method Documentation](https://docs.method.security/platform/overview/home.md): Method Platform overview, guides, and developer documentation.
+- [What is Method?](https://docs.method.security/platform/overview/what-is-method.md): What problems Method solves and how the platform is different.
+- [Products](https://docs.method.security/platform/overview/products.md): Method's two products — Bastion for exposure management and Reaper for offensive operations.
+- [Making AI Operational for Security](https://docs.method.security/platform/overview/operational-ai-for-security.md): Method is built specifically to enable cyber teams to safely deploy and leverage the capabilities of frontier models.
+- [Frequently Asked Questions](https://docs.method.security/platform/overview/fa-qs.md): Frequently asked questions about Method Platform.
+- [Glossary](https://docs.method.security/platform/overview/glossary.md): Definitions for the main concepts in the Method Platform.
+- [AI Agents](https://docs.method.security/platform/core-platform/agents.md): Deploy AI agents governed by granular policies to investigate, validate, and close Issues.
+- [Operations](https://docs.method.security/platform/core-platform/operations.md): Plan and execute offensive operations with Operator and Overwatch.
+- [Operator AI](https://docs.method.security/platform/core-platform/operator-ai.md): The agent system that powers Co-pilot and fully autonomous operations in Operator.
+- [Targeting](https://docs.method.security/platform/core-platform/targeting.md): How Method identifies and pursues real attack vectors across your environment.
+- [Issues](https://docs.method.security/platform/core-platform/issues.md): How security risks are represented, triaged, and managed in Method.
+- [Objects](https://docs.method.security/platform/core-platform/objects.md): How data is modeled in Method and how to search and investigate it with Explorer.
+- [Automations](https://docs.method.security/platform/core-platform/automations.md): Create, schedule, and monitor automated security workflows with Tasks and the Automator.
+- [Tools](https://docs.method.security/platform/core-platform/tools/overview.md): Atomic, executable security actions that power analysis, enumeration, and collection across Method.
+- [Tool authoring reference](https://docs.method.security/platform/core-platform/tools/tool-authoring-reference.md): The full definition structure for integrating custom Tools into Method, including fields, parameters, compilers, processors, validation, and worked examples.
+- [Live off the land](https://docs.method.security/platform/core-platform/tools/living-off-the-land-tools.md): Use native system utilities to perform host reconnaissance while evading detection
+- [Administration](https://docs.method.security/platform/core-platform/administration/overview.md): Configure and manage your Method Platform instance.
+- [AI Inference](https://docs.method.security/platform/core-platform/administration/ai-inference.md): Configure the LLMs that power Agents and Operator on Method.
+- [Product Architecture](https://docs.method.security/platform/architecture/product.md): How Method's primitives compose into products and applications.
+- [System Architecture](https://docs.method.security/platform/architecture/system.md): Method Platform's deployment model and platform-agent architecture.
+- [Jackal C2](https://docs.method.security/platform/architecture/jackal-c2.md): Architecture of Jackal security agents and their command and control infrastructure.
+- [Data Architecture](https://docs.method.security/platform/architecture/data.md): How data flows from raw tool output through the Ledger and Ontology to serve AI and users.
+- [Reporting Security Concerns](https://docs.method.security/platform/security-governance/reporting-security-concerns.md): How to report security incidents, vulnerabilities, and concerns related to the Method Platform.
+- [Security administration guide](https://docs.method.security/platform/security-governance/security-administration-guide.md): Securely set up, configure, operate, and decommission administrative accounts and manage security settings on the Method Platform.
+- [Get started](https://docs.method.security/guides/overview/get-started.md): Find the best practices path that fits your role and learn how to navigate Method's guides.
+- [Continuous Challenge overview](https://docs.method.security/guides/best-practices/continuous-challenge/overview.md): Maturity stages for continuously validating your external and multi-domain attack surface.
+- [Black Box External Assessment](https://docs.method.security/guides/best-practices/continuous-challenge/black-box-external-assessment.md): Inventory validated paths to compromise with always-on, trusted autonomy.
+- [Continuous External Challenge](https://docs.method.security/guides/best-practices/continuous-challenge/continuous-external-challenge.md): Run validated Issues through PoC and exploitation under Rules of Engagement you control.
+- [Offensive Operations overview](https://docs.method.security/guides/best-practices/offensive-operations/overview.md): Maturity stages for running offensive engagements with Method.
+- [Operator Augmentation](https://docs.method.security/guides/best-practices/offensive-operations/operator-augmentation.md): Capture an Operator's terminal-first workflow in Method. Every command, output, and discovery streams into the Platform with AI suggestions and Object Findings attached as it happens.
+- [Selective Auto Assume Breach](https://docs.method.security/guides/best-practices/offensive-operations/selective-auto-assume-breach.md): Run an assume-breach engagement inside Operator. A Jackal on the foothold, Method Tools, the Ontology, and Copilot Chat in one workspace, with you driving every decision.
+- [At Scale Adversary Emulation](https://docs.method.security/guides/best-practices/offensive-operations/at-scale-adversary-emulation.md): Hand execution to an Operator AI agent emulating a specific Adversary, inside an Operation Plan and Rules of Engagement you approved going in.
+- [Developer overview](https://docs.method.security/guides/best-practices/developer/overview.md): Maturity stages for building custom capabilities on top of Method.
+- [Operator-defined Tools](https://docs.method.security/guides/best-practices/developer/operator-defined-tools.md): Bring your own tradecraft into Method as a first-class Tool, with a Compiler that runs it and a Processor that turns its output into Ontology Objects.
+- [Operator-defined Agents](https://docs.method.security/guides/best-practices/developer/operator-defined-agents.md): Express your tradecraft as AI Agents that assist your work in context or scale it autonomously across Method.
+- [All Workflows](https://docs.method.security/guides/best-practices/all-workflows.md): The complete map of Method best practice workflows across every discipline.
+- [Create a new Environment](https://docs.method.security/guides/platform-setup/create-a-new-environment.md): Add and configure a new Environment through the Administration app or the onboarding workflow
+- [Install and configure a Jackal](https://docs.method.security/guides/platform-setup/install-a-jackal.md): Deploy a Jackal on a target machine and tune its exfiltration, workflow, and C2 parameters
+- [Run your first Operation](https://docs.method.security/guides/operator/run-your-first-operation.md): Launch an internet-based investigative Operation using Method-maintained resources
+- [Create an Adversary](https://docs.method.security/guides/operator/create-an-adversary.md): Upload a threat intelligence report and create a custom Adversary profile in Operations
+- [Take Operation notes](https://docs.method.security/guides/operator/take-operation-notes.md): Create, edit, and export Operation Notes with Object references and shareable reports
+- [Run an Overwatch session](https://docs.method.security/guides/overwatch/run-an-overwatch-session.md): Download, install, and start recording terminal sessions with Overwatch
+- [Collaborate on a session](https://docs.method.security/guides/overwatch/collaborate-on-a-session.md): Record into a shared Overwatch session with multiple operators simultaneously
+- [Start a new Campaign](https://docs.method.security/guides/targeting/start-a-new-campaign.md): Deploy a Package against an Environment to start populating the Targeting funnel.
+- [Build a custom Package](https://docs.method.security/guides/targeting/build-a-custom-package.md): Create a custom Targeting Package with your own Triggers, Environments, Rules of Engagement, and Agents.
+- [Review and act on Targets](https://docs.method.security/guides/targeting/review-and-act-on-targets.md): Work through the Targeting funnel, triage blocked Targets, and advance or close findings.
+- [Create an Agent](https://docs.method.security/guides/agents/create-an-agent.md): Build a custom AI Agent in the Agent Fleet application with targets, tools, and governance
+- [Create a Policy](https://docs.method.security/guides/agents/create-a-policy.md): Define governance rules that control where and how your Agents can operate
+- [Enabling and disabling auto-running Issue Agents](https://docs.method.security/guides/agents/enable-auto-running-issue-agents.md): Configure which Issue Agents run automatically when Issues are discovered, with controls at the platform, environment tag, and environment level
+- [Filter, investigate, and close Issues](https://docs.method.security/guides/issues/filter-investigate-and-close-issues.md): Filter, investigate, and close Issues using Explorer, the Object graph, and Agents
+- [Override default Issue severities](https://docs.method.security/guides/issues/override-default-issue-severities.md): Customize Issue Type severity at the global and environment level to match your security posture
+- [Filter data in Explorer](https://docs.method.security/guides/explorer/filter-data.md): Build basic and complex queries in Explorer to find Objects
+- [Create an Object Set](https://docs.method.security/guides/explorer/create-an-object-set.md): Curate Objects into Static or Live sets to organize and track parts of your Ontology
+- [Send findings to an Operation](https://docs.method.security/guides/explorer/send-findings-to-an-operation.md): Send an individual Object or an entire Object Set from Explorer to Operator to start a new Operation
+- [Create a Task](https://docs.method.security/guides/automations/create-a-task.md): Build a Task with metadata, input parameters, and an execution Plan
+- [Run a Task](https://docs.method.security/guides/automations/run-a-task.md): Run a Task on demand or schedule it to run on a recurring cadence
+- [Integrate with AWS](https://docs.method.security/guides/integrations/cloud/aws/overview.md): Connect Method to your AWS accounts using IAM roles for secure, credential-free scanning
+- [Integrate with AWS using CloudFormation](https://docs.method.security/guides/integrations/cloud/aws/cloudformation.md): Deploy CloudFormation stacks to connect individual AWS accounts or entire Organizations with Method
+- [Integrate with AWS using Terraform](https://docs.method.security/guides/integrations/cloud/aws/terraform.md): Deploy Terraform modules to connect individual AWS accounts or entire Organizations with Method
+- [Integrate with AWS manually](https://docs.method.security/guides/integrations/cloud/aws/manual.md): Create IAM roles and register them with Method using the AWS Console
+- [Integrate with Okta](https://docs.method.security/guides/integrations/identity/okta.md): Integrating with Okta via Okta Admin Read-Only Token
+- [Integrate with Kubernetes](https://docs.method.security/guides/integrations/infrastructure/kubernetes.md): Integrating with Kubernetes regardless of the Cluster deployment method in Method.
+- [Single Sign-On (SSO) Overview](https://docs.method.security/guides/administration/sso/overview.md): Learn about Method Platform's authentication capabilities using industry-standard OIDC and SAML protocols
+- [Use Entra ID for SSO](https://docs.method.security/guides/administration/sso/entra-id.md): Use Microsoft Entra ID to authenticate and authorize users into Method Platform
+- [Use Okta for SSO](https://docs.method.security/guides/administration/sso/okta.md): Use Okta to authenticate and authorize users into Method Platform
+- [Add a model provider](https://docs.method.security/guides/administration/model-providers/add-a-model-provider.md): Wire up a new LLM endpoint to Method and make it available to Agents, Operator, and default slots.
+- [Managing permissions](https://docs.method.security/guides/administration/permissions/managing-permissions.md): How permissions are managed in the Method Platform.
+- [Using the Method SDK](https://docs.method.security/developer/sdk/using-the-method-sdk.md)
+- [Direct API Access](https://docs.method.security/developer/direct-api-access/overview.md)
+- [Ontology Gateway Services](https://docs.method.security/developer/direct-api-access/ontology-gateway/overview.md)
+- [Object Set Service](https://docs.method.security/developer/direct-api-access/ontology-gateway/object-set-service.md)
+- [Object Service](https://docs.method.security/developer/direct-api-access/ontology-gateway/object-service.md)
+- [Release Notes](https://docs.method.security/release-notes/new/latest.md): The latest releases to Method platform.
+
+## API Docs
+
+- API Reference > Auth [Get Token With Client Credentials](https://docs.method.security/developer/api-reference/api-reference/auth/get-token-with-client-credentials.md)
+- API Reference > V1 > Audit [Get Audit Events](https://docs.method.security/developer/api-reference/api-reference/v-1/audit/get-audit-events.md)
+- API Reference > V1 > Blueprints [List Blueprints](https://docs.method.security/developer/api-reference/api-reference/v-1/blueprints/list-blueprints.md)
+- API Reference > V1 > Blueprints [Run Blueprint](https://docs.method.security/developer/api-reference/api-reference/v-1/blueprints/run-blueprint.md)
+- API Reference > V1 > Environments [Create Environment](https://docs.method.security/developer/api-reference/api-reference/v-1/environments/create-environment.md)
+- API Reference > V1 > Environments [Upload Environment Intel](https://docs.method.security/developer/api-reference/api-reference/v-1/environments/upload-environment-intel.md)
+- API Reference > V1 > Issues [Get Issue](https://docs.method.security/developer/api-reference/api-reference/v-1/issues/get-issue.md)
+- API Reference > V1 > Issues [Update Issue](https://docs.method.security/developer/api-reference/api-reference/v-1/issues/update-issue.md)
+- API Reference > V1 > Reports [Get Report](https://docs.method.security/developer/api-reference/api-reference/v-1/reports/get-report.md)
+- API Reference > V1 > Signals [Get Signal Content](https://docs.method.security/developer/api-reference/api-reference/v-1/signals/get-signal-content.md)
+- API Reference > V1 > Signals [Get Signal Content Server](https://docs.method.security/developer/api-reference/api-reference/v-1/signals/get-signal-content-server.md)
+- API Reference > V1 > Skills [Search Skills](https://docs.method.security/developer/api-reference/api-reference/v-1/skills/search-skills.md)
+- API Reference > V1 > Skills [Get Skill](https://docs.method.security/developer/api-reference/api-reference/v-1/skills/get-skill.md)
+- API Reference > V1 > Skills [Create Skill](https://docs.method.security/developer/api-reference/api-reference/v-1/skills/create-skill.md)
+- API Reference > V1 > Skills [Update Skill](https://docs.method.security/developer/api-reference/api-reference/v-1/skills/update-skill.md)
+- API Reference > V1 > System [Get External IP Addresses](https://docs.method.security/developer/api-reference/api-reference/v-1/system/get-external-ip-addresses.md)
+- API Reference > V1 > Targets [Search Targets](https://docs.method.security/developer/api-reference/api-reference/v-1/targets/search-targets.md)
+- API Reference > V1 > Targets [Get Target](https://docs.method.security/developer/api-reference/api-reference/v-1/targets/get-target.md)
+- API Reference > V1 > Targets [Get Target Reports](https://docs.method.security/developer/api-reference/api-reference/v-1/targets/get-target-reports.md)
+
+## OpenAPI Specification
+
+The raw OpenAPI 3.1 specification for this API is available at:
+- [OpenAPI JSON](https://docs.method.security/openapi.json)
+- [OpenAPI YAML](https://docs.method.security/openapi.yaml)

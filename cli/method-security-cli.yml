@@ -1,0 +1,26 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.method.security/guides/overwatch/run-an-overwatch-session
+clis:
+- name: Overwatch
+  description: >-
+    A cross-platform command-line tool that lets operators run offensive
+    operations from their own terminal while recording every command and output
+    into the Method Platform for search, filtering, collaboration, and one-click
+    Report generation. Multiple operators on different machines can collaborate
+    on a single session (join or watch). Announced Jan 13, 2026.
+  install:
+    method: download
+    detail: >-
+      Downloaded and installed from within Method; start a session from the
+      Overwatch/Operations app. Distributed as a cross-platform binary.
+  capabilities:
+  - Record terminal sessions into Method
+  - Multi-operator shared/observed sessions
+  - Object discovery and findings streamed into the Ontology
+  - One-click Report generation from a session
+  docs: https://docs.method.security/guides/overwatch/run-an-overwatch-session
+notes: >-
+  Overwatch is the primary first-party CLI. The Method SDK (methodsdk) is a
+  library, catalogued in packages/. Jackal is a deployable security agent, not an
+  operator CLI.

@@ -1,0 +1,25 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/method-security-openapi-original.yml
+description: >-
+  Packaged Agent Skills for the Method Platform API. Each skill grounds its steps
+  in real operationIds from openapi/method-security-openapi-original.yml and the
+  auth/pagination/error rules in conventions/ and errors/. All operations require
+  an OAuth 2.0 client-credentials bearer token from getTokenWithClientCredentials.
+skills:
+- file: method-security-triage-and-close-issue.md
+  name: Triage and close a Method Issue
+  api: openapi/method-security-openapi-original.yml
+  operations: [getTokenWithClientCredentials, getIssue, updateIssue, getReport]
+- file: method-security-run-a-blueprint.md
+  name: Create an environment and run a blueprint
+  api: openapi/method-security-openapi-original.yml
+  operations: [getTokenWithClientCredentials, createEnvironment, listBlueprints, runBlueprint]
+- file: method-security-review-targeting-runs.md
+  name: Search and review targeting runs
+  api: openapi/method-security-openapi-original.yml
+  operations: [getTokenWithClientCredentials, searchTargets, getTarget, getTargetReports]
+- file: method-security-manage-agent-skills.md
+  name: Manage agent skills
+  api: openapi/method-security-openapi-original.yml
+  operations: [getTokenWithClientCredentials, searchSkills, getSkill, createSkill, updateSkill]

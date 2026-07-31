@@ -1,0 +1,36 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.method.security/release-notes/new/latest
+scheme: dated
+current_version: v1
+entries:
+- date: '2026-05-18'
+  highlights:
+  - Overwatch in-platform session view redesigned as a compact workspace (notes on timeline events, drag-into-chat, enrich targets, any file type, agent auto-config)
+  - Reaper app renamed to Operations; /reaper -> /operations with server-side redirects; Environments moved into Explorer
+  breaking: false
+- date: '2026-03-16'
+  highlights:
+  - Custom Agents GA — create and deploy AI agents that investigate Objects and Issues, governed by Policies
+  - Built-in Agent fleet auto-validates Issues; Agent Fleet application for building/copying agents
+  breaking: false
+- date: '2026-01-13'
+  highlights:
+  - Overwatch cross-platform CLI released — run operations from your terminal with recording, collaboration, and reporting
+  - Tenable vulnerability data integrated into the object model (Bastion)
+  - Jackal agents installable via a single command with on-disk/in-memory execution modes
+  breaking: false
+- date: '2025-12-01'
+  highlights:
+  - Write Operation Notes and After Action Reports directly in Operator
+  - Object Sources (property provenance) and Object Sets
+  - Environment Tags managed in UI; Issue severity overrides; Issue Remediation field added to the API
+  breaking: false
+- date: '2025-09-22'
+  highlights:
+  - 'Beta: sync Issues from Method to external ticketing systems via webhooks integration and the SDK'
+  breaking: false
+notes: >-
+  Recent window captured from the live release-notes page; the page carries the
+  full dated history back to mid-2025. This artifact pointer coexists with the
+  release-notes documentation link.

@@ -1,0 +1,12 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/method-security-openapi-original.yml
+summary:
+  types:
+  - http
+schemes:
+- name: client-credentials
+  type: http
+  scheme: bearer
+  sources:
+  - openapi/method-security-openapi-original.yml

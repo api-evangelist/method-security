@@ -1,0 +1,23 @@
+generated: '2026-07-20'
+method: searched
+host: https://docs.method.security
+documents:
+- path: /.well-known/api-catalog
+  status: 200
+  file: method-security-api-catalog.json
+  note: >-
+    RFC 9727 api-catalog linkset. Points service-desc at
+    https://docs.method.security/openapi/api-reference.yaml and service-doc at
+    the HTML API reference.
+- path: /.well-known/security.txt
+  status: 404
+- path: /.well-known/openid-configuration
+  status: 404
+- path: /.well-known/oauth-authorization-server
+  status: 404
+notes: >-
+  Root host method.security returns 307 for /.well-known/security.txt (redirect
+  to a generic page, no RFC 9116 policy). OAuth token issuance is handled by the
+  method-api-gateway (Keycloak) on per-tenant *.method.delivery hosts, which are
+  not publicly enumerable, so OIDC/oauth-authorization-server discovery is not
+  exposed on the docs host.

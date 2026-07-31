@@ -1,0 +1,1646 @@
+openapi: 3.1.0
+info:
+  title: API Reference
+  version: 1.0.0
+paths:
+  /method-api-gateway/api/auth/getToken:
+    post:
+      operationId: getTokenWithClientCredentials
+      summary: Get Token With Client Credentials
+      tags:
+        - auth
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_auth:TokenResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
+                grant_type:
+                  type: string
+                  enum:
+                    - client_credentials
+                scope:
+                  type: string
+              required:
+                - client_id
+                - client_secret
+                - grant_type
+  /method-api-gateway/api/v1/audit/getAuditEvents:
+    post:
+      operationId: getAuditEvents
+      summary: Get Audit Events
+      description: Retrieves all audit events in the specified time range
+      tags:
+        - audit
+      parameters:
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: token
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/audit:AuditEventsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/audit:GetAuditEventsRequest'
+  /method-api-gateway/api/v1/blueprints/:
+    get:
+      operationId: listBlueprints
+      summary: List Blueprints
+      description: List available Method blueprints and their parameter definitions.
+      tags:
+        - blueprints
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/blueprints:ListBlueprintsResponse'
+  /method-api-gateway/api/v1/blueprints/{blueprintId}/run:
+    post:
+      operationId: runBlueprint
+      summary: Run Blueprint
+      description: Run a blueprint in an environment.
+      tags:
+        - blueprints
+      parameters:
+        - name: blueprintId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_v1/blueprints:BlueprintId'
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/blueprints:RunBlueprintResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/blueprints:RunBlueprintRequest'
+  /method-api-gateway/api/v1/environments/:
+    post:
+      operationId: createEnvironment
+      summary: Create Environment
+      description: Create a new Method environment.
+      tags:
+        - environments
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/environments:CreateEnvironmentResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/environments:CreateEnvironmentRequest'
+  /method-api-gateway/api/v1/environments/{environmentId}/intel:
+    post:
+      operationId: uploadEnvironmentIntel
+      summary: Upload Environment Intel
+      description: Upload an intelligence attachment and associate it with an environment.
+      tags:
+        - environments
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_common:EnvironmentId'
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/environments:UploadEnvironmentIntelResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/environments:UploadEnvironmentIntelRequest'
+  /method-api-gateway/api/v1/issues/{id}:
+    get:
+      operationId: getIssue
+      summary: Get Issue
+      description: Retrieve an issue from Method using its ID
+      tags:
+        - issues
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_v1/issues:IssueId'
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/issues:Issue'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/issues:IssueId'
+  /method-api-gateway/api/v1/issues/{id}/update:
+    post:
+      operationId: updateIssue
+      summary: Update Issue
+      description: |-
+        Update an issue's workflow fields. All provided fields are updated atomically.
+        Only include fields you want to change - omitted fields remain unchanged.
+        When closing an issue, you must provide a closeReason.
+      tags:
+        - issues
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_v1/issues:IssueId'
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/issues:Issue'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/issues:IssueId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/issues:UpdateIssueRequest'
+  /method-api-gateway/api/v1/reports/{reportId}:
+    get:
+      operationId: getReport
+      summary: Get Report
+      description: Retrieve a report document as markdown.
+      tags:
+        - reports
+      parameters:
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_v1/reports:ReportId'
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/reports:Report'
+  /method-api-gateway/api/v1/signals/{signalId}/content:
+    get:
+      operationId: getSignalContentServer
+      summary: Get Signal Content Server
+      description: Retrieve the raw content for a signal using its ID.
+      tags:
+        - signals
+      parameters:
+        - name: signalId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_v1/signals:SignalId'
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                description: Any type
+  /method-api-gateway/api/v1/skills/search:
+    post:
+      operationId: searchSkills
+      summary: Search Skills
+      description: Search the skills available to agents.
+      tags:
+        - skills
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/skills:SearchSkillsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/skills:SearchSkillsRequest'
+  /method-api-gateway/api/v1/skills/{skillId}:
+    get:
+      operationId: getSkill
+      summary: Get Skill
+      description: Retrieve a skill, including its markdown content.
+      tags:
+        - skills
+      parameters:
+        - name: skillId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_v1/skills:SkillId'
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/skills:Skill'
+    put:
+      operationId: updateSkill
+      summary: Update Skill
+      description: Update an existing skill's content, metadata, and labels.
+      tags:
+        - skills
+      parameters:
+        - name: skillId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_v1/skills:SkillId'
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/skills:Skill'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/skills:UpdateSkillRequest'
+  /method-api-gateway/api/v1/skills/:
+    post:
+      operationId: createSkill
+      summary: Create Skill
+      description: Create a skill from markdown content.
+      tags:
+        - skills
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/skills:Skill'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/skills:CreateSkillRequest'
+  /method-api-gateway/api/v1/system/externalIp:
+    get:
+      operationId: getExternalIPAddresses
+      summary: Get External IP Addresses
+      description: Retrieves the source IP addresses for scans from the Method platform
+      tags:
+        - system
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/system:ExternalIPAddresses'
+  /method-api-gateway/api/v1/targets/search:
+    post:
+      operationId: searchTargets
+      summary: Search Targets
+      description: Search targeting runs with an optional filter.
+      tags:
+        - targets
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/targets:SearchTargetsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/type_v1/targets:SearchTargetsRequest'
+  /method-api-gateway/api/v1/targets/{targetId}:
+    get:
+      operationId: getTarget
+      summary: Get Target
+      description: Retrieve a targeting run by ID.
+      tags:
+        - targets
+      parameters:
+        - name: targetId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_v1/targets:TargetId'
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/targets:Target'
+  /method-api-gateway/api/v1/targets/{targetId}/reports:
+    get:
+      operationId: getTargetReports
+      summary: Get Target Reports
+      description: Retrieve reports linked to a targeting run.
+      tags:
+        - targets
+      parameters:
+        - name: targetId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/type_v1/targets:TargetId'
+        - name: Authorization
+          in: header
+          description: Bearer authentication
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1/targets:GetTargetReportsResponse'
+components:
+  schemas:
+    type_auth:TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        expires_in:
+          type: integer
+        refresh_token:
+          type: string
+      required:
+        - access_token
+        - expires_in
+      description: An OAuth token response from Keycloak.
+      title: TokenResponse
+    type_v1/audit:GetAuditEventsRequest:
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+      required:
+        - startTime
+        - endTime
+      title: GetAuditEventsRequest
+    type_v1/audit:AuditEventId:
+      type: string
+      description: The unique identifier for an audit event in Method
+      title: AuditEventId
+    type_v1/audit:TenantId:
+      type: string
+      description: The unique identifier of the tenant for which the audit event was emitted
+      title: TenantId
+    type_v1/audit:UserId:
+      type: string
+      description: The unique identifier of a human user in Method
+      title: UserId
+    type_v1/audit:ExternalUserId:
+      type: string
+      description: The identifier of a user in Method according to an external auth provider
+      title: ExternalUserId
+    type_v1/audit:ServiceAccountId:
+      type: string
+      description: The unique identifier of a service account in Method
+      title: ServiceAccountId
+    type_v1/audit:Actor:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - user
+              description: 'Discriminator value: user'
+            id:
+              $ref: '#/components/schemas/type_v1/audit:UserId'
+            name:
+              type: string
+            email:
+              type: string
+            externalId:
+              $ref: '#/components/schemas/type_v1/audit:ExternalUserId'
+          required:
+            - type
+            - id
+            - name
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - serviceAccount
+              description: 'Discriminator value: serviceAccount'
+            id:
+              $ref: '#/components/schemas/type_v1/audit:ServiceAccountId'
+          required:
+            - type
+            - id
+      discriminator:
+        propertyName: type
+      title: Actor
+    type_v1/audit:PlatformActionOperation:
+      type: string
+      enum:
+        - CREATE
+        - UPDATE
+        - DELETE
+        - LOAD
+        - QUERY
+        - DECRYPT
+      title: PlatformActionOperation
+    type_v1/audit:ResourceKind:
+      type: string
+      enum:
+        - AGENT
+        - ENVIRONMENT
+        - GROUP
+        - ISSUE
+        - ISSUE_DEFINITION
+        - JACKAL
+        - MODEL
+        - MODEL_PROVIDER
+        - OAUTH_CLIENT
+        - OBJECT_SET
+        - ONTOLOGY_OBJECT
+        - OPERATOR_SESSION
+        - REPORT
+        - SENSITIVE_VALUE
+        - SKILL
+        - TASK
+        - TASK_RUN
+        - TOKEN
+        - TOOL
+        - USER_ACCOUNT
+      title: ResourceKind
+    type_v1/audit:Action:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - userLogin
+              description: 'Discriminator value: userLogin'
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - userLogout
+              description: 'Discriminator value: userLogout'
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - userAccountCreation
+              description: 'Discriminator value: userAccountCreation'
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - userAccountModification
+              description: 'Discriminator value: userAccountModification'
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - userAccountDeletion
+              description: 'Discriminator value: userAccountDeletion'
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - auditLogAccess
+              description: 'Discriminator value: auditLogAccess'
+            pageSize:
+              type: integer
+            since:
+              type: string
+              format: date-time
+            until:
+              type: string
+              format: date-time
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - load
+              description: 'Discriminator value: load'
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - platformAction
+              description: 'Discriminator value: platformAction'
+            operation:
+              $ref: '#/components/schemas/type_v1/audit:PlatformActionOperation'
+            resourceKind:
+              $ref: '#/components/schemas/type_v1/audit:ResourceKind'
+          required:
+            - type
+            - operation
+      discriminator:
+        propertyName: type
+      title: Action
+    type_v1/audit:User:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_v1/audit:UserId'
+        name:
+          type: string
+        email:
+          type: string
+        externalId:
+          $ref: '#/components/schemas/type_v1/audit:ExternalUserId'
+      required:
+        - id
+        - name
+      title: User
+    type_v1/audit:GroupId:
+      type: string
+      description: The unique identifier of a user group in Method
+      title: GroupId
+    type_v1/issues:IssueId:
+      type: string
+      description: The unique identifier for an issue in Method
+      title: IssueId
+    type_v1/objects:ObjectId:
+      type: string
+      description: The unique identifier for an object in Method
+      title: ObjectId
+    type_v1/audit:PlatformResourceId:
+      type: string
+      description: The unique identifier for a Method platform resource.
+      title: PlatformResourceId
+    type_v1/audit:Resource:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - userAccount
+              description: 'Discriminator value: userAccount'
+            user:
+              $ref: '#/components/schemas/type_v1/audit:User'
+          required:
+            - type
+            - user
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - group
+              description: 'Discriminator value: group'
+            id:
+              $ref: '#/components/schemas/type_v1/audit:GroupId'
+            name:
+              type: string
+          required:
+            - type
+            - id
+            - name
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - issue
+              description: 'Discriminator value: issue'
+            id:
+              $ref: '#/components/schemas/type_v1/issues:IssueId'
+          required:
+            - type
+            - id
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - ontologyObject
+              description: 'Discriminator value: ontologyObject'
+            id:
+              $ref: '#/components/schemas/type_v1/objects:ObjectId'
+          required:
+            - type
+            - id
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - platformResource
+              description: 'Discriminator value: platformResource'
+            kind:
+              $ref: '#/components/schemas/type_v1/audit:ResourceKind'
+            id:
+              $ref: '#/components/schemas/type_v1/audit:PlatformResourceId'
+          required:
+            - type
+            - kind
+            - id
+      discriminator:
+        propertyName: type
+      title: Resource
+    type_v1/audit:IpAddress:
+      type: string
+      description: The source IP for a request made to the Method platform
+      title: IpAddress
+    type_v1/audit:UserAgent:
+      type: string
+      description: The user agent for a request made to the Method platform
+      title: UserAgent
+    type_v1/audit:Context:
+      type: object
+      properties:
+        sourceIp:
+          $ref: '#/components/schemas/type_v1/audit:IpAddress'
+        userAgent:
+          $ref: '#/components/schemas/type_v1/audit:UserAgent'
+      title: Context
+    type_v1/audit:AuditEventStatus:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - success
+              description: 'Discriminator value: success'
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - failure
+              description: 'Discriminator value: failure'
+            message:
+              type: string
+          required:
+            - type
+      discriminator:
+        propertyName: type
+      title: AuditEventStatus
+    type_v1/audit:AuditEvent:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_v1/audit:AuditEventId'
+        tenantId:
+          $ref: '#/components/schemas/type_v1/audit:TenantId'
+        timestamp:
+          type: string
+          format: date-time
+        actor:
+          $ref: '#/components/schemas/type_v1/audit:Actor'
+        action:
+          $ref: '#/components/schemas/type_v1/audit:Action'
+        resource:
+          $ref: '#/components/schemas/type_v1/audit:Resource'
+        context:
+          $ref: '#/components/schemas/type_v1/audit:Context'
+        status:
+          $ref: '#/components/schemas/type_v1/audit:AuditEventStatus'
+      required:
+        - id
+        - tenantId
+        - timestamp
+        - actor
+        - action
+        - context
+        - status
+      title: AuditEvent
+    type_v1/audit:AuditEventsResponse:
+      type: object
+      properties:
+        auditEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1/audit:AuditEvent'
+        pagingToken:
+          type: string
+      required:
+        - auditEvents
+      title: AuditEventsResponse
+    type_v1/blueprints:BlueprintId:
+      type: string
+      description: The unique identifier for a Method blueprint.
+      title: BlueprintId
+    type_v1/blueprints:ParameterKey:
+      type: string
+      description: A blueprint parameter key.
+      title: ParameterKey
+    type_v1/blueprints:ParameterDefinition:
+      type: object
+      properties:
+        key:
+          $ref: '#/components/schemas/type_v1/blueprints:ParameterKey'
+        displayName:
+          type: string
+        description:
+          type: string
+        type:
+          description: Blueprint parameter field type.
+        requirements:
+          type: array
+          items:
+            description: Any type
+          description: Validation requirements for this parameter.
+        defaultValue:
+          description: Default value, if one exists.
+      required:
+        - key
+        - displayName
+        - description
+        - type
+        - requirements
+      description: Blueprint parameter metadata.
+      title: ParameterDefinition
+    type_v1/blueprints:ObjectTypeApiName:
+      type: string
+      description: The API name of an ontology object type.
+      title: ObjectTypeApiName
+    type_v1/blueprints:Blueprint:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_v1/blueprints:BlueprintId'
+        displayName:
+          type: string
+        description:
+          type: string
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/type_v1/blueprints:ParameterDefinition'
+        objectTypesCreated:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/type_v1/blueprints:ObjectTypeApiName'
+      required:
+        - id
+        - displayName
+        - description
+        - parameters
+        - objectTypesCreated
+      title: Blueprint
+    type_v1/blueprints:ListBlueprintsResponse:
+      type: object
+      properties:
+        blueprints:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1/blueprints:Blueprint'
+      required:
+        - blueprints
+      title: ListBlueprintsResponse
+    type_common:EnvironmentId:
+      type: string
+      description: The unique identifier for an environment in Method
+      title: EnvironmentId
+    type_v1/blueprints:ParameterValue:
+      type: object
+      properties:
+        type:
+          description: Parameter value type, such as scalar, collection, or ontology.
+        value:
+          description: Parameter value payload.
+      required:
+        - type
+        - value
+      description: A typed blueprint parameter value.
+      title: ParameterValue
+    type_v1/blueprints:RunBlueprintRequest:
+      type: object
+      properties:
+        environmentId:
+          $ref: '#/components/schemas/type_common:EnvironmentId'
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/type_v1/blueprints:ParameterValue'
+      required:
+        - environmentId
+        - parameters
+      title: RunBlueprintRequest
+    type_v1/blueprints:BlueprintError:
+      type: object
+      properties:
+        key:
+          $ref: '#/components/schemas/type_v1/blueprints:ParameterKey'
+        type:
+          type: string
+        message:
+          type: string
+      required:
+        - type
+        - message
+      title: BlueprintError
+    type_v1/blueprints:RunBlueprintResponse:
+      type: object
+      properties:
+        objectIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1/objects:ObjectId'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1/blueprints:BlueprintError'
+      required:
+        - objectIds
+        - errors
+      title: RunBlueprintResponse
+    type_v1/environments:CreateEnvironmentRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Human-readable environment title.
+      required:
+        - title
+      description: Request to create an environment.
+      title: CreateEnvironmentRequest
+    type_v1/environments:CreateEnvironmentResponse:
+      type: object
+      properties:
+        environmentId:
+          $ref: '#/components/schemas/type_common:EnvironmentId'
+      required:
+        - environmentId
+      title: CreateEnvironmentResponse
+    type_v1/environments:UploadEnvironmentIntelRequest:
+      type: object
+      properties:
+        filename:
+          type: string
+          description: Name to store for the uploaded file.
+        mimeType:
+          type: string
+          description: MIME type of the uploaded file, if known.
+        contentBase64:
+          type: string
+          description: Base64-encoded file content.
+      required:
+        - filename
+        - contentBase64
+      description: Request to upload environment intelligence content.
+      title: UploadEnvironmentIntelRequest
+    type_v1/environments:AttachmentId:
+      type: string
+      description: The unique identifier for an uploaded attachment in Method.
+      title: AttachmentId
+    type_v1/environments:UploadEnvironmentIntelResponse:
+      type: object
+      properties:
+        attachmentId:
+          $ref: '#/components/schemas/type_v1/environments:AttachmentId'
+      required:
+        - attachmentId
+      title: UploadEnvironmentIntelResponse
+    type_v1/issues:IssueStatus:
+      type: string
+      enum:
+        - OPEN
+        - CLOSED
+        - ARCHIVED
+      title: IssueStatus
+    type_v1/issues:IssueSeverity:
+      type: string
+      enum:
+        - CRITICAL
+        - HIGH
+        - MEDIUM
+        - LOW
+        - INFO
+      title: IssueSeverity
+    type_v1/issues:IssueClosedReason:
+      type: string
+      enum:
+        - RESOLVED
+        - CLOSED_BY_AGENT
+        - ACCEPTED_RISK
+        - FALSE_POSITIVE
+        - NOT_APPLICABLE
+      title: IssueClosedReason
+    type_v1/issues:ValidationStatus:
+      type: string
+      enum:
+        - VALIDATED
+        - INVALIDATED
+      title: ValidationStatus
+    type_v1/issues:Issue:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_v1/issues:IssueId'
+        issueDetailsLink:
+          type: string
+        environmentId:
+          $ref: '#/components/schemas/type_common:EnvironmentId'
+        environmentName:
+          type: string
+        description:
+          type: string
+        remediation:
+          type: string
+        status:
+          $ref: '#/components/schemas/type_v1/issues:IssueStatus'
+        severity:
+          $ref: '#/components/schemas/type_v1/issues:IssueSeverity'
+        closedReason:
+          $ref: '#/components/schemas/type_v1/issues:IssueClosedReason'
+        affectedObjectId:
+          $ref: '#/components/schemas/type_v1/objects:ObjectId'
+        affectedObjectTitle:
+          type: string
+        affectedObjectDetailsLink:
+          type: string
+        validationStatus:
+          $ref: '#/components/schemas/type_v1/issues:ValidationStatus'
+      required:
+        - id
+        - issueDetailsLink
+        - environmentId
+        - environmentName
+        - description
+        - remediation
+        - status
+        - severity
+        - affectedObjectId
+        - affectedObjectTitle
+        - affectedObjectDetailsLink
+      title: Issue
+    type_v1/issues:UpdateIssueRequest:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/type_v1/issues:IssueStatus'
+          description: New status for the issue
+        severity:
+          $ref: '#/components/schemas/type_v1/issues:IssueSeverity'
+          description: New severity level for the issue
+        closeReason:
+          $ref: '#/components/schemas/type_v1/issues:IssueClosedReason'
+          description: Reason for closing the issue (required when status is CLOSED)
+        comment:
+          type: string
+          description: Optional comment to record with this change
+      description: |-
+        Request to update an issue's workflow fields.
+        Only include fields you want to change - omitted fields remain unchanged.
+      title: UpdateIssueRequest
+    type_v1/reports:ReportId:
+      type: string
+      description: The unique identifier for a report document.
+      title: ReportId
+    type_v1/reports:Report:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_v1/reports:ReportId'
+        reportDetailsLink:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        markdown:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - reportDetailsLink
+        - title
+        - markdown
+        - createdAt
+        - updatedAt
+      description: A Method report document.
+      title: Report
+    type_v1/signals:SignalId:
+      type: string
+      description: The unique identifier for a signal in Method.
+      title: SignalId
+    type_v1/skills:SearchSkillsRequest:
+      type: object
+      properties:
+        nameLike:
+          type: string
+        pageSize:
+          type: integer
+        pagingToken:
+          type: string
+      title: SearchSkillsRequest
+    type_v1/skills:SkillId:
+      type: string
+      description: The unique identifier for a skill.
+      title: SkillId
+    type_v1/skills:Skill:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_v1/skills:SkillId'
+        name:
+          type: string
+        description:
+          type: string
+        content:
+          type: string
+          description: The skill body as markdown.
+        labels:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: Free-form labels used to organize and discover the skill.
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - content
+        - labels
+        - createdAt
+        - updatedAt
+      title: Skill
+    type_v1/skills:SearchSkillsResponse:
+      type: object
+      properties:
+        skills:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1/skills:Skill'
+        pagingToken:
+          type: string
+      required:
+        - skills
+      title: SearchSkillsResponse
+    type_v1/skills:CreateSkillRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        content:
+          type: string
+          description: The skill body as markdown.
+        labels:
+          type: array
+          items:
+            type: string
+          description: Free-form labels to attach to the skill.
+      required:
+        - name
+        - content
+      title: CreateSkillRequest
+    type_v1/skills:UpdateSkillRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        content:
+          type: string
+          description: The skill body as markdown.
+        labels:
+          type: array
+          items:
+            type: string
+          description: Replaces the skill's labels. Omit to leave the existing labels unchanged; pass an empty list to clear them.
+      required:
+        - name
+        - content
+      title: UpdateSkillRequest
+    type_v1/system:Ipv4Address:
+      type: string
+      description: An IPv4 address represented in dot-decimal notation (e.g. 192.168.1.1)
+      title: Ipv4Address
+    type_v1/system:Ipv6Range:
+      type: string
+      description: An IPv6 CIDR range (e.g. 2605:B00::/32)
+      title: Ipv6Range
+    type_v1/system:ExternalIPAddresses:
+      type: object
+      properties:
+        ipv4:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1/system:Ipv4Address'
+          description: The source IPv4 addresses for scans from the Method platform
+        ipv6Ranges:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1/system:Ipv6Range'
+          description: The source IPv6 CIDR ranges for scans from the Method platform
+      required:
+        - ipv4
+        - ipv6Ranges
+      description: The source IP addresses for scans from the Method platform
+      title: ExternalIPAddresses
+    type_v1/targets:TargetId:
+      type: string
+      description: The unique identifier for a targeting run.
+      title: TargetId
+    type_v1/targets:TargetStage:
+      type: string
+      enum:
+        - TARGETED
+        - VALIDATED
+        - EXPLOITABLE
+        - EXPLOITED
+        - REMEDIATED
+        - INVALIDATED
+        - DEFERRED
+        - BLOCKED
+      title: TargetStage
+    type_v1/targets:TargetStatus:
+      type: string
+      enum:
+        - AWAITING_APPROVAL
+        - IN_PROGRESS
+        - FINISHED
+      title: TargetStatus
+    type_v1/targets:TargetFilter:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - andFilter
+              description: 'Discriminator value: andFilter'
+            filters:
+              type: array
+              items:
+                $ref: '#/components/schemas/type_v1/targets:TargetFilter'
+          required:
+            - type
+            - filters
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - orFilter
+              description: 'Discriminator value: orFilter'
+            filters:
+              type: array
+              items:
+                $ref: '#/components/schemas/type_v1/targets:TargetFilter'
+          required:
+            - type
+            - filters
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - notFilter
+              description: 'Discriminator value: notFilter'
+            filter:
+              $ref: '#/components/schemas/type_v1/targets:TargetFilter'
+          required:
+            - type
+            - filter
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - idFilter
+              description: 'Discriminator value: idFilter'
+            id:
+              $ref: '#/components/schemas/type_v1/targets:TargetId'
+          required:
+            - type
+            - id
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - stage
+              description: 'Discriminator value: stage'
+            stage:
+              $ref: '#/components/schemas/type_v1/targets:TargetStage'
+          required:
+            - type
+            - stage
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - status
+              description: 'Discriminator value: status'
+            status:
+              $ref: '#/components/schemas/type_v1/targets:TargetStatus'
+          required:
+            - type
+            - status
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - nameLike
+              description: 'Discriminator value: nameLike'
+            value:
+              type: string
+          required:
+            - type
+            - value
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - createdAtAfter
+              description: 'Discriminator value: createdAtAfter'
+            createdAt:
+              type: string
+              format: date-time
+          required:
+            - type
+            - createdAt
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - createdAtBefore
+              description: 'Discriminator value: createdAtBefore'
+            createdAt:
+              type: string
+              format: date-time
+          required:
+            - type
+            - createdAt
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - updatedAtAfter
+              description: 'Discriminator value: updatedAtAfter'
+            updatedAt:
+              type: string
+              format: date-time
+          required:
+            - type
+            - updatedAt
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - updatedAtBefore
+              description: 'Discriminator value: updatedAtBefore'
+            updatedAt:
+              type: string
+              format: date-time
+          required:
+            - type
+            - updatedAt
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - environment
+              description: 'Discriminator value: environment'
+            environmentId:
+              $ref: '#/components/schemas/type_common:EnvironmentId'
+          required:
+            - type
+            - environmentId
+      discriminator:
+        propertyName: type
+      title: TargetFilter
+    type_v1/targets:SearchTargetsRequest:
+      type: object
+      properties:
+        filter:
+          $ref: '#/components/schemas/type_v1/targets:TargetFilter'
+        pagingToken:
+          type: string
+        pageSize:
+          type: integer
+      title: SearchTargetsRequest
+    type_v1/targets:TargetRelatedLinkKind:
+      type: string
+      enum:
+        - ISSUE
+        - OBJECT
+        - OBJECT_SET
+        - OPERATOR_SESSION
+        - OVERWATCH_SESSION
+        - AGENT_SESSION
+      title: TargetRelatedLinkKind
+    type_v1/targets:TargetRelatedLink:
+      type: object
+      properties:
+        kind:
+          $ref: '#/components/schemas/type_v1/targets:TargetRelatedLinkKind'
+        url:
+          type: string
+      required:
+        - kind
+        - url
+      description: A platform URL for a resource related to a targeting run.
+      title: TargetRelatedLink
+    type_v1/targets:TargetReportSummary:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_v1/reports:ReportId'
+        reportDetailsLink:
+          type: string
+      required:
+        - id
+        - reportDetailsLink
+      description: A report linked to a targeting run.
+      title: TargetReportSummary
+    type_v1/targets:Target:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_v1/targets:TargetId'
+        targetDetailsLink:
+          type: string
+        targetedAssetName:
+          type: string
+        targetTypeName:
+          type: string
+        targetTypeDescription:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        environmentId:
+          $ref: '#/components/schemas/type_common:EnvironmentId'
+        environmentName:
+          type: string
+        environmentDetailsLink:
+          type: string
+        stage:
+          $ref: '#/components/schemas/type_v1/targets:TargetStage'
+        status:
+          $ref: '#/components/schemas/type_v1/targets:TargetStatus'
+        relatedLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1/targets:TargetRelatedLink'
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1/targets:TargetReportSummary'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        closedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - targetDetailsLink
+        - targetedAssetName
+        - targetTypeName
+        - targetTypeDescription
+        - name
+        - description
+        - environmentId
+        - environmentName
+        - environmentDetailsLink
+        - stage
+        - status
+        - relatedLinks
+        - reports
+        - createdAt
+        - updatedAt
+      title: Target
+    type_v1/targets:SearchTargetsResponse:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1/targets:Target'
+        pagingToken:
+          type: string
+      required:
+        - targets
+      title: SearchTargetsResponse
+    type_v1/targets:GetTargetReportsResponse:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1/targets:TargetReportSummary'
+      required:
+        - reports
+      title: GetTargetReportsResponse
+  securitySchemes:
+    client-credentials:
+      type: http
+      scheme: bearer

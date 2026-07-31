@@ -1,0 +1,12 @@
+generated: '2026-07-20'
+method: searched
+probe: true
+source: https://trust.method.security/
+url: https://trust.method.security/
+certifications:
+- SOC 2
+evidence:
+- source: https://trust.method.security/
+  keywords:
+  - soc 2
+  - trust center

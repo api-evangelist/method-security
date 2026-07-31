@@ -1,0 +1,51 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.method.security/developer/api-reference/api-reference
+derived_from: openapi/method-security-openapi-original.yml
+authentication:
+  style: oauth2-client-credentials
+  scheme: http bearer
+  token_endpoint: POST /method-api-gateway/api/auth/getToken
+  token_response: {access_token, expires_in, refresh_token}
+  header: Authorization Bearer <access_token>
+  provider: Keycloak
+  sdk_env: [OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET]
+  detail: >-
+    Access tokens are short-lived; the SDK acquires and refreshes them
+    automatically. Every gateway operation requires an Authorization bearer
+    header (declared as a required header parameter per operation in the spec).
+idempotency:
+  supported: false
+  detail: >-
+    No idempotency-key header or parameter is documented or present in the
+    OpenAPI. Writes (createEnvironment, createSkill, runBlueprint,
+    uploadEnvironmentIntel) are not idempotency-keyed.
+pagination:
+  style: cursor
+  request_params: [pageSize, token, pagingToken]
+  response_fields: [pagingToken]
+  detail: >-
+    List/search endpoints (getAuditEvents, searchSkills, searchTargets) accept a
+    pageSize and an opaque paging token and return a pagingToken to fetch the
+    next page. getAuditEvents uses a `token` query param; skills/targets carry
+    `pagingToken` in the request body.
+versioning:
+  style: uri-path
+  current: v1
+  detail: Resource operations live under /method-api-gateway/api/v1/...; auth under /api/auth.
+error_envelope:
+  format: plain-json
+  detail: >-
+    Errors return a JSON body with an HTTP status; 404 responses echo the
+    resource id schema. Not RFC 9457 problem+json. See
+    errors/method-security-problem-types.yml.
+request_tracing:
+  request_id_header: null
+  detail: No documented request-id/correlation header.
+rate_limiting:
+  signaling: null
+  detail: No rate-limit headers documented.
+cross_links:
+  errors: errors/method-security-problem-types.yml
+  lifecycle: lifecycle/method-security-lifecycle.yml
+  authentication: authentication/method-security-authentication.yml

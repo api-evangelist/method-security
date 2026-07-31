@@ -1,0 +1,36 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/method-security-openapi-original.yml
+format: plain-json
+envelope: >-
+  Errors return a JSON body with the HTTP status. 404 responses in the spec echo
+  the relevant resource id schema (e.g. IssueId). Method does not use RFC 9457
+  application/problem+json.
+problems:
+- status: 404
+  title: Issue not found
+  source_operation: openapi/method-security-openapi-original.yml#getIssue
+  schema: IssueId
+- status: 404
+  title: Issue not found
+  source_operation: openapi/method-security-openapi-original.yml#updateIssue
+  schema: IssueId
+- status: 401
+  title: Unauthorized
+  derived: true
+  remediation: >-
+    Acquire an access token via POST /method-api-gateway/api/auth/getToken with
+    client_credentials and send it as an Authorization bearer header. Tokens are
+    short-lived and must be refreshed.
+- status: 403
+  title: Forbidden
+  derived: true
+  remediation: >-
+    The service account / OAuth client lacks permission for the resource;
+    governed by Method Policies and permissions.
+notes: >-
+  Only 404 error responses are declared in the OpenAPI (on getIssue / updateIssue).
+  401/403 are derived from the mandatory bearer authentication model and are not
+  enumerated in the spec. runBlueprint additionally returns a structured
+  RunBlueprintResponse.errors[] (BlueprintError: key/type/message) for
+  per-parameter validation failures inside a 200 response.

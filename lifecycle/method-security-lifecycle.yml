@@ -1,0 +1,27 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.method.security/release-notes/new/latest
+versioning:
+  scheme: uri-path
+  current: v1
+  docs: https://docs.method.security/developer/api-reference/api-reference
+deprecation:
+  policy_url: null
+  sunset_header: false
+  detail: >-
+    No formal deprecation policy or RFC 8594 Sunset/Deprecation header support is
+    documented. Method has performed at least one product rename with backward
+    compatibility: the Reaper app was renamed Operations (May 2026), moving from
+    /reaper to /operations with server-side redirects that preserve all existing
+    deep links and query parameters.
+sla:
+  url: null
+  uptime_target: null
+status_page: null
+release_notes: https://docs.method.security/release-notes/new/latest
+deprecated_operations: []
+notes: >-
+  No public status page (status.method.security does not resolve) and no
+  published SLA; Method is delivered as a managed per-tenant platform with
+  support routed through a named Method representative. Dated release notes serve
+  as the changelog (see changelog/method-security-changelog.yml).

@@ -1,0 +1,33 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.method.security/developer/sdk/using-the-method-sdk
+packages:
+- language: python
+  registry: pypi
+  name: methodsdk
+  url: https://pypi.org/project/methodsdk/
+  install: pip install methodsdk
+  version: 0.9.2
+  official: true
+  import: method_security
+  client: MethodClient
+  source: https://github.com/method-security/method-python-sdk
+  note: >-
+    Official Python SDK for the Method Platform, generated with Fern. Uses the
+    OAuth 2.0 client-credentials flow via OAUTH_CLIENT_ID / OAUTH_CLIENT_SECRET
+    environment variables. Example usage repo:
+    https://github.com/method-security/method-sdk-examples
+- language: typescript
+  registry: npm
+  name: methodsdk
+  url: null
+  install: null
+  official: true
+  status: announced
+  note: >-
+    The TypeScript SDK is documented as "will be published to npm shortly"
+    (docs, 2026-07). Not yet resolvable on the npm registry as of 2026-07-20;
+    recorded as announced, not published.
+notes: >-
+  Direct API Access clients are generated with Conjure (see github.com/method-security/godel-conjure-plugin).
+  The Overwatch CLI binary is catalogued separately in cli/method-security-cli.yml.

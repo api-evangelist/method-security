@@ -1,0 +1,42 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.method.security/guides/administration/sso/overview
+standards:
+- id: oauth2-client-credentials
+  conforms: true
+  evidence: >-
+    POST /method-api-gateway/api/auth/getToken issues bearer access tokens via the
+    client_credentials grant; every operation requires an Authorization bearer header.
+- id: openid-connect
+  conforms: true
+  evidence: >-
+    SSO supports industry-standard OIDC (Entra ID, Okta); auth backed by Keycloak.
+- id: saml-2.0
+  conforms: true
+  evidence: SSO documentation states support for SAML alongside OIDC.
+- id: openapi-3.1
+  conforms: true
+  evidence: docs.method.security/openapi.yaml declares openapi 3.1.0.
+- id: rfc9727-api-catalog
+  conforms: true
+  evidence: /.well-known/api-catalog returns an RFC 9727 linkset.
+- id: pagination-cursor
+  conforms: true
+  evidence: List/search operations use pageSize + opaque paging token.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors are plain JSON, not application/problem+json.
+- id: json-api
+  conforms: false
+- id: soc2
+  conforms: true
+  evidence: SOC 2 named on the SafeBase trust center (trust.method.security).
+compliance:
+  programs:
+  - SOC 2
+  monitoring: Drata
+  trust_center: https://trust.method.security
+  detail: >-
+    Method runs a public SafeBase-powered trust center advertising SOC 2 and
+    continuous compliance monitoring (Drata). Additional certifications may be
+    available under NDA via the trust center.

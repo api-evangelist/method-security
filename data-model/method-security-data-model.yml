@@ -1,0 +1,64 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/method-security-openapi-original.yml
+notes: >-
+  Entity-relationship graph derived from OpenAPI schema $ref links and
+  id-reference fields in the method-api-gateway spec. Resource ids are opaque
+  strings (no published prefixes). The Ontology "Object" is the central asset
+  entity; Issues, Targets, and Blueprints all reference it.
+entities:
+- name: Issue
+  id_field: id (IssueId)
+  relationships:
+  - belongs_to: Environment
+    via: environmentId
+  - has_one: Object
+    via: affectedObjectId
+- name: Target
+  id_field: id (TargetId)
+  relationships:
+  - belongs_to: Environment
+    via: environmentId
+  - has_many: Report
+    via: reports[].id
+  - has_many: RelatedLink
+    via: relatedLinks[]
+    kinds: [ISSUE, OBJECT, OBJECT_SET, OPERATOR_SESSION, OVERWATCH_SESSION, AGENT_SESSION]
+- name: Report
+  id_field: id (ReportId)
+  relationships:
+  - belongs_to: Target
+    via: TargetReportSummary.id
+- name: Environment
+  id_field: environmentId (EnvironmentId)
+  relationships:
+  - has_many: Attachment
+    via: uploadEnvironmentIntel -> attachmentId
+  - has_many: Issue
+  - has_many: Target
+- name: Blueprint
+  id_field: id (BlueprintId)
+  relationships:
+  - runs_in: Environment
+    via: RunBlueprintRequest.environmentId
+  - creates: Object
+    via: RunBlueprintResponse.objectIds[]
+  - creates_types: objectTypesCreated[] (ObjectTypeApiName)
+- name: Object
+  id_field: ObjectId
+  note: Ontology object — the platform's central asset entity.
+- name: AuditEvent
+  id_field: id (AuditEventId)
+  relationships:
+  - belongs_to: Tenant
+    via: tenantId
+  - has_one: Actor
+    via: actor (User | ServiceAccount)
+  - has_one: Resource
+    via: resource (userAccount | group | issue | ontologyObject | platformResource)
+- name: Skill
+  id_field: id (SkillId)
+  note: Agent skill (markdown content + labels); standalone.
+- name: Signal
+  id_field: SignalId
+  note: Raw signal content retrievable by id.
