@@ -61,7 +61,7 @@ apis:
   - type: OpenAPI
     url: openapi/method-security-audit-api-openapi.yml
   - type: x-openapi-original
-    url: openapi/method-security-openapi-original.yml
+    url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-auth-api
   name: Method Security auth API
   description: The auth API from Method Security — 1 operation(s) for auth.
@@ -73,7 +73,7 @@ apis:
   - type: OpenAPI
     url: openapi/method-security-auth-api-openapi.yml
   - type: x-openapi-original
-    url: openapi/method-security-openapi-original.yml
+    url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-blueprints-api
   name: Method Security blueprints API
   description: The blueprints API from Method Security — 2 operation(s) for blueprints.
@@ -85,7 +85,7 @@ apis:
   - type: OpenAPI
     url: openapi/method-security-blueprints-api-openapi.yml
   - type: x-openapi-original
-    url: openapi/method-security-openapi-original.yml
+    url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-environments-api
   name: Method Security environments API
   description: The environments API from Method Security — 2 operation(s) for environments.
@@ -97,7 +97,7 @@ apis:
   - type: OpenAPI
     url: openapi/method-security-environments-api-openapi.yml
   - type: x-openapi-original
-    url: openapi/method-security-openapi-original.yml
+    url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-issues-api
   name: Method Security issues API
   description: The issues API from Method Security — 2 operation(s) for issues.
@@ -109,7 +109,7 @@ apis:
   - type: OpenAPI
     url: openapi/method-security-issues-api-openapi.yml
   - type: x-openapi-original
-    url: openapi/method-security-openapi-original.yml
+    url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-reports-api
   name: Method Security reports API
   description: The reports API from Method Security — 1 operation(s) for reports.
@@ -121,7 +121,7 @@ apis:
   - type: OpenAPI
     url: openapi/method-security-reports-api-openapi.yml
   - type: x-openapi-original
-    url: openapi/method-security-openapi-original.yml
+    url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-signals-api
   name: Method Security signals API
   description: The signals API from Method Security — 1 operation(s) for signals.
@@ -133,7 +133,7 @@ apis:
   - type: OpenAPI
     url: openapi/method-security-signals-api-openapi.yml
   - type: x-openapi-original
-    url: openapi/method-security-openapi-original.yml
+    url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-skills-api
   name: Method Security skills API
   description: The skills API from Method Security — 3 operation(s) for skills.
@@ -145,7 +145,7 @@ apis:
   - type: OpenAPI
     url: openapi/method-security-skills-api-openapi.yml
   - type: x-openapi-original
-    url: openapi/method-security-openapi-original.yml
+    url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-system-api
   name: Method Security system API
   description: The system API from Method Security — 1 operation(s) for system.
@@ -157,7 +157,7 @@ apis:
   - type: OpenAPI
     url: openapi/method-security-system-api-openapi.yml
   - type: x-openapi-original
-    url: openapi/method-security-openapi-original.yml
+    url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-targets-api
   name: Method Security targets API
   description: The targets API from Method Security — 3 operation(s) for targets.
@@ -169,8 +169,10 @@ apis:
   - type: OpenAPI
     url: openapi/method-security-targets-api-openapi.yml
   - type: x-openapi-original
-    url: openapi/method-security-openapi-original.yml
+    url: openapi/_original/method-security-openapi-original.yml
 common:
+- type: Overlay
+  url: overlays/method-security-openapi-overlay.yaml
 - type: Website
   url: https://method.security
 - type: DeveloperPortal
