@@ -1,0 +1,42 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference audit signals API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "signals",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Signal Content Server",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/method-api-gateway/api/v1/signals/:signalId/content",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "signalId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve the raw content for a signal using its ID."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

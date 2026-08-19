@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference audit issues API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "issues",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Issue",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/method-api-gateway/api/v1/issues/:id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve an issue from Method using its ID"
+        },
+        {
+          "info": {
+            "name": "Update Issue",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/method-api-gateway/api/v1/issues/:id/update",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an issue's workflow fields. All provided fields are updated atomically.\nOnly include fields you want to change - omitted fields remain unchanged.\nWhen closing an issue, you must provide a closeReason."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

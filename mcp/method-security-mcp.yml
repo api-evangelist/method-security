@@ -2,13 +2,11 @@ generated: '2026-07-20'
 method: searched
 status: published
 source: https://docs.method.security/llms.txt
-description: >-
-  Method operates an official hosted MCP server for its documentation, advertised
-  across the docs site and llms.txt for AI-client integration (Claude Code,
-  Cursor, etc.). It exposes documentation search over docs.method.security. The
-  Method Platform itself also embeds MCP Tools that govern what AI Agents and
-  Operator can do (see platform docs), but the only publicly reachable, hosted
-  MCP endpoint is the docs server below.
+description: Method operates an official hosted MCP server for its documentation, advertised across the
+  docs site and llms.txt for AI-client integration (Claude Code, Cursor, etc.). It exposes documentation
+  search over docs.method.security. The Method Platform itself also embeds MCP Tools that govern what
+  AI Agents and Operator can do (see platform docs), but the only publicly reachable, hosted MCP endpoint
+  is the docs server below.
 server:
   name: method-docs
   transport: http
@@ -16,12 +14,15 @@ server:
   auth: none
 tools:
 - name: searchDocs
-  description: >-
-    Search the documentation at https://docs.method.security. Returns relevant
-    doc passages with source URLs. Read-only.
+  description: Search the documentation at https://docs.method.security. Returns relevant doc passages
+    with source URLs. Read-only.
   read_only: true
-notes: >-
-  Tool list captured verbatim from a live tools/list call to the streamable-HTTP
-  MCP endpoint on 2026-07-20. A candidate platform-API MCP surface could be
-  derived from the 18 method-api-gateway operations, but Method does not publish a
-  hosted API MCP server, so it is not asserted here.
+notes: Tool list captured verbatim from a live tools/list call to the streamable-HTTP MCP endpoint on
+  2026-07-20. A candidate platform-API MCP surface could be derived from the 18 method-api-gateway operations,
+  but Method does not publish a hosted API MCP server, so it is not asserted here.
+deployment:
+  mode: remote
+  verified: searched
+  tools: 1
+  checked: '2026-08-12'
+  source: catalog MCP census

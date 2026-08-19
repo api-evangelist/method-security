@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference audit API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "audit",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Audit Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/method-api-gateway/api/v1/audit/getAuditEvents",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "token",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Retrieves all audit events in the specified time range"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

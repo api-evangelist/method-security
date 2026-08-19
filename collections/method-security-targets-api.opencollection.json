@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference audit targets API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "targets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search Targets",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/method-api-gateway/api/v1/targets/search",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search targeting runs with an optional filter."
+        },
+        {
+          "info": {
+            "name": "Get Target",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/method-api-gateway/api/v1/targets/:targetId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "targetId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a targeting run by ID."
+        },
+        {
+          "info": {
+            "name": "Get Target Reports",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/method-api-gateway/api/v1/targets/:targetId/reports",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "targetId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve reports linked to a targeting run."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

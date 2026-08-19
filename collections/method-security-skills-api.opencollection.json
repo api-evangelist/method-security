@@ -1,0 +1,112 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference audit skills API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "skills",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search Skills",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/method-api-gateway/api/v1/skills/search",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search the skills available to agents."
+        },
+        {
+          "info": {
+            "name": "Get Skill",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/method-api-gateway/api/v1/skills/:skillId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "skillId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a skill, including its markdown content."
+        },
+        {
+          "info": {
+            "name": "Update Skill",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/method-api-gateway/api/v1/skills/:skillId",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "skillId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing skill's content, metadata, and labels."
+        },
+        {
+          "info": {
+            "name": "Create Skill",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/method-api-gateway/api/v1/skills/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a skill from markdown content."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference audit blueprints API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "blueprints",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Blueprints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/method-api-gateway/api/v1/blueprints/",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "List available Method blueprints and their parameter definitions."
+        },
+        {
+          "info": {
+            "name": "Run Blueprint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/method-api-gateway/api/v1/blueprints/:blueprintId/run",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "blueprintId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Run a blueprint in an environment."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
