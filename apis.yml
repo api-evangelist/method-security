@@ -56,6 +56,8 @@ apis:
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
   tags:
+  - Audit
+  tags_raw:
   - audit
   properties:
   - type: OpenAPI
@@ -68,6 +70,8 @@ apis:
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
   tags:
+  - Authentication
+  tags_raw:
   - auth
   properties:
   - type: OpenAPI
@@ -80,6 +84,8 @@ apis:
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
   tags:
+  - Blueprints
+  tags_raw:
   - blueprints
   properties:
   - type: OpenAPI
@@ -92,6 +98,8 @@ apis:
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
   tags:
+  - Environments
+  tags_raw:
   - environments
   properties:
   - type: OpenAPI
@@ -104,6 +112,8 @@ apis:
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
   tags:
+  - Issues
+  tags_raw:
   - issues
   properties:
   - type: OpenAPI
@@ -116,6 +126,8 @@ apis:
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
   tags:
+  - Reports
+  tags_raw:
   - reports
   properties:
   - type: OpenAPI
@@ -128,6 +140,8 @@ apis:
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
   tags:
+  - Signals
+  tags_raw:
   - signals
   properties:
   - type: OpenAPI
@@ -140,6 +154,8 @@ apis:
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
   tags:
+  - Skills
+  tags_raw:
   - skills
   properties:
   - type: OpenAPI
@@ -152,6 +168,8 @@ apis:
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
   tags:
+  - System
+  tags_raw:
   - system
   properties:
   - type: OpenAPI
@@ -164,6 +182,8 @@ apis:
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
   tags:
+  - Targets
+  tags_raw:
   - targets
   properties:
   - type: OpenAPI
