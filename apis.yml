@@ -111,7 +111,7 @@ apis:
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
   tags:
-  - Environments
+  - Environment
   tags_raw:
   - environments
   properties:
