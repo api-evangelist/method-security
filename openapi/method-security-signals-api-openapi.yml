@@ -1,9 +1,9 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference audit signals API
+  title: Reference Signals API
   version: 1.0.0
 tags:
-- name: signals
+- name: Signals
 paths:
   /method-api-gateway/api/v1/signals/{signalId}/content:
     get:
@@ -11,13 +11,13 @@ paths:
       summary: Get Signal Content Server
       description: Retrieve the raw content for a signal using its ID.
       tags:
-      - signals
+      - Signals
       parameters:
       - name: signalId
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/type_v1/signals:SignalId'
+          $ref: '#/components/schemas/type_v1_signals_SignalId'
       - name: Authorization
         in: header
         description: Bearer authentication
@@ -32,6 +32,11 @@ paths:
               schema:
                 description: Any type
 components:
+  schemas:
+    type_v1_signals_SignalId:
+      type: string
+      description: The unique identifier for a signal in Method.
+      title: SignalId
   securitySchemes:
     client-credentials:
       type: http

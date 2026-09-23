@@ -1,9 +1,9 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference audit skills API
+  title: Reference Skills API
   version: 1.0.0
 tags:
-- name: skills
+- name: Skills
 paths:
   /method-api-gateway/api/v1/skills/search:
     post:
@@ -11,7 +11,7 @@ paths:
       summary: Search Skills
       description: Search the skills available to agents.
       tags:
-      - skills
+      - Skills
       parameters:
       - name: Authorization
         in: header
@@ -25,25 +25,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1/skills:SearchSkillsResponse'
+                $ref: '#/components/schemas/type_v1_skills_SearchSkillsResponse'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/type_v1/skills:SearchSkillsRequest'
+              $ref: '#/components/schemas/type_v1_skills_SearchSkillsRequest'
   /method-api-gateway/api/v1/skills/{skillId}:
     get:
       operationId: getSkill
       summary: Get Skill
       description: Retrieve a skill, including its markdown content.
       tags:
-      - skills
+      - Skills
       parameters:
       - name: skillId
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/type_v1/skills:SkillId'
+          $ref: '#/components/schemas/type_v1_skills_SkillId'
       - name: Authorization
         in: header
         description: Bearer authentication
@@ -56,19 +56,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1/skills:Skill'
+                $ref: '#/components/schemas/type_v1_skills_Skill'
     put:
       operationId: updateSkill
       summary: Update Skill
       description: Update an existing skill's content, metadata, and labels.
       tags:
-      - skills
+      - Skills
       parameters:
       - name: skillId
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/type_v1/skills:SkillId'
+          $ref: '#/components/schemas/type_v1_skills_SkillId'
       - name: Authorization
         in: header
         description: Bearer authentication
@@ -81,19 +81,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1/skills:Skill'
+                $ref: '#/components/schemas/type_v1_skills_Skill'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/type_v1/skills:UpdateSkillRequest'
+              $ref: '#/components/schemas/type_v1_skills_UpdateSkillRequest'
   /method-api-gateway/api/v1/skills/:
     post:
       operationId: createSkill
       summary: Create Skill
       description: Create a skill from markdown content.
       tags:
-      - skills
+      - Skills
       parameters:
       - name: Authorization
         in: header
@@ -107,13 +107,110 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1/skills:Skill'
+                $ref: '#/components/schemas/type_v1_skills_Skill'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/type_v1/skills:CreateSkillRequest'
+              $ref: '#/components/schemas/type_v1_skills_CreateSkillRequest'
 components:
+  schemas:
+    type_v1_skills_SkillId:
+      type: string
+      description: The unique identifier for a skill.
+      title: SkillId
+    type_v1_skills_CreateSkillRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        content:
+          type: string
+          description: The skill body as markdown.
+        labels:
+          type: array
+          items:
+            type: string
+          description: Free-form labels to attach to the skill.
+      required:
+      - name
+      - content
+      title: CreateSkillRequest
+    type_v1_skills_SearchSkillsRequest:
+      type: object
+      properties:
+        nameLike:
+          type: string
+        pageSize:
+          type: integer
+        pagingToken:
+          type: string
+      title: SearchSkillsRequest
+    type_v1_skills_UpdateSkillRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        content:
+          type: string
+          description: The skill body as markdown.
+        labels:
+          type: array
+          items:
+            type: string
+          description: Replaces the skill's labels. Omit to leave the existing labels unchanged; pass an empty list to clear them.
+      required:
+      - name
+      - content
+      title: UpdateSkillRequest
+    type_v1_skills_Skill:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_v1_skills_SkillId'
+        name:
+          type: string
+        description:
+          type: string
+        content:
+          type: string
+          description: The skill body as markdown.
+        labels:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: Free-form labels used to organize and discover the skill.
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - name
+      - content
+      - labels
+      - createdAt
+      - updatedAt
+      title: Skill
+    type_v1_skills_SearchSkillsResponse:
+      type: object
+      properties:
+        skills:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1_skills_Skill'
+        pagingToken:
+          type: string
+      required:
+      - skills
+      title: SearchSkillsResponse
   securitySchemes:
     client-credentials:
       type: http

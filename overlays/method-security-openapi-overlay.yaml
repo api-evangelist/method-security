@@ -26,7 +26,7 @@ actions:
     errors: errors/method-security-problem-types.yml
     data_model: data-model/method-security-data-model.yml
     agentic_access: agentic-access/method-security-agentic-access.yml
-notes: >-
+x-notes: >-
   Overlay of API Evangelist enrichments. The original spec declares no servers[]
   block and no info.description; this overlay adds a per-tenant server template
   and a description without mutating the harvested original.

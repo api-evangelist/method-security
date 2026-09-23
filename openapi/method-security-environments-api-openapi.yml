@@ -1,9 +1,9 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference audit environments API
+  title: Reference Environments API
   version: 1.0.0
 tags:
-- name: environments
+- name: Environments
 paths:
   /method-api-gateway/api/v1/environments/:
     post:
@@ -11,7 +11,7 @@ paths:
       summary: Create Environment
       description: Create a new Method environment.
       tags:
-      - environments
+      - Environments
       parameters:
       - name: Authorization
         in: header
@@ -25,25 +25,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1/environments:CreateEnvironmentResponse'
+                $ref: '#/components/schemas/type_v1_environments_CreateEnvironmentResponse'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/type_v1/environments:CreateEnvironmentRequest'
+              $ref: '#/components/schemas/type_v1_environments_CreateEnvironmentRequest'
   /method-api-gateway/api/v1/environments/{environmentId}/intel:
     post:
       operationId: uploadEnvironmentIntel
       summary: Upload Environment Intel
       description: Upload an intelligence attachment and associate it with an environment.
       tags:
-      - environments
+      - Environments
       parameters:
       - name: environmentId
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/type_common:EnvironmentId'
+          $ref: '#/components/schemas/type_common_EnvironmentId'
       - name: Authorization
         in: header
         description: Bearer authentication
@@ -56,18 +56,65 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1/environments:UploadEnvironmentIntelResponse'
+                $ref: '#/components/schemas/type_v1_environments_UploadEnvironmentIntelResponse'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/type_v1/environments:UploadEnvironmentIntelRequest'
+              $ref: '#/components/schemas/type_v1_environments_UploadEnvironmentIntelRequest'
 components:
   schemas:
-    type_common:EnvironmentId:
+    type_v1_environments_AttachmentId:
+      type: string
+      description: The unique identifier for an uploaded attachment in Method.
+      title: AttachmentId
+    type_common_EnvironmentId:
       type: string
       description: The unique identifier for an environment in Method
       title: EnvironmentId
+    type_v1_environments_UploadEnvironmentIntelRequest:
+      type: object
+      properties:
+        filename:
+          type: string
+          description: Name to store for the uploaded file.
+        mimeType:
+          type: string
+          description: MIME type of the uploaded file, if known.
+        contentBase64:
+          type: string
+          description: Base64-encoded file content.
+      required:
+      - filename
+      - contentBase64
+      description: Request to upload environment intelligence content.
+      title: UploadEnvironmentIntelRequest
+    type_v1_environments_UploadEnvironmentIntelResponse:
+      type: object
+      properties:
+        attachmentId:
+          $ref: '#/components/schemas/type_v1_environments_AttachmentId'
+      required:
+      - attachmentId
+      title: UploadEnvironmentIntelResponse
+    type_v1_environments_CreateEnvironmentRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Human-readable environment title.
+      required:
+      - title
+      description: Request to create an environment.
+      title: CreateEnvironmentRequest
+    type_v1_environments_CreateEnvironmentResponse:
+      type: object
+      properties:
+        environmentId:
+          $ref: '#/components/schemas/type_common_EnvironmentId'
+      required:
+      - environmentId
+      title: CreateEnvironmentResponse
   securitySchemes:
     client-credentials:
       type: http

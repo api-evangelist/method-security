@@ -1,23 +1,23 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference audit auth API
+  title: Reference Auth API
   version: 1.0.0
 tags:
-- name: auth
+- name: Auth
 paths:
   /method-api-gateway/api/auth/getToken:
     post:
       operationId: getTokenWithClientCredentials
       summary: Get Token With Client Credentials
       tags:
-      - auth
+      - Auth
       responses:
         '200':
           description: Response with status 200
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_auth:TokenResponse'
+                $ref: '#/components/schemas/type_auth_TokenResponse'
       requestBody:
         content:
           application/json:
@@ -40,7 +40,7 @@ paths:
               - grant_type
 components:
   schemas:
-    type_auth:TokenResponse:
+    type_auth_TokenResponse:
       type: object
       properties:
         access_token:

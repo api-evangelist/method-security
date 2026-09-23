@@ -1,9 +1,9 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: API Reference audit issues API
+  title: Reference Issues API
   version: 1.0.0
 tags:
-- name: issues
+- name: Issues
 paths:
   /method-api-gateway/api/v1/issues/{id}:
     get:
@@ -11,13 +11,13 @@ paths:
       summary: Get Issue
       description: Retrieve an issue from Method using its ID
       tags:
-      - issues
+      - Issues
       parameters:
       - name: id
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/type_v1/issues:IssueId'
+          $ref: '#/components/schemas/type_v1_issues_IssueId'
       - name: Authorization
         in: header
         description: Bearer authentication
@@ -30,13 +30,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1/issues:Issue'
+                $ref: '#/components/schemas/type_v1_issues_Issue'
         '404':
           description: Error response with status 404
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1/issues:IssueId'
+                $ref: '#/components/schemas/type_v1_issues_IssueId'
   /method-api-gateway/api/v1/issues/{id}/update:
     post:
       operationId: updateIssue
@@ -47,13 +47,13 @@ paths:
 
         When closing an issue, you must provide a closeReason.'
       tags:
-      - issues
+      - Issues
       parameters:
       - name: id
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/type_v1/issues:IssueId'
+          $ref: '#/components/schemas/type_v1_issues_IssueId'
       - name: Authorization
         in: header
         description: Bearer authentication
@@ -66,19 +66,124 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1/issues:Issue'
+                $ref: '#/components/schemas/type_v1_issues_Issue'
         '404':
           description: Error response with status 404
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1/issues:IssueId'
+                $ref: '#/components/schemas/type_v1_issues_IssueId'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/type_v1/issues:UpdateIssueRequest'
+              $ref: '#/components/schemas/type_v1_issues_UpdateIssueRequest'
 components:
+  schemas:
+    type_v1_objects_ObjectId:
+      type: string
+      description: The unique identifier for an object in Method
+      title: ObjectId
+    type_v1_issues_Issue:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_v1_issues_IssueId'
+        issueDetailsLink:
+          type: string
+        environmentId:
+          $ref: '#/components/schemas/type_common_EnvironmentId'
+        environmentName:
+          type: string
+        description:
+          type: string
+        remediation:
+          type: string
+        status:
+          $ref: '#/components/schemas/type_v1_issues_IssueStatus'
+        severity:
+          $ref: '#/components/schemas/type_v1_issues_IssueSeverity'
+        closedReason:
+          $ref: '#/components/schemas/type_v1_issues_IssueClosedReason'
+        affectedObjectId:
+          $ref: '#/components/schemas/type_v1_objects_ObjectId'
+        affectedObjectTitle:
+          type: string
+        affectedObjectDetailsLink:
+          type: string
+        validationStatus:
+          $ref: '#/components/schemas/type_v1_issues_ValidationStatus'
+      required:
+      - id
+      - issueDetailsLink
+      - environmentId
+      - environmentName
+      - description
+      - remediation
+      - status
+      - severity
+      - affectedObjectId
+      - affectedObjectTitle
+      - affectedObjectDetailsLink
+      title: Issue
+    type_v1_issues_IssueId:
+      type: string
+      description: The unique identifier for an issue in Method
+      title: IssueId
+    type_common_EnvironmentId:
+      type: string
+      description: The unique identifier for an environment in Method
+      title: EnvironmentId
+    type_v1_issues_IssueClosedReason:
+      type: string
+      enum:
+      - RESOLVED
+      - CLOSED_BY_AGENT
+      - ACCEPTED_RISK
+      - FALSE_POSITIVE
+      - NOT_APPLICABLE
+      title: IssueClosedReason
+    type_v1_issues_UpdateIssueRequest:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/type_v1_issues_IssueStatus'
+          description: New status for the issue
+        severity:
+          $ref: '#/components/schemas/type_v1_issues_IssueSeverity'
+          description: New severity level for the issue
+        closeReason:
+          $ref: '#/components/schemas/type_v1_issues_IssueClosedReason'
+          description: Reason for closing the issue (required when status is CLOSED)
+        comment:
+          type: string
+          description: Optional comment to record with this change
+      description: 'Request to update an issue''s workflow fields.
+
+        Only include fields you want to change - omitted fields remain unchanged.'
+      title: UpdateIssueRequest
+    type_v1_issues_IssueStatus:
+      type: string
+      enum:
+      - OPEN
+      - CLOSED
+      - ARCHIVED
+      title: IssueStatus
+    type_v1_issues_IssueSeverity:
+      type: string
+      enum:
+      - CRITICAL
+      - HIGH
+      - MEDIUM
+      - LOW
+      - INFO
+      title: IssueSeverity
+    type_v1_issues_ValidationStatus:
+      type: string
+      enum:
+      - VALIDATED
+      - INVALIDATED
+      title: ValidationStatus
   securitySchemes:
     client-credentials:
       type: http
