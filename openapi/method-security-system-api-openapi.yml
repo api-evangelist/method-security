@@ -28,6 +28,10 @@ paths:
                 $ref: '#/components/schemas/type_v1_system_ExternalIPAddresses'
 components:
   schemas:
+    type_v1_system_Ipv4Address:
+      type: string
+      description: An IPv4 address represented in dot-decimal notation (e.g. 192.168.1.1)
+      title: Ipv4Address
     type_v1_system_ExternalIPAddresses:
       type: object
       properties:
@@ -50,10 +54,6 @@ components:
       type: string
       description: An IPv6 CIDR range (e.g. 2605:B00::/32)
       title: Ipv6Range
-    type_v1_system_Ipv4Address:
-      type: string
-      description: An IPv4 address represented in dot-decimal notation (e.g. 192.168.1.1)
-      title: Ipv4Address
   securitySchemes:
     client-credentials:
       type: http

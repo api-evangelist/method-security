@@ -64,7 +64,7 @@ tags:
 - Government
 apis:
 - aid: method-security:method-security-audit-api
-  name: Method Security audit API
+  name: Method Security Audit API
   description: The audit API from Method Security — 1 operation(s) for audit.
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
@@ -78,7 +78,7 @@ apis:
   - type: x-openapi-original
     url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-auth-api
-  name: Method Security auth API
+  name: Method Security Auth API
   description: The auth API from Method Security — 1 operation(s) for auth.
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
@@ -92,7 +92,7 @@ apis:
   - type: x-openapi-original
     url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-blueprints-api
-  name: Method Security blueprints API
+  name: Method Security Blueprints API
   description: The blueprints API from Method Security — 2 operation(s) for blueprints.
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
@@ -106,7 +106,7 @@ apis:
   - type: x-openapi-original
     url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-environments-api
-  name: Method Security environments API
+  name: Method Security Environments API
   description: The environments API from Method Security — 2 operation(s) for environments.
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
@@ -120,7 +120,7 @@ apis:
   - type: x-openapi-original
     url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-issues-api
-  name: Method Security issues API
+  name: Method Security Issues API
   description: The issues API from Method Security — 2 operation(s) for issues.
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
@@ -134,7 +134,7 @@ apis:
   - type: x-openapi-original
     url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-reports-api
-  name: Method Security reports API
+  name: Method Security Reports API
   description: The reports API from Method Security — 1 operation(s) for reports.
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
@@ -148,7 +148,7 @@ apis:
   - type: x-openapi-original
     url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-signals-api
-  name: Method Security signals API
+  name: Method Security Signals API
   description: The signals API from Method Security — 1 operation(s) for signals.
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
@@ -162,7 +162,7 @@ apis:
   - type: x-openapi-original
     url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-skills-api
-  name: Method Security skills API
+  name: Method Security Skills API
   description: The skills API from Method Security — 3 operation(s) for skills.
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
@@ -176,7 +176,7 @@ apis:
   - type: x-openapi-original
     url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-system-api
-  name: Method Security system API
+  name: Method Security System API
   description: The system API from Method Security — 1 operation(s) for system.
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api
@@ -190,7 +190,7 @@ apis:
   - type: x-openapi-original
     url: openapi/_original/method-security-openapi-original.yml
 - aid: method-security:method-security-targets-api
-  name: Method Security targets API
+  name: Method Security Targets API
   description: The targets API from Method Security — 3 operation(s) for targets.
   humanURL: https://docs.method.security/developer/api-reference/api-reference
   baseURL: https://your-instance.method.delivery/method-api-gateway/api

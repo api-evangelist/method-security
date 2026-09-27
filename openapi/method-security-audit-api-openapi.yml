@@ -43,30 +43,31 @@ paths:
               $ref: '#/components/schemas/type_v1_audit_GetAuditEventsRequest'
 components:
   schemas:
-    type_v1_audit_ResourceKind:
-      type: string
-      enum:
-      - AGENT
-      - ENVIRONMENT
-      - GROUP
-      - ISSUE
-      - ISSUE_DEFINITION
-      - JACKAL
-      - MODEL
-      - MODEL_PROVIDER
-      - OAUTH_CLIENT
-      - OBJECT_SET
-      - ONTOLOGY_OBJECT
-      - OPERATOR_SESSION
-      - REPORT
-      - SENSITIVE_VALUE
-      - SKILL
-      - TASK
-      - TASK_RUN
-      - TOKEN
-      - TOOL
-      - USER_ACCOUNT
-      title: ResourceKind
+    type_v1_audit_AuditEventStatus:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - success
+            description: 'Discriminator value: success'
+        required:
+        - type
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - failure
+            description: 'Discriminator value: failure'
+          message:
+            type: string
+        required:
+        - type
+      discriminator:
+        propertyName: type
+      title: AuditEventStatus
     type_v1_audit_Resource:
       oneOf:
       - type: object
@@ -138,34 +139,18 @@ components:
       discriminator:
         propertyName: type
       title: Resource
-    type_v1_audit_PlatformResourceId:
-      type: string
-      description: The unique identifier for a Method platform resource.
-      title: PlatformResourceId
-    type_v1_audit_IpAddress:
-      type: string
-      description: The source IP for a request made to the Method platform
-      title: IpAddress
-    type_v1_audit_UserId:
-      type: string
-      description: The unique identifier of a human user in Method
-      title: UserId
-    type_v1_audit_Context:
-      type: object
-      properties:
-        sourceIp:
-          $ref: '#/components/schemas/type_v1_audit_IpAddress'
-        userAgent:
-          $ref: '#/components/schemas/type_v1_audit_UserAgent'
-      title: Context
     type_v1_audit_ServiceAccountId:
       type: string
       description: The unique identifier of a service account in Method
       title: ServiceAccountId
-    type_v1_objects_ObjectId:
+    type_v1_audit_UserId:
       type: string
-      description: The unique identifier for an object in Method
-      title: ObjectId
+      description: The unique identifier of a human user in Method
+      title: UserId
+    type_v1_audit_IpAddress:
+      type: string
+      description: The source IP for a request made to the Method platform
+      title: IpAddress
     type_v1_audit_Actor:
       oneOf:
       - type: object
@@ -202,6 +187,137 @@ components:
       discriminator:
         propertyName: type
       title: Actor
+    type_v1_audit_PlatformResourceId:
+      type: string
+      description: The unique identifier for a Method platform resource.
+      title: PlatformResourceId
+    type_v1_audit_TenantId:
+      type: string
+      description: The unique identifier of the tenant for which the audit event was emitted
+      title: TenantId
+    type_v1_audit_GetAuditEventsRequest:
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+      required:
+      - startTime
+      - endTime
+      title: GetAuditEventsRequest
+    type_v1_audit_ResourceKind:
+      type: string
+      enum:
+      - AGENT
+      - ENVIRONMENT
+      - GROUP
+      - ISSUE
+      - ISSUE_DEFINITION
+      - JACKAL
+      - MODEL
+      - MODEL_PROVIDER
+      - OAUTH_CLIENT
+      - OBJECT_SET
+      - ONTOLOGY_OBJECT
+      - OPERATOR_SESSION
+      - REPORT
+      - SENSITIVE_VALUE
+      - SKILL
+      - TASK
+      - TASK_RUN
+      - TOKEN
+      - TOOL
+      - USER_ACCOUNT
+      title: ResourceKind
+    type_v1_audit_UserAgent:
+      type: string
+      description: The user agent for a request made to the Method platform
+      title: UserAgent
+    type_v1_audit_AuditEventId:
+      type: string
+      description: The unique identifier for an audit event in Method
+      title: AuditEventId
+    type_v1_issues_IssueId:
+      type: string
+      description: The unique identifier for an issue in Method
+      title: IssueId
+    type_v1_audit_ExternalUserId:
+      type: string
+      description: The identifier of a user in Method according to an external auth provider
+      title: ExternalUserId
+    type_v1_audit_PlatformActionOperation:
+      type: string
+      enum:
+      - CREATE
+      - UPDATE
+      - DELETE
+      - LOAD
+      - QUERY
+      - DECRYPT
+      title: PlatformActionOperation
+    type_v1_audit_GroupId:
+      type: string
+      description: The unique identifier of a user group in Method
+      title: GroupId
+    type_v1_audit_Context:
+      type: object
+      properties:
+        sourceIp:
+          $ref: '#/components/schemas/type_v1_audit_IpAddress'
+        userAgent:
+          $ref: '#/components/schemas/type_v1_audit_UserAgent'
+      title: Context
+    type_v1_objects_ObjectId:
+      type: string
+      description: The unique identifier for an object in Method
+      title: ObjectId
+    type_v1_audit_User:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_v1_audit_UserId'
+        name:
+          type: string
+        email:
+          type: string
+        externalId:
+          $ref: '#/components/schemas/type_v1_audit_ExternalUserId'
+      required:
+      - id
+      - name
+      title: User
+    type_v1_audit_AuditEvent:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_v1_audit_AuditEventId'
+        tenantId:
+          $ref: '#/components/schemas/type_v1_audit_TenantId'
+        timestamp:
+          type: string
+          format: date-time
+        actor:
+          $ref: '#/components/schemas/type_v1_audit_Actor'
+        action:
+          $ref: '#/components/schemas/type_v1_audit_Action'
+        resource:
+          $ref: '#/components/schemas/type_v1_audit_Resource'
+        context:
+          $ref: '#/components/schemas/type_v1_audit_Context'
+        status:
+          $ref: '#/components/schemas/type_v1_audit_AuditEventStatus'
+      required:
+      - id
+      - tenantId
+      - timestamp
+      - actor
+      - action
+      - context
+      - status
+      title: AuditEvent
     type_v1_audit_Action:
       oneOf:
       - type: object
@@ -292,108 +408,6 @@ components:
       discriminator:
         propertyName: type
       title: Action
-    type_v1_audit_User:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/type_v1_audit_UserId'
-        name:
-          type: string
-        email:
-          type: string
-        externalId:
-          $ref: '#/components/schemas/type_v1_audit_ExternalUserId'
-      required:
-      - id
-      - name
-      title: User
-    type_v1_audit_AuditEvent:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/type_v1_audit_AuditEventId'
-        tenantId:
-          $ref: '#/components/schemas/type_v1_audit_TenantId'
-        timestamp:
-          type: string
-          format: date-time
-        actor:
-          $ref: '#/components/schemas/type_v1_audit_Actor'
-        action:
-          $ref: '#/components/schemas/type_v1_audit_Action'
-        resource:
-          $ref: '#/components/schemas/type_v1_audit_Resource'
-        context:
-          $ref: '#/components/schemas/type_v1_audit_Context'
-        status:
-          $ref: '#/components/schemas/type_v1_audit_AuditEventStatus'
-      required:
-      - id
-      - tenantId
-      - timestamp
-      - actor
-      - action
-      - context
-      - status
-      title: AuditEvent
-    type_v1_issues_IssueId:
-      type: string
-      description: The unique identifier for an issue in Method
-      title: IssueId
-    type_v1_audit_ExternalUserId:
-      type: string
-      description: The identifier of a user in Method according to an external auth provider
-      title: ExternalUserId
-    type_v1_audit_AuditEventId:
-      type: string
-      description: The unique identifier for an audit event in Method
-      title: AuditEventId
-    type_v1_audit_TenantId:
-      type: string
-      description: The unique identifier of the tenant for which the audit event was emitted
-      title: TenantId
-    type_v1_audit_UserAgent:
-      type: string
-      description: The user agent for a request made to the Method platform
-      title: UserAgent
-    type_v1_audit_GetAuditEventsRequest:
-      type: object
-      properties:
-        startTime:
-          type: string
-          format: date-time
-        endTime:
-          type: string
-          format: date-time
-      required:
-      - startTime
-      - endTime
-      title: GetAuditEventsRequest
-    type_v1_audit_AuditEventStatus:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - success
-            description: 'Discriminator value: success'
-        required:
-        - type
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - failure
-            description: 'Discriminator value: failure'
-          message:
-            type: string
-        required:
-        - type
-      discriminator:
-        propertyName: type
-      title: AuditEventStatus
     type_v1_audit_AuditEventsResponse:
       type: object
       properties:
@@ -406,20 +420,6 @@ components:
       required:
       - auditEvents
       title: AuditEventsResponse
-    type_v1_audit_PlatformActionOperation:
-      type: string
-      enum:
-      - CREATE
-      - UPDATE
-      - DELETE
-      - LOAD
-      - QUERY
-      - DECRYPT
-      title: PlatformActionOperation
-    type_v1_audit_GroupId:
-      type: string
-      description: The unique identifier of a user group in Method
-      title: GroupId
   securitySchemes:
     client-credentials:
       type: http

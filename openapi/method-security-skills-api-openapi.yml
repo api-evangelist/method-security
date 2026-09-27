@@ -115,39 +115,6 @@ paths:
               $ref: '#/components/schemas/type_v1_skills_CreateSkillRequest'
 components:
   schemas:
-    type_v1_skills_SkillId:
-      type: string
-      description: The unique identifier for a skill.
-      title: SkillId
-    type_v1_skills_CreateSkillRequest:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        content:
-          type: string
-          description: The skill body as markdown.
-        labels:
-          type: array
-          items:
-            type: string
-          description: Free-form labels to attach to the skill.
-      required:
-      - name
-      - content
-      title: CreateSkillRequest
-    type_v1_skills_SearchSkillsRequest:
-      type: object
-      properties:
-        nameLike:
-          type: string
-        pageSize:
-          type: integer
-        pagingToken:
-          type: string
-      title: SearchSkillsRequest
     type_v1_skills_UpdateSkillRequest:
       type: object
       properties:
@@ -199,6 +166,39 @@ components:
       - createdAt
       - updatedAt
       title: Skill
+    type_v1_skills_SkillId:
+      type: string
+      description: The unique identifier for a skill.
+      title: SkillId
+    type_v1_skills_SearchSkillsRequest:
+      type: object
+      properties:
+        nameLike:
+          type: string
+        pageSize:
+          type: integer
+        pagingToken:
+          type: string
+      title: SearchSkillsRequest
+    type_v1_skills_CreateSkillRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        content:
+          type: string
+          description: The skill body as markdown.
+        labels:
+          type: array
+          items:
+            type: string
+          description: Free-form labels to attach to the skill.
+      required:
+      - name
+      - content
+      title: CreateSkillRequest
     type_v1_skills_SearchSkillsResponse:
       type: object
       properties:

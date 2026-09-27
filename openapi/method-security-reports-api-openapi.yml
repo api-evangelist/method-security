@@ -33,10 +33,6 @@ paths:
                 $ref: '#/components/schemas/type_v1_reports_Report'
 components:
   schemas:
-    type_v1_reports_ReportId:
-      type: string
-      description: The unique identifier for a report document.
-      title: ReportId
     type_v1_reports_Report:
       type: object
       properties:
@@ -65,6 +61,10 @@ components:
       - updatedAt
       description: A Method report document.
       title: Report
+    type_v1_reports_ReportId:
+      type: string
+      description: The unique identifier for a report document.
+      title: ReportId
   securitySchemes:
     client-credentials:
       type: http
