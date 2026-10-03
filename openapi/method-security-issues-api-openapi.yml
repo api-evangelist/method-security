@@ -80,17 +80,6 @@ paths:
               $ref: '#/components/schemas/type_v1_issues_UpdateIssueRequest'
 components:
   schemas:
-    type_common_EnvironmentId:
-      type: string
-      description: The unique identifier for an environment in Method
-      title: EnvironmentId
-    type_v1_issues_IssueStatus:
-      type: string
-      enum:
-      - OPEN
-      - CLOSED
-      - ARCHIVED
-      title: IssueStatus
     type_v1_issues_IssueClosedReason:
       type: string
       enum:
@@ -100,6 +89,29 @@ components:
       - FALSE_POSITIVE
       - NOT_APPLICABLE
       title: IssueClosedReason
+    type_v1_issues_IssueId:
+      type: string
+      description: The unique identifier for an issue in Method
+      title: IssueId
+    type_common_EnvironmentId:
+      type: string
+      description: The unique identifier for an environment in Method
+      title: EnvironmentId
+    type_v1_issues_ValidationStatus:
+      type: string
+      enum:
+      - VALIDATED
+      - INVALIDATED
+      title: ValidationStatus
+    type_v1_issues_IssueSeverity:
+      type: string
+      enum:
+      - CRITICAL
+      - HIGH
+      - MEDIUM
+      - LOW
+      - INFO
+      title: IssueSeverity
     type_v1_issues_Issue:
       type: object
       properties:
@@ -142,6 +154,13 @@ components:
       - affectedObjectTitle
       - affectedObjectDetailsLink
       title: Issue
+    type_v1_issues_IssueStatus:
+      type: string
+      enum:
+      - OPEN
+      - CLOSED
+      - ARCHIVED
+      title: IssueStatus
     type_v1_issues_UpdateIssueRequest:
       type: object
       properties:
@@ -161,29 +180,10 @@ components:
 
         Only include fields you want to change - omitted fields remain unchanged.'
       title: UpdateIssueRequest
-    type_v1_issues_IssueSeverity:
-      type: string
-      enum:
-      - CRITICAL
-      - HIGH
-      - MEDIUM
-      - LOW
-      - INFO
-      title: IssueSeverity
     type_v1_objects_ObjectId:
       type: string
       description: The unique identifier for an object in Method
       title: ObjectId
-    type_v1_issues_IssueId:
-      type: string
-      description: The unique identifier for an issue in Method
-      title: IssueId
-    type_v1_issues_ValidationStatus:
-      type: string
-      enum:
-      - VALIDATED
-      - INVALIDATED
-      title: ValidationStatus
   securitySchemes:
     client-credentials:
       type: http

@@ -85,6 +85,40 @@ paths:
                 $ref: '#/components/schemas/type_v1_targets_GetTargetReportsResponse'
 components:
   schemas:
+    type_v1_targets_TargetStage:
+      type: string
+      enum:
+      - TARGETED
+      - VALIDATED
+      - EXPLOITABLE
+      - EXPLOITED
+      - REMEDIATED
+      - INVALIDATED
+      - DEFERRED
+      - BLOCKED
+      title: TargetStage
+    type_common_EnvironmentId:
+      type: string
+      description: The unique identifier for an environment in Method
+      title: EnvironmentId
+    type_v1_targets_GetTargetReportsResponse:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1_targets_TargetReportSummary'
+      required:
+      - reports
+      title: GetTargetReportsResponse
+    type_v1_targets_TargetId:
+      type: string
+      description: The unique identifier for a targeting run.
+      title: TargetId
+    type_v1_reports_ReportId:
+      type: string
+      description: The unique identifier for a report document.
+      title: ReportId
     type_v1_targets_TargetStatus:
       type: string
       enum:
@@ -92,30 +126,16 @@ components:
       - IN_PROGRESS
       - FINISHED
       title: TargetStatus
-    type_common_EnvironmentId:
-      type: string
-      description: The unique identifier for an environment in Method
-      title: EnvironmentId
-    type_v1_targets_TargetId:
-      type: string
-      description: The unique identifier for a targeting run.
-      title: TargetId
-    type_v1_targets_SearchTargetsResponse:
+    type_v1_targets_SearchTargetsRequest:
       type: object
       properties:
-        targets:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_v1_targets_Target'
+        filter:
+          $ref: '#/components/schemas/type_v1_targets_TargetFilter'
         pagingToken:
           type: string
-      required:
-      - targets
-      title: SearchTargetsResponse
-    type_v1_reports_ReportId:
-      type: string
-      description: The unique identifier for a report document.
-      title: ReportId
+        pageSize:
+          type: integer
+      title: SearchTargetsRequest
     type_v1_targets_TargetFilter:
       oneOf:
       - type: object
@@ -273,28 +293,6 @@ components:
       discriminator:
         propertyName: type
       title: TargetFilter
-    type_v1_targets_SearchTargetsRequest:
-      type: object
-      properties:
-        filter:
-          $ref: '#/components/schemas/type_v1_targets_TargetFilter'
-        pagingToken:
-          type: string
-        pageSize:
-          type: integer
-      title: SearchTargetsRequest
-    type_v1_targets_TargetReportSummary:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/type_v1_reports_ReportId'
-        reportDetailsLink:
-          type: string
-      required:
-      - id
-      - reportDetailsLink
-      description: A report linked to a targeting run.
-      title: TargetReportSummary
     type_v1_targets_TargetRelatedLink:
       type: object
       properties:
@@ -307,18 +305,6 @@ components:
       - url
       description: A platform URL for a resource related to a targeting run.
       title: TargetRelatedLink
-    type_v1_targets_TargetStage:
-      type: string
-      enum:
-      - TARGETED
-      - VALIDATED
-      - EXPLOITABLE
-      - EXPLOITED
-      - REMEDIATED
-      - INVALIDATED
-      - DEFERRED
-      - BLOCKED
-      title: TargetStage
     type_v1_targets_Target:
       type: object
       properties:
@@ -381,6 +367,30 @@ components:
       - createdAt
       - updatedAt
       title: Target
+    type_v1_targets_SearchTargetsResponse:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1_targets_Target'
+        pagingToken:
+          type: string
+      required:
+      - targets
+      title: SearchTargetsResponse
+    type_v1_targets_TargetReportSummary:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_v1_reports_ReportId'
+        reportDetailsLink:
+          type: string
+      required:
+      - id
+      - reportDetailsLink
+      description: A report linked to a targeting run.
+      title: TargetReportSummary
     type_v1_targets_TargetRelatedLinkKind:
       type: string
       enum:
@@ -391,16 +401,6 @@ components:
       - OVERWATCH_SESSION
       - AGENT_SESSION
       title: TargetRelatedLinkKind
-    type_v1_targets_GetTargetReportsResponse:
-      type: object
-      properties:
-        reports:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_v1_targets_TargetReportSummary'
-      required:
-      - reports
-      title: GetTargetReportsResponse
   securitySchemes:
     client-credentials:
       type: http
