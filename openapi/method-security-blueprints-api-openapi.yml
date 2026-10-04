@@ -59,24 +59,56 @@ paths:
               $ref: '#/components/schemas/type_v1_blueprints_RunBlueprintRequest'
 components:
   schemas:
-    type_v1_blueprints_ListBlueprintsResponse:
+    type_v1_blueprints_Blueprint:
       type: object
       properties:
-        blueprints:
+        id:
+          $ref: '#/components/schemas/type_v1_blueprints_BlueprintId'
+        displayName:
+          type: string
+        description:
+          type: string
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/type_v1_blueprints_ParameterDefinition'
+        objectTypesCreated:
           type: array
+          uniqueItems: true
           items:
-            $ref: '#/components/schemas/type_v1_blueprints_Blueprint'
+            $ref: '#/components/schemas/type_v1_blueprints_ObjectTypeApiName'
       required:
-      - blueprints
-      title: ListBlueprintsResponse
-    type_v1_blueprints_ParameterKey:
+      - id
+      - displayName
+      - description
+      - parameters
+      - objectTypesCreated
+      title: Blueprint
+    type_v1_blueprints_ObjectTypeApiName:
       type: string
-      description: A blueprint parameter key.
-      title: ParameterKey
+      description: The API name of an ontology object type.
+      title: ObjectTypeApiName
+    type_v1_blueprints_BlueprintId:
+      type: string
+      description: The unique identifier for a Method blueprint.
+      title: BlueprintId
     type_common_EnvironmentId:
       type: string
       description: The unique identifier for an environment in Method
       title: EnvironmentId
+    type_v1_blueprints_RunBlueprintRequest:
+      type: object
+      properties:
+        environmentId:
+          $ref: '#/components/schemas/type_common_EnvironmentId'
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/type_v1_blueprints_ParameterValue'
+      required:
+      - environmentId
+      - parameters
+      title: RunBlueprintRequest
     type_v1_blueprints_ParameterDefinition:
       type: object
       properties:
@@ -103,48 +135,6 @@ components:
       - requirements
       description: Blueprint parameter metadata.
       title: ParameterDefinition
-    type_v1_blueprints_BlueprintId:
-      type: string
-      description: The unique identifier for a Method blueprint.
-      title: BlueprintId
-    type_v1_blueprints_RunBlueprintRequest:
-      type: object
-      properties:
-        environmentId:
-          $ref: '#/components/schemas/type_common_EnvironmentId'
-        parameters:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/type_v1_blueprints_ParameterValue'
-      required:
-      - environmentId
-      - parameters
-      title: RunBlueprintRequest
-    type_v1_blueprints_Blueprint:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/type_v1_blueprints_BlueprintId'
-        displayName:
-          type: string
-        description:
-          type: string
-        parameters:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/type_v1_blueprints_ParameterDefinition'
-        objectTypesCreated:
-          type: array
-          uniqueItems: true
-          items:
-            $ref: '#/components/schemas/type_v1_blueprints_ObjectTypeApiName'
-      required:
-      - id
-      - displayName
-      - description
-      - parameters
-      - objectTypesCreated
-      title: Blueprint
     type_v1_blueprints_ParameterValue:
       type: object
       properties:
@@ -157,6 +147,33 @@ components:
       - value
       description: A typed blueprint parameter value.
       title: ParameterValue
+    type_v1_blueprints_BlueprintError:
+      type: object
+      properties:
+        key:
+          $ref: '#/components/schemas/type_v1_blueprints_ParameterKey'
+        type:
+          type: string
+        message:
+          type: string
+      required:
+      - type
+      - message
+      title: BlueprintError
+    type_v1_blueprints_ParameterKey:
+      type: string
+      description: A blueprint parameter key.
+      title: ParameterKey
+    type_v1_blueprints_ListBlueprintsResponse:
+      type: object
+      properties:
+        blueprints:
+          type: array
+          items:
+            $ref: '#/components/schemas/type_v1_blueprints_Blueprint'
+      required:
+      - blueprints
+      title: ListBlueprintsResponse
     type_v1_blueprints_RunBlueprintResponse:
       type: object
       properties:
@@ -176,23 +193,6 @@ components:
       type: string
       description: The unique identifier for an object in Method
       title: ObjectId
-    type_v1_blueprints_ObjectTypeApiName:
-      type: string
-      description: The API name of an ontology object type.
-      title: ObjectTypeApiName
-    type_v1_blueprints_BlueprintError:
-      type: object
-      properties:
-        key:
-          $ref: '#/components/schemas/type_v1_blueprints_ParameterKey'
-        type:
-          type: string
-        message:
-          type: string
-      required:
-      - type
-      - message
-      title: BlueprintError
   securitySchemes:
     client-credentials:
       type: http

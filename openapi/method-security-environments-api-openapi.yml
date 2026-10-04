@@ -64,6 +64,14 @@ paths:
               $ref: '#/components/schemas/type_v1_environments_UploadEnvironmentIntelRequest'
 components:
   schemas:
+    type_v1_environments_UploadEnvironmentIntelResponse:
+      type: object
+      properties:
+        attachmentId:
+          $ref: '#/components/schemas/type_v1_environments_AttachmentId'
+      required:
+      - attachmentId
+      title: UploadEnvironmentIntelResponse
     type_common_EnvironmentId:
       type: string
       description: The unique identifier for an environment in Method
@@ -78,6 +86,18 @@ components:
       - title
       description: Request to create an environment.
       title: CreateEnvironmentRequest
+    type_v1_environments_CreateEnvironmentResponse:
+      type: object
+      properties:
+        environmentId:
+          $ref: '#/components/schemas/type_common_EnvironmentId'
+      required:
+      - environmentId
+      title: CreateEnvironmentResponse
+    type_v1_environments_AttachmentId:
+      type: string
+      description: The unique identifier for an uploaded attachment in Method.
+      title: AttachmentId
     type_v1_environments_UploadEnvironmentIntelRequest:
       type: object
       properties:
@@ -95,26 +115,6 @@ components:
       - contentBase64
       description: Request to upload environment intelligence content.
       title: UploadEnvironmentIntelRequest
-    type_v1_environments_AttachmentId:
-      type: string
-      description: The unique identifier for an uploaded attachment in Method.
-      title: AttachmentId
-    type_v1_environments_CreateEnvironmentResponse:
-      type: object
-      properties:
-        environmentId:
-          $ref: '#/components/schemas/type_common_EnvironmentId'
-      required:
-      - environmentId
-      title: CreateEnvironmentResponse
-    type_v1_environments_UploadEnvironmentIntelResponse:
-      type: object
-      properties:
-        attachmentId:
-          $ref: '#/components/schemas/type_v1_environments_AttachmentId'
-      required:
-      - attachmentId
-      title: UploadEnvironmentIntelResponse
   securitySchemes:
     client-credentials:
       type: http
