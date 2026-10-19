@@ -1,0 +1,229 @@
+openapi: 3.2.0
+info:
+  title: Reference Finding Definitions API
+  version: 1.0.0
+tags:
+- name: finding_definitions
+paths:
+  /method-api-gateway/api/v2/finding-definitions/{findingDefinitionId}:
+    get:
+      operationId: findingDefinitions_getFindingDefinition
+      summary: Get Finding Definition
+      description: Retrieve a finding definition by ID.
+      tags:
+      - finding_definitions
+      parameters:
+      - name: findingDefinitionId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/common_FindingDefinitionId'
+      - name: environmentId
+        in: query
+        description: When set, return the definition as it applies in this environment.
+        required: false
+        schema:
+          $ref: '#/components/schemas/common_EnvironmentId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_findingDefinitions_FindingDefinition'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common_FindingDefinitionId'
+      security:
+      - client-credentials: []
+  /method-api-gateway/api/v2/finding-definitions/search:
+    post:
+      operationId: findingDefinitions_searchFindingDefinitions
+      summary: Search Finding Definitions
+      description: Search finding definitions.
+      tags:
+      - finding_definitions
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_findingDefinitions_SearchFindingDefinitionsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2_findingDefinitions_SearchFindingDefinitionsRequest'
+      security:
+      - client-credentials: []
+  /method-api-gateway/api/v2/finding-definitions/{findingDefinitionId}/severity:
+    post:
+      operationId: findingDefinitions_updateFindingDefinitionSeverity
+      summary: Update Finding Definition Severity
+      description: Update the default severity of a finding definition.
+      tags:
+      - finding_definitions
+      parameters:
+      - name: findingDefinitionId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/common_FindingDefinitionId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_findingDefinitions_FindingDefinition'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common_FindingDefinitionId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2_findingDefinitions_UpdateFindingDefinitionSeverityRequest'
+      security:
+      - client-credentials: []
+components:
+  schemas:
+    v2_findingDefinitions_FindingDefinition:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/common_FindingDefinitionId'
+        name:
+          type: string
+        description:
+          type: string
+        remediation:
+          type: string
+        defaultSeverity:
+          $ref: '#/components/schemas/v2_findings_FindingSeverity'
+      required:
+      - id
+      - name
+      - description
+      - remediation
+      - defaultSeverity
+      title: FindingDefinition
+    v2_findingDefinitions_UpdateFindingDefinitionSeverityRequest:
+      type: object
+      properties:
+        severity:
+          $ref: '#/components/schemas/v2_findings_FindingSeverity'
+        environmentId:
+          $ref: '#/components/schemas/common_EnvironmentId'
+          description: When set, override severity for this environment only. When omitted, override globally.
+      required:
+      - severity
+      title: UpdateFindingDefinitionSeverityRequest
+    v2_findings_FindingSeverity:
+      type: string
+      enum:
+      - CRITICAL
+      - HIGH
+      - MEDIUM
+      - LOW
+      - INFO
+      title: FindingSeverity
+    v2_findingDefinitions_SearchFindingDefinitionsResponse:
+      type: object
+      properties:
+        findingDefinitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2_findingDefinitions_FindingDefinition'
+        pagingToken:
+          type: string
+      required:
+      - findingDefinitions
+      title: SearchFindingDefinitionsResponse
+    common_FindingDefinitionId:
+      type: string
+      description: The unique identifier for a finding definition. Same RID as an ontology-gateway IssueDefinition.
+      title: FindingDefinitionId
+    v2_findingDefinitions_FindingDefinitionFilter:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - andFilter
+            description: 'Discriminator value: andFilter'
+          filters:
+            type: array
+            items:
+              $ref: '#/components/schemas/v2_findingDefinitions_FindingDefinitionFilter'
+        required:
+        - type
+        - filters
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - orFilter
+            description: 'Discriminator value: orFilter'
+          filters:
+            type: array
+            items:
+              $ref: '#/components/schemas/v2_findingDefinitions_FindingDefinitionFilter'
+        required:
+        - type
+        - filters
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - notFilter
+            description: 'Discriminator value: notFilter'
+          filter:
+            $ref: '#/components/schemas/v2_findingDefinitions_FindingDefinitionFilter'
+        required:
+        - type
+        - filter
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - severity
+            description: 'Discriminator value: severity'
+          severity:
+            $ref: '#/components/schemas/v2_findings_FindingSeverity'
+        required:
+        - type
+        - severity
+      discriminator:
+        propertyName: type
+      title: FindingDefinitionFilter
+    common_EnvironmentId:
+      type: string
+      description: The unique identifier for an environment in Method
+      title: EnvironmentId
+    v2_findingDefinitions_SearchFindingDefinitionsRequest:
+      type: object
+      properties:
+        filter:
+          $ref: '#/components/schemas/v2_findingDefinitions_FindingDefinitionFilter'
+        pagingToken:
+          type: string
+        pageSize:
+          type: integer
+          description: Maximum 100. If omitted, the service default is used.
+      title: SearchFindingDefinitionsRequest
+  securitySchemes:
+    client-credentials:
+      type: http
+      scheme: bearer

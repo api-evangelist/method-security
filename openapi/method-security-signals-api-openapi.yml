@@ -7,7 +7,7 @@ tags:
 paths:
   /method-api-gateway/api/v1/signals/{signalId}/content:
     get:
-      operationId: getSignalContentServer
+      operationId: signals_getSignalContentServer
       summary: Get Signal Content Server
       description: Retrieve the raw content for a signal using its ID.
       tags:
@@ -17,13 +17,7 @@ paths:
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/type_v1_signals_SignalId'
-      - name: Authorization
-        in: header
-        description: Bearer authentication
-        required: true
-        schema:
-          type: string
+          $ref: '#/components/schemas/v1_signals_SignalId'
       responses:
         '200':
           description: Response with status 200
@@ -31,9 +25,11 @@ paths:
             application/json:
               schema:
                 description: Any type
+      security:
+      - client-credentials: []
 components:
   schemas:
-    type_v1_signals_SignalId:
+    v1_signals_SignalId:
       type: string
       description: The unique identifier for a signal in Method.
       title: SignalId

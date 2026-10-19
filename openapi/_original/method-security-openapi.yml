@@ -1,0 +1,2321 @@
+openapi: 3.1.0
+info:
+  title: API Reference
+  version: 1.0.0
+paths:
+  /method-api-gateway/api/auth/getToken:
+    post:
+      operationId: auth_getTokenWithClientCredentials
+      summary: Get Token With Client Credentials
+      tags:
+        - auth
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/auth_TokenResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
+                grant_type:
+                  type: string
+                  enum:
+                    - client_credentials
+                scope:
+                  type: string
+              required:
+                - client_id
+                - client_secret
+                - grant_type
+  /method-api-gateway/api/v1/audit/getAuditEvents:
+    post:
+      operationId: audit_getAuditEvents
+      summary: Get Audit Events
+      description: Retrieves all audit events in the specified time range
+      tags:
+        - audit
+      parameters:
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: token
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_audit_AuditEventsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1_audit_GetAuditEventsRequest'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v1/blueprints/:
+    get:
+      operationId: blueprints_listBlueprints
+      summary: List Blueprints
+      description: List available Method blueprints and their parameter definitions.
+      tags:
+        - blueprints
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_blueprints_ListBlueprintsResponse'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v1/blueprints/{blueprintId}/run:
+    post:
+      operationId: blueprints_runBlueprint
+      summary: Run Blueprint
+      description: Run a blueprint in an environment.
+      tags:
+        - blueprints
+      parameters:
+        - name: blueprintId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/v1_blueprints_BlueprintId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_blueprints_RunBlueprintResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1_blueprints_RunBlueprintRequest'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v1/environments/{environmentId}:
+    get:
+      operationId: environments_getEnvironment
+      summary: Get Environment
+      description: Retrieve an environment from Method using its ID.
+      tags:
+        - environments
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/common_EnvironmentId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_environments_Environment'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v1/environments/{environmentId}/tag-hierarchy:
+    get:
+      operationId: environments_getEnvironmentTagHierarchy
+      summary: Get Environment Tag Hierarchy
+      description: Retrieve the ordered environment tag hierarchy paths containing an environment.
+      tags:
+        - environments
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/common_EnvironmentId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/v1_tags_Tag'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v1/environments/:
+    post:
+      operationId: environments_createEnvironment
+      summary: Create Environment
+      description: Create a new Method environment.
+      tags:
+        - environments
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_environments_CreateEnvironmentResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1_environments_CreateEnvironmentRequest'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v1/environments/{environmentId}/intel:
+    post:
+      operationId: environments_uploadEnvironmentIntel
+      summary: Upload Environment Intel
+      description: Upload an intelligence attachment and associate it with an environment.
+      tags:
+        - environments
+      parameters:
+        - name: environmentId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/common_EnvironmentId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_environments_UploadEnvironmentIntelResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1_environments_UploadEnvironmentIntelRequest'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v1/environments/search:
+    post:
+      operationId: environments_searchEnvironments
+      summary: Search Environments
+      description: |-
+        Search environments. Omit filter to return all.
+        tags matches environments that have any of the given tag ids.
+      tags:
+        - environments
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_environments_SearchEnvironmentsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1_environments_SearchEnvironmentsRequest'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v1/issues/{id}:
+    get:
+      operationId: issues_getIssue
+      summary: Get Issue
+      description: Retrieve an issue from Method using its ID
+      tags:
+        - issues
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/v1_issues_IssueId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_issues_Issue'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_issues_IssueId'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v1/reports/{reportId}:
+    get:
+      operationId: reports_getReport
+      summary: Get Report
+      description: Retrieve a report document as markdown.
+      tags:
+        - reports
+      parameters:
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/v1_reports_ReportId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_reports_Report'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v1/signals/{signalId}/content:
+    get:
+      operationId: signals_getSignalContentServer
+      summary: Get Signal Content Server
+      description: Retrieve the raw content for a signal using its ID.
+      tags:
+        - signals
+      parameters:
+        - name: signalId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/v1_signals_SignalId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                description: Any type
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v1/skills/search:
+    post:
+      operationId: skills_searchSkills
+      summary: Search Skills
+      description: Search the skills available to agents.
+      tags:
+        - skills
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_skills_SearchSkillsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1_skills_SearchSkillsRequest'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v1/skills/{skillId}:
+    get:
+      operationId: skills_getSkill
+      summary: Get Skill
+      description: Retrieve a skill, including its markdown content.
+      tags:
+        - skills
+      parameters:
+        - name: skillId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/v1_skills_SkillId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_skills_Skill'
+      security:
+        - client-credentials: []
+    put:
+      operationId: skills_updateSkill
+      summary: Update Skill
+      description: Update an existing skill's content, metadata, and labels.
+      tags:
+        - skills
+      parameters:
+        - name: skillId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/v1_skills_SkillId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_skills_Skill'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1_skills_UpdateSkillRequest'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v1/skills/:
+    post:
+      operationId: skills_createSkill
+      summary: Create Skill
+      description: Create a skill from markdown content.
+      tags:
+        - skills
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_skills_Skill'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1_skills_CreateSkillRequest'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v1/system/externalIp:
+    get:
+      operationId: system_getExternalIPAddresses
+      summary: Get External IP Addresses
+      description: Retrieves the source IP addresses for scans from the Method platform
+      tags:
+        - system
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_system_ExternalIPAddresses'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v2/finding-definitions/{findingDefinitionId}:
+    get:
+      operationId: findingDefinitions_getFindingDefinition
+      summary: Get Finding Definition
+      description: Retrieve a finding definition by ID.
+      tags:
+        - finding_definitions
+      parameters:
+        - name: findingDefinitionId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/common_FindingDefinitionId'
+        - name: environmentId
+          in: query
+          description: When set, return the definition as it applies in this environment.
+          required: false
+          schema:
+            $ref: '#/components/schemas/common_EnvironmentId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_findingDefinitions_FindingDefinition'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common_FindingDefinitionId'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v2/finding-definitions/search:
+    post:
+      operationId: findingDefinitions_searchFindingDefinitions
+      summary: Search Finding Definitions
+      description: Search finding definitions.
+      tags:
+        - finding_definitions
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_findingDefinitions_SearchFindingDefinitionsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2_findingDefinitions_SearchFindingDefinitionsRequest'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v2/finding-definitions/{findingDefinitionId}/severity:
+    post:
+      operationId: findingDefinitions_updateFindingDefinitionSeverity
+      summary: Update Finding Definition Severity
+      description: Update the default severity of a finding definition.
+      tags:
+        - finding_definitions
+      parameters:
+        - name: findingDefinitionId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/common_FindingDefinitionId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_findingDefinitions_FindingDefinition'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common_FindingDefinitionId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2_findingDefinitions_UpdateFindingDefinitionSeverityRequest'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v2/findings/{findingId}:
+    get:
+      operationId: findings_getFinding
+      summary: Get Finding
+      description: Retrieve a finding by ID.
+      tags:
+        - findings
+      parameters:
+        - name: findingId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/common_FindingId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_findings_Finding'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common_FindingId'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v2/findings/{findingId}/update:
+    post:
+      operationId: findings_updateFinding
+      summary: Update Finding
+      description: Update a finding. Omitted fields are unchanged. closeReason is required when status is CLOSED.
+      tags:
+        - findings
+      parameters:
+        - name: findingId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/common_FindingId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_findings_Finding'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common_FindingId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2_findings_UpdateFindingRequest'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v2/targets/search:
+    post:
+      operationId: targets_searchTargets
+      summary: Search Targets
+      description: Search targeting runs with an optional filter.
+      tags:
+        - targets
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_targets_SearchTargetsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2_targets_SearchTargetsRequest'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v2/targets/{targetId}:
+    get:
+      operationId: targets_getTarget
+      summary: Get Target
+      description: Retrieve a targeting run by ID.
+      tags:
+        - targets
+      parameters:
+        - name: targetId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/common_TargetId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_targets_Target'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v2/targets/{targetId}/reports:
+    get:
+      operationId: targets_getTargetReports
+      summary: Get Target Reports
+      description: Retrieve reports linked to a targeting run.
+      tags:
+        - targets
+      parameters:
+        - name: targetId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/common_TargetId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_targets_GetTargetReportsResponse'
+      security:
+        - client-credentials: []
+  /method-api-gateway/api/v2/targets/{targetId}/findings:
+    get:
+      operationId: targets_getTargetFindings
+      summary: Get Target Findings
+      description: Retrieve finding IDs linked to this targeting run.
+      tags:
+        - targets
+      parameters:
+        - name: targetId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/common_TargetId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_targets_GetTargetFindingsResponse'
+      security:
+        - client-credentials: []
+tags:
+  - name: auth
+  - name: audit
+  - name: blueprints
+  - name: environments
+  - name: issues
+  - name: reports
+  - name: signals
+  - name: skills
+  - name: system
+  - name: finding_definitions
+  - name: findings
+  - name: targets
+components:
+  schemas:
+    auth_TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        expires_in:
+          type: integer
+        refresh_token:
+          type: string
+      required:
+        - access_token
+        - expires_in
+      description: An OAuth token response from Keycloak.
+      title: TokenResponse
+    v1_audit_GetAuditEventsRequest:
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+      required:
+        - startTime
+        - endTime
+      title: GetAuditEventsRequest
+    v1_audit_AuditEventId:
+      type: string
+      description: The unique identifier for an audit event in Method
+      title: AuditEventId
+    v1_audit_TenantId:
+      type: string
+      description: The unique identifier of the tenant for which the audit event was emitted
+      title: TenantId
+    v1_audit_UserId:
+      type: string
+      description: The unique identifier of a human user in Method
+      title: UserId
+    v1_audit_ExternalUserId:
+      type: string
+      description: The identifier of a user in Method according to an external auth provider
+      title: ExternalUserId
+    v1_audit_ServiceAccountId:
+      type: string
+      description: The unique identifier of a service account in Method
+      title: ServiceAccountId
+    v1_audit_OauthApplicationId:
+      type: string
+      description: The unique identifier of an OAuth application in Method
+      title: OauthApplicationId
+    v1_audit_ClientId:
+      type: string
+      description: The OAuth client identifier for an OAuth application
+      title: ClientId
+    v1_audit_AgentRunPrincipal:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - user
+              description: 'Discriminator value: user'
+            id:
+              $ref: '#/components/schemas/v1_audit_UserId'
+            name:
+              type: string
+            email:
+              type: string
+            externalId:
+              $ref: '#/components/schemas/v1_audit_ExternalUserId'
+          required:
+            - type
+            - id
+            - name
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - serviceAccount
+              description: 'Discriminator value: serviceAccount'
+            id:
+              $ref: '#/components/schemas/v1_audit_ServiceAccountId'
+          required:
+            - type
+            - id
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - oauthApplication
+              description: 'Discriminator value: oauthApplication'
+            id:
+              $ref: '#/components/schemas/v1_audit_OauthApplicationId'
+            clientId:
+              $ref: '#/components/schemas/v1_audit_ClientId'
+          required:
+            - type
+            - id
+            - clientId
+      discriminator:
+        propertyName: type
+      description: |-
+        The principal on whose behalf an agent run acts. This excludes agent runs so that an agent run cannot be
+        nested inside another agent run.
+      title: AgentRunPrincipal
+    v1_audit_AgentSessionId:
+      type: string
+      description: The unique identifier of an agent session in Method
+      title: AgentSessionId
+    v1_audit_Actor:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - user
+              description: 'Discriminator value: user'
+            id:
+              $ref: '#/components/schemas/v1_audit_UserId'
+            name:
+              type: string
+            email:
+              type: string
+            externalId:
+              $ref: '#/components/schemas/v1_audit_ExternalUserId'
+          required:
+            - type
+            - id
+            - name
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - serviceAccount
+              description: 'Discriminator value: serviceAccount'
+            id:
+              $ref: '#/components/schemas/v1_audit_ServiceAccountId'
+          required:
+            - type
+            - id
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - oauthApplication
+              description: 'Discriminator value: oauthApplication'
+            id:
+              $ref: '#/components/schemas/v1_audit_OauthApplicationId'
+            clientId:
+              $ref: '#/components/schemas/v1_audit_ClientId'
+          required:
+            - type
+            - id
+            - clientId
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - agentRun
+              description: 'Discriminator value: agentRun'
+            principal:
+              $ref: '#/components/schemas/v1_audit_AgentRunPrincipal'
+            agentSessionId:
+              $ref: '#/components/schemas/v1_audit_AgentSessionId'
+          required:
+            - type
+            - principal
+            - agentSessionId
+      discriminator:
+        propertyName: type
+      title: Actor
+    v1_objects_ObjectSetId:
+      type: string
+      description: The unique identifier for an object set in Method
+      title: ObjectSetId
+    v1_audit_PlatformActionOperation:
+      type: string
+      enum:
+        - APPROVE
+        - CREATE
+        - UPDATE
+        - DELETE
+        - LOAD
+        - LAUNCH
+        - QUERY
+        - DECRYPT
+      title: PlatformActionOperation
+    v1_audit_ResourceKind:
+      type: string
+      enum:
+        - AGENT
+        - AGENT_SESSION
+        - ENVIRONMENT
+        - GROUP
+        - ISSUE
+        - ISSUE_DEFINITION
+        - JACKAL
+        - MODEL
+        - MODEL_PROVIDER
+        - OAUTH_CLIENT
+        - OBJECT_SET
+        - ONTOLOGY_OBJECT
+        - OPERATOR_SESSION
+        - REPORT
+        - SCIM_INTEGRATION
+        - SENSITIVE_VALUE
+        - SKILL
+        - TARGET
+        - TARGET_PACKAGE
+        - TASK
+        - TASK_RUN
+        - TOKEN
+        - TOOL
+        - USER_ACCOUNT
+      title: ResourceKind
+    v1_audit_Action:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - userLogin
+              description: 'Discriminator value: userLogin'
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - userLogout
+              description: 'Discriminator value: userLogout'
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - userAccountCreation
+              description: 'Discriminator value: userAccountCreation'
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - userAccountModification
+              description: 'Discriminator value: userAccountModification'
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - userAccountDeletion
+              description: 'Discriminator value: userAccountDeletion'
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - auditLogAccess
+              description: 'Discriminator value: auditLogAccess'
+            pageSize:
+              type: integer
+            since:
+              type: string
+              format: date-time
+            until:
+              type: string
+              format: date-time
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - groupMembershipAddition
+              description: 'Discriminator value: groupMembershipAddition'
+            userIds:
+              type: array
+              items:
+                $ref: '#/components/schemas/v1_audit_UserId'
+          required:
+            - type
+            - userIds
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - groupMembershipRemoval
+              description: 'Discriminator value: groupMembershipRemoval'
+            userIds:
+              type: array
+              items:
+                $ref: '#/components/schemas/v1_audit_UserId'
+          required:
+            - type
+            - userIds
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - scimIntegrationCreation
+              description: 'Discriminator value: scimIntegrationCreation'
+            name:
+              type: string
+            identityProviderType:
+              type: string
+          required:
+            - type
+            - name
+            - identityProviderType
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - updateNoStrikeList
+              description: 'Discriminator value: updateNoStrikeList'
+            noStrikeListObjectSetId:
+              $ref: '#/components/schemas/v1_objects_ObjectSetId'
+          required:
+            - type
+            - noStrikeListObjectSetId
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - load
+              description: 'Discriminator value: load'
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - platformAction
+              description: 'Discriminator value: platformAction'
+            operation:
+              $ref: '#/components/schemas/v1_audit_PlatformActionOperation'
+            resourceKind:
+              $ref: '#/components/schemas/v1_audit_ResourceKind'
+          required:
+            - type
+            - operation
+      discriminator:
+        propertyName: type
+      title: Action
+    v1_audit_User:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/v1_audit_UserId'
+        name:
+          type: string
+        email:
+          type: string
+        externalId:
+          $ref: '#/components/schemas/v1_audit_ExternalUserId'
+      required:
+        - id
+        - name
+      title: User
+    v1_audit_GroupId:
+      type: string
+      description: The unique identifier of a user group in Method
+      title: GroupId
+    v1_issues_IssueId:
+      type: string
+      description: The unique identifier for an issue in Method
+      title: IssueId
+    v1_objects_ObjectId:
+      type: string
+      description: The unique identifier for an object in Method
+      title: ObjectId
+    v1_audit_PlatformResourceId:
+      type: string
+      description: The unique identifier for a Method platform resource.
+      title: PlatformResourceId
+    v1_audit_Resource:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - userAccount
+              description: 'Discriminator value: userAccount'
+            user:
+              $ref: '#/components/schemas/v1_audit_User'
+          required:
+            - type
+            - user
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - group
+              description: 'Discriminator value: group'
+            id:
+              $ref: '#/components/schemas/v1_audit_GroupId'
+            name:
+              type: string
+          required:
+            - type
+            - id
+            - name
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - issue
+              description: 'Discriminator value: issue'
+            id:
+              $ref: '#/components/schemas/v1_issues_IssueId'
+          required:
+            - type
+            - id
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - ontologyObject
+              description: 'Discriminator value: ontologyObject'
+            id:
+              $ref: '#/components/schemas/v1_objects_ObjectId'
+          required:
+            - type
+            - id
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - platformResource
+              description: 'Discriminator value: platformResource'
+            kind:
+              $ref: '#/components/schemas/v1_audit_ResourceKind'
+            id:
+              $ref: '#/components/schemas/v1_audit_PlatformResourceId'
+          required:
+            - type
+            - kind
+            - id
+      discriminator:
+        propertyName: type
+      title: Resource
+    v1_audit_IpAddress:
+      type: string
+      description: The source IP for a request made to the Method platform
+      title: IpAddress
+    v1_audit_UserAgent:
+      type: string
+      description: The user agent for a request made to the Method platform.
+      title: UserAgent
+    v1_audit_Context:
+      type: object
+      properties:
+        sourceIp:
+          $ref: '#/components/schemas/v1_audit_IpAddress'
+        userAgent:
+          $ref: '#/components/schemas/v1_audit_UserAgent'
+      title: Context
+    v1_audit_AuditEventStatus:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - success
+              description: 'Discriminator value: success'
+          required:
+            - type
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - failure
+              description: 'Discriminator value: failure'
+            message:
+              type: string
+          required:
+            - type
+      discriminator:
+        propertyName: type
+      title: AuditEventStatus
+    v1_audit_AuditEvent:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/v1_audit_AuditEventId'
+        tenantId:
+          $ref: '#/components/schemas/v1_audit_TenantId'
+        timestamp:
+          type: string
+          format: date-time
+        actor:
+          $ref: '#/components/schemas/v1_audit_Actor'
+        action:
+          $ref: '#/components/schemas/v1_audit_Action'
+        resource:
+          $ref: '#/components/schemas/v1_audit_Resource'
+        context:
+          $ref: '#/components/schemas/v1_audit_Context'
+        status:
+          $ref: '#/components/schemas/v1_audit_AuditEventStatus'
+      required:
+        - id
+        - tenantId
+        - timestamp
+        - actor
+        - action
+        - context
+        - status
+      title: AuditEvent
+    v1_audit_AuditEventsResponse:
+      type: object
+      properties:
+        auditEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1_audit_AuditEvent'
+        pagingToken:
+          type: string
+      required:
+        - auditEvents
+      title: AuditEventsResponse
+    v1_blueprints_BlueprintId:
+      type: string
+      description: The unique identifier for a Method blueprint.
+      title: BlueprintId
+    v1_blueprints_ParameterKey:
+      type: string
+      description: A blueprint parameter key.
+      title: ParameterKey
+    v1_blueprints_ParameterDefinition:
+      type: object
+      properties:
+        key:
+          $ref: '#/components/schemas/v1_blueprints_ParameterKey'
+        displayName:
+          type: string
+        description:
+          type: string
+        type:
+          description: Blueprint parameter field type.
+        requirements:
+          type: array
+          items:
+            description: Any type
+          description: Validation requirements for this parameter.
+        defaultValue:
+          description: Default value, if one exists.
+      required:
+        - key
+        - displayName
+        - description
+        - type
+        - requirements
+      description: Blueprint parameter metadata.
+      title: ParameterDefinition
+    v1_blueprints_ObjectTypeApiName:
+      type: string
+      description: The API name of an ontology object type.
+      title: ObjectTypeApiName
+    v1_blueprints_Blueprint:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/v1_blueprints_BlueprintId'
+        displayName:
+          type: string
+        description:
+          type: string
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/v1_blueprints_ParameterDefinition'
+        objectTypesCreated:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/v1_blueprints_ObjectTypeApiName'
+      required:
+        - id
+        - displayName
+        - description
+        - parameters
+        - objectTypesCreated
+      title: Blueprint
+    v1_blueprints_ListBlueprintsResponse:
+      type: object
+      properties:
+        blueprints:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1_blueprints_Blueprint'
+      required:
+        - blueprints
+      title: ListBlueprintsResponse
+    common_EnvironmentId:
+      type: string
+      description: The unique identifier for an environment in Method
+      title: EnvironmentId
+    v1_blueprints_ParameterValue:
+      type: object
+      properties:
+        type:
+          description: Parameter value type, such as scalar, collection, or ontology.
+        value:
+          description: Parameter value payload.
+      required:
+        - type
+        - value
+      description: A typed blueprint parameter value.
+      title: ParameterValue
+    v1_blueprints_RunBlueprintRequest:
+      type: object
+      properties:
+        environmentId:
+          $ref: '#/components/schemas/common_EnvironmentId'
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/v1_blueprints_ParameterValue'
+      required:
+        - environmentId
+        - parameters
+      title: RunBlueprintRequest
+    v1_blueprints_BlueprintError:
+      type: object
+      properties:
+        key:
+          $ref: '#/components/schemas/v1_blueprints_ParameterKey'
+        type:
+          type: string
+        message:
+          type: string
+      required:
+        - type
+        - message
+      title: BlueprintError
+    v1_blueprints_RunBlueprintResponse:
+      type: object
+      properties:
+        objectIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1_objects_ObjectId'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1_blueprints_BlueprintError'
+      required:
+        - objectIds
+        - errors
+      title: RunBlueprintResponse
+    v1_environments_EnvironmentNetworkType:
+      type: string
+      enum:
+        - ON_PREM
+        - CLOUD
+        - HYBRID
+      title: EnvironmentNetworkType
+    v1_environments_Environment:
+      type: object
+      properties:
+        environmentId:
+          $ref: '#/components/schemas/common_EnvironmentId'
+        title:
+          type: string
+        networkType:
+          $ref: '#/components/schemas/v1_environments_EnvironmentNetworkType'
+      required:
+        - environmentId
+        - title
+      title: Environment
+    common_TagId:
+      type: string
+      description: The unique identifier for a tag in Method.
+      title: TagId
+    v1_tags_TagNamespace:
+      type: string
+      enum:
+        - ENVIRONMENT
+      title: TagNamespace
+    v1_tags_Tag:
+      type: object
+      properties:
+        tagId:
+          $ref: '#/components/schemas/common_TagId'
+        value:
+          type: string
+        namespaces:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1_tags_TagNamespace'
+      required:
+        - tagId
+        - value
+        - namespaces
+      title: Tag
+    v1_environments_CreateEnvironmentRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Human-readable environment title.
+      required:
+        - title
+      description: Request to create an environment.
+      title: CreateEnvironmentRequest
+    v1_environments_CreateEnvironmentResponse:
+      type: object
+      properties:
+        environmentId:
+          $ref: '#/components/schemas/common_EnvironmentId'
+      required:
+        - environmentId
+      title: CreateEnvironmentResponse
+    v1_environments_UploadEnvironmentIntelRequest:
+      type: object
+      properties:
+        filename:
+          type: string
+          description: Name to store for the uploaded file.
+        mimeType:
+          type: string
+          description: MIME type of the uploaded file, if known.
+        contentBase64:
+          type: string
+          description: Base64-encoded file content.
+      required:
+        - filename
+        - contentBase64
+      description: Request to upload environment intelligence content.
+      title: UploadEnvironmentIntelRequest
+    v1_environments_AttachmentId:
+      type: string
+      description: The unique identifier for an uploaded attachment in Method.
+      title: AttachmentId
+    v1_environments_UploadEnvironmentIntelResponse:
+      type: object
+      properties:
+        attachmentId:
+          $ref: '#/components/schemas/v1_environments_AttachmentId'
+      required:
+        - attachmentId
+      title: UploadEnvironmentIntelResponse
+    v1_environments_EnvironmentFilter:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - andFilter
+              description: 'Discriminator value: andFilter'
+            filters:
+              type: array
+              items:
+                $ref: '#/components/schemas/v1_environments_EnvironmentFilter'
+          required:
+            - type
+            - filters
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - orFilter
+              description: 'Discriminator value: orFilter'
+            filters:
+              type: array
+              items:
+                $ref: '#/components/schemas/v1_environments_EnvironmentFilter'
+          required:
+            - type
+            - filters
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - notFilter
+              description: 'Discriminator value: notFilter'
+            filter:
+              $ref: '#/components/schemas/v1_environments_EnvironmentFilter'
+          required:
+            - type
+            - filter
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - tags
+              description: 'Discriminator value: tags'
+            tagIds:
+              type: array
+              items:
+                $ref: '#/components/schemas/common_TagId'
+          required:
+            - type
+            - tagIds
+      discriminator:
+        propertyName: type
+      title: EnvironmentFilter
+    v1_environments_SearchEnvironmentsRequest:
+      type: object
+      properties:
+        filter:
+          $ref: '#/components/schemas/v1_environments_EnvironmentFilter'
+        pagingToken:
+          type: string
+        pageSize:
+          type: integer
+          description: Maximum 100. If omitted, the service default is used.
+      title: SearchEnvironmentsRequest
+    v1_environments_SearchEnvironmentsResponse:
+      type: object
+      properties:
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1_environments_Environment'
+        pagingToken:
+          type: string
+      required:
+        - environments
+      title: SearchEnvironmentsResponse
+    v1_issues_IssueStatus:
+      type: string
+      enum:
+        - OPEN
+        - CLOSED
+        - ARCHIVED
+      title: IssueStatus
+    v1_issues_IssueSeverity:
+      type: string
+      enum:
+        - CRITICAL
+        - HIGH
+        - MEDIUM
+        - LOW
+        - INFO
+      title: IssueSeverity
+    v1_issues_IssueClosedReason:
+      type: string
+      enum:
+        - RESOLVED
+        - CLOSED_BY_AGENT
+        - ACCEPTED_RISK
+        - FALSE_POSITIVE
+        - NOT_APPLICABLE
+      title: IssueClosedReason
+    v1_issues_ValidationStatus:
+      type: string
+      enum:
+        - VALIDATED
+        - INVALIDATED
+      title: ValidationStatus
+    v1_issues_Issue:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/v1_issues_IssueId'
+        issueDetailsLink:
+          type: string
+        environmentId:
+          $ref: '#/components/schemas/common_EnvironmentId'
+        environmentName:
+          type: string
+        description:
+          type: string
+        remediation:
+          type: string
+        status:
+          $ref: '#/components/schemas/v1_issues_IssueStatus'
+        severity:
+          $ref: '#/components/schemas/v1_issues_IssueSeverity'
+        closedReason:
+          $ref: '#/components/schemas/v1_issues_IssueClosedReason'
+        affectedObjectId:
+          $ref: '#/components/schemas/v1_objects_ObjectId'
+        affectedObjectTitle:
+          type: string
+        affectedObjectDetailsLink:
+          type: string
+        validationStatus:
+          $ref: '#/components/schemas/v1_issues_ValidationStatus'
+      required:
+        - id
+        - issueDetailsLink
+        - environmentId
+        - environmentName
+        - description
+        - remediation
+        - status
+        - severity
+        - affectedObjectId
+        - affectedObjectTitle
+        - affectedObjectDetailsLink
+      title: Issue
+    v1_reports_ReportId:
+      type: string
+      description: The unique identifier for a report document.
+      title: ReportId
+    v1_reports_Report:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/v1_reports_ReportId'
+        reportDetailsLink:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        markdown:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - reportDetailsLink
+        - title
+        - markdown
+        - createdAt
+        - updatedAt
+      description: A Method report document.
+      title: Report
+    v1_signals_SignalId:
+      type: string
+      description: The unique identifier for a signal in Method.
+      title: SignalId
+    v1_skills_SearchSkillsRequest:
+      type: object
+      properties:
+        nameLike:
+          type: string
+        pageSize:
+          type: integer
+        pagingToken:
+          type: string
+      title: SearchSkillsRequest
+    v1_skills_SkillId:
+      type: string
+      description: The unique identifier for a skill.
+      title: SkillId
+    v1_skills_Skill:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/v1_skills_SkillId'
+        name:
+          type: string
+        description:
+          type: string
+        content:
+          type: string
+          description: The skill body as markdown.
+        labels:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: Free-form labels used to organize and discover the skill.
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - content
+        - labels
+        - createdAt
+        - updatedAt
+      title: Skill
+    v1_skills_SearchSkillsResponse:
+      type: object
+      properties:
+        skills:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1_skills_Skill'
+        pagingToken:
+          type: string
+      required:
+        - skills
+      title: SearchSkillsResponse
+    v1_skills_CreateSkillRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        content:
+          type: string
+          description: The skill body as markdown.
+        labels:
+          type: array
+          items:
+            type: string
+          description: Free-form labels to attach to the skill.
+      required:
+        - name
+        - content
+      title: CreateSkillRequest
+    v1_skills_UpdateSkillRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        content:
+          type: string
+          description: The skill body as markdown.
+        labels:
+          type: array
+          items:
+            type: string
+          description: Replaces the skill's labels. Omit to leave the existing labels unchanged; pass an empty list to clear them.
+      required:
+        - name
+        - content
+      title: UpdateSkillRequest
+    v1_system_Ipv4Address:
+      type: string
+      description: An IPv4 address represented in dot-decimal notation (e.g. 192.168.1.1)
+      title: Ipv4Address
+    v1_system_Ipv6Range:
+      type: string
+      description: An IPv6 CIDR range (e.g. 2605:B00::/32)
+      title: Ipv6Range
+    v1_system_ExternalIPAddresses:
+      type: object
+      properties:
+        ipv4:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1_system_Ipv4Address'
+          description: The source IPv4 addresses for scans from the Method platform
+        ipv6Ranges:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1_system_Ipv6Range'
+          description: The source IPv6 CIDR ranges for scans from the Method platform
+      required:
+        - ipv4
+        - ipv6Ranges
+      description: The source IP addresses for scans from the Method platform
+      title: ExternalIPAddresses
+    common_FindingDefinitionId:
+      type: string
+      description: The unique identifier for a finding definition. Same RID as an ontology-gateway IssueDefinition.
+      title: FindingDefinitionId
+    v2_findings_FindingSeverity:
+      type: string
+      enum:
+        - CRITICAL
+        - HIGH
+        - MEDIUM
+        - LOW
+        - INFO
+      title: FindingSeverity
+    v2_findingDefinitions_FindingDefinition:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/common_FindingDefinitionId'
+        name:
+          type: string
+        description:
+          type: string
+        remediation:
+          type: string
+        defaultSeverity:
+          $ref: '#/components/schemas/v2_findings_FindingSeverity'
+      required:
+        - id
+        - name
+        - description
+        - remediation
+        - defaultSeverity
+      title: FindingDefinition
+    v2_findingDefinitions_FindingDefinitionFilter:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - andFilter
+              description: 'Discriminator value: andFilter'
+            filters:
+              type: array
+              items:
+                $ref: '#/components/schemas/v2_findingDefinitions_FindingDefinitionFilter'
+          required:
+            - type
+            - filters
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - orFilter
+              description: 'Discriminator value: orFilter'
+            filters:
+              type: array
+              items:
+                $ref: '#/components/schemas/v2_findingDefinitions_FindingDefinitionFilter'
+          required:
+            - type
+            - filters
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - notFilter
+              description: 'Discriminator value: notFilter'
+            filter:
+              $ref: '#/components/schemas/v2_findingDefinitions_FindingDefinitionFilter'
+          required:
+            - type
+            - filter
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - severity
+              description: 'Discriminator value: severity'
+            severity:
+              $ref: '#/components/schemas/v2_findings_FindingSeverity'
+          required:
+            - type
+            - severity
+      discriminator:
+        propertyName: type
+      title: FindingDefinitionFilter
+    v2_findingDefinitions_SearchFindingDefinitionsRequest:
+      type: object
+      properties:
+        filter:
+          $ref: '#/components/schemas/v2_findingDefinitions_FindingDefinitionFilter'
+        pagingToken:
+          type: string
+        pageSize:
+          type: integer
+          description: Maximum 100. If omitted, the service default is used.
+      title: SearchFindingDefinitionsRequest
+    v2_findingDefinitions_SearchFindingDefinitionsResponse:
+      type: object
+      properties:
+        findingDefinitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2_findingDefinitions_FindingDefinition'
+        pagingToken:
+          type: string
+      required:
+        - findingDefinitions
+      title: SearchFindingDefinitionsResponse
+    v2_findingDefinitions_UpdateFindingDefinitionSeverityRequest:
+      type: object
+      properties:
+        severity:
+          $ref: '#/components/schemas/v2_findings_FindingSeverity'
+        environmentId:
+          $ref: '#/components/schemas/common_EnvironmentId'
+          description: When set, override severity for this environment only. When omitted, override globally.
+      required:
+        - severity
+      title: UpdateFindingDefinitionSeverityRequest
+    common_FindingId:
+      type: string
+      description: The unique identifier for a finding. Same RID as an ontology-gateway Issue.
+      title: FindingId
+    v2_findings_FindingStatus:
+      type: string
+      enum:
+        - OPEN
+        - CLOSED
+        - ARCHIVED
+      title: FindingStatus
+    v2_findings_FindingClosedReason:
+      type: string
+      enum:
+        - RESOLVED
+        - CLOSED_BY_AGENT
+        - ACCEPTED_RISK
+        - FALSE_POSITIVE
+        - NOT_APPLICABLE
+      title: FindingClosedReason
+    v2_findings_FindingSource:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - findingDefinition
+              description: 'Discriminator value: findingDefinition'
+            findingDefinitionId:
+              $ref: '#/components/schemas/common_FindingDefinitionId'
+          required:
+            - type
+            - findingDefinitionId
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - agent
+              description: 'Discriminator value: agent'
+            agentId:
+              type: string
+            sessionId:
+              type: string
+          required:
+            - type
+            - agentId
+            - sessionId
+      discriminator:
+        propertyName: type
+      title: FindingSource
+    v2_findings_Finding:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/common_FindingId'
+        findingDetailsLink:
+          type: string
+        environmentId:
+          $ref: '#/components/schemas/common_EnvironmentId'
+        environmentName:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        remediation:
+          type: string
+        status:
+          $ref: '#/components/schemas/v2_findings_FindingStatus'
+        severity:
+          $ref: '#/components/schemas/v2_findings_FindingSeverity'
+        closedReason:
+          $ref: '#/components/schemas/v2_findings_FindingClosedReason'
+        affectedObjectId:
+          $ref: '#/components/schemas/v1_objects_ObjectId'
+        affectedObjectTitle:
+          type: string
+        affectedObjectDetailsLink:
+          type: string
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2_findings_FindingSource'
+      required:
+        - id
+        - findingDetailsLink
+        - environmentId
+        - environmentName
+        - title
+        - description
+        - remediation
+        - status
+        - severity
+        - affectedObjectId
+        - affectedObjectTitle
+        - affectedObjectDetailsLink
+        - sources
+      title: Finding
+    v2_findings_UpdateFindingRequest:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/v2_findings_FindingStatus'
+        closeReason:
+          $ref: '#/components/schemas/v2_findings_FindingClosedReason'
+        comment:
+          type: string
+      description: Patch workflow fields. Omitted fields are unchanged.
+      title: UpdateFindingRequest
+    common_TargetId:
+      type: string
+      description: The unique identifier for a targeting run.
+      title: TargetId
+    v2_targets_TargetStage:
+      type: string
+      enum:
+        - TARGETED
+        - RESEARCHED
+        - VULNERABLE
+        - COMPROMISED
+        - REMEDIATED
+      description: >-
+        Funnel stage of a targeting run. These names match the Targeting UI (Targeted, Researched, Vulnerable,
+        Compromised, Remediated).
+      title: TargetStage
+    v2_targets_TargetStatus:
+      type: string
+      enum:
+        - AWAITING_APPROVAL
+        - IN_PROGRESS
+        - FINISHED
+        - INVALIDATED
+        - BLOCKED
+        - EXHAUSTED
+        - DEFERRED
+      title: TargetStatus
+    v2_targets_TargetFilter:
+      oneOf:
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - andFilter
+              description: 'Discriminator value: andFilter'
+            filters:
+              type: array
+              items:
+                $ref: '#/components/schemas/v2_targets_TargetFilter'
+          required:
+            - type
+            - filters
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - orFilter
+              description: 'Discriminator value: orFilter'
+            filters:
+              type: array
+              items:
+                $ref: '#/components/schemas/v2_targets_TargetFilter'
+          required:
+            - type
+            - filters
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - notFilter
+              description: 'Discriminator value: notFilter'
+            filter:
+              $ref: '#/components/schemas/v2_targets_TargetFilter'
+          required:
+            - type
+            - filter
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - idFilter
+              description: 'Discriminator value: idFilter'
+            id:
+              $ref: '#/components/schemas/common_TargetId'
+          required:
+            - type
+            - id
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - stage
+              description: 'Discriminator value: stage'
+            stage:
+              $ref: '#/components/schemas/v2_targets_TargetStage'
+          required:
+            - type
+            - stage
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - status
+              description: 'Discriminator value: status'
+            status:
+              $ref: '#/components/schemas/v2_targets_TargetStatus'
+          required:
+            - type
+            - status
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - nameLike
+              description: 'Discriminator value: nameLike'
+            value:
+              type: string
+          required:
+            - type
+            - value
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - createdAtAfter
+              description: 'Discriminator value: createdAtAfter'
+            createdAt:
+              type: string
+              format: date-time
+          required:
+            - type
+            - createdAt
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - createdAtBefore
+              description: 'Discriminator value: createdAtBefore'
+            createdAt:
+              type: string
+              format: date-time
+          required:
+            - type
+            - createdAt
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - updatedAtAfter
+              description: 'Discriminator value: updatedAtAfter'
+            updatedAt:
+              type: string
+              format: date-time
+          required:
+            - type
+            - updatedAt
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - updatedAtBefore
+              description: 'Discriminator value: updatedAtBefore'
+            updatedAt:
+              type: string
+              format: date-time
+          required:
+            - type
+            - updatedAt
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - environment
+              description: 'Discriminator value: environment'
+            environmentId:
+              $ref: '#/components/schemas/common_EnvironmentId'
+          required:
+            - type
+            - environmentId
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - enabled
+              description: 'Discriminator value: enabled'
+            isEnabled:
+              type: boolean
+          required:
+            - type
+            - isEnabled
+      discriminator:
+        propertyName: type
+      title: TargetFilter
+    v2_targets_SearchTargetsRequest:
+      type: object
+      properties:
+        filter:
+          $ref: '#/components/schemas/v2_targets_TargetFilter'
+        pagingToken:
+          type: string
+        pageSize:
+          type: integer
+      title: SearchTargetsRequest
+    v2_targets_TargetRelatedLinkKind:
+      type: string
+      enum:
+        - ISSUE
+        - OBJECT
+        - OBJECT_SET
+        - OPERATOR_SESSION
+        - OVERWATCH_SESSION
+        - AGENT_SESSION
+      title: TargetRelatedLinkKind
+    v2_targets_TargetRelatedLink:
+      type: object
+      properties:
+        kind:
+          $ref: '#/components/schemas/v2_targets_TargetRelatedLinkKind'
+        url:
+          type: string
+      required:
+        - kind
+        - url
+      description: A platform URL for a resource related to a targeting run.
+      title: TargetRelatedLink
+    v2_targets_TargetReportSummary:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/v1_reports_ReportId'
+        reportDetailsLink:
+          type: string
+      required:
+        - id
+        - reportDetailsLink
+      description: A report linked to a targeting run.
+      title: TargetReportSummary
+    v2_targets_Target:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/common_TargetId'
+        targetDetailsLink:
+          type: string
+        targetedAssetName:
+          type: string
+        targetTypeName:
+          type: string
+        targetTypeDescription:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        environmentId:
+          $ref: '#/components/schemas/common_EnvironmentId'
+        environmentName:
+          type: string
+        environmentDetailsLink:
+          type: string
+        stage:
+          $ref: '#/components/schemas/v2_targets_TargetStage'
+        status:
+          $ref: '#/components/schemas/v2_targets_TargetStatus'
+        relatedLinks:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2_targets_TargetRelatedLink'
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2_targets_TargetReportSummary'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        closedAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - targetDetailsLink
+        - targetedAssetName
+        - targetTypeName
+        - targetTypeDescription
+        - name
+        - description
+        - environmentId
+        - environmentName
+        - environmentDetailsLink
+        - stage
+        - status
+        - relatedLinks
+        - reports
+        - createdAt
+        - updatedAt
+      title: Target
+    v2_targets_SearchTargetsResponse:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2_targets_Target'
+        pagingToken:
+          type: string
+      required:
+        - targets
+      title: SearchTargetsResponse
+    v2_targets_GetTargetReportsResponse:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2_targets_TargetReportSummary'
+      required:
+        - reports
+      title: GetTargetReportsResponse
+    v2_targets_GetTargetFindingsResponse:
+      type: object
+      properties:
+        findingIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/common_FindingId'
+      required:
+        - findingIds
+      title: GetTargetFindingsResponse
+  securitySchemes:
+    client-credentials:
+      type: http
+      scheme: bearer

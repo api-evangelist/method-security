@@ -5,35 +5,30 @@ info:
 tags:
 - name: Targets
 paths:
-  /method-api-gateway/api/v1/targets/search:
+  /method-api-gateway/api/v2/targets/search:
     post:
-      operationId: searchTargets
+      operationId: targets_searchTargets
       summary: Search Targets
       description: Search targeting runs with an optional filter.
       tags:
       - Targets
-      parameters:
-      - name: Authorization
-        in: header
-        description: Bearer authentication
-        required: true
-        schema:
-          type: string
       responses:
         '200':
           description: Response with status 200
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1_targets_SearchTargetsResponse'
+                $ref: '#/components/schemas/v2_targets_SearchTargetsResponse'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/type_v1_targets_SearchTargetsRequest'
-  /method-api-gateway/api/v1/targets/{targetId}:
+              $ref: '#/components/schemas/v2_targets_SearchTargetsRequest'
+      security:
+      - client-credentials: []
+  /method-api-gateway/api/v2/targets/{targetId}:
     get:
-      operationId: getTarget
+      operationId: targets_getTarget
       summary: Get Target
       description: Retrieve a targeting run by ID.
       tags:
@@ -43,23 +38,19 @@ paths:
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/type_v1_targets_TargetId'
-      - name: Authorization
-        in: header
-        description: Bearer authentication
-        required: true
-        schema:
-          type: string
+          $ref: '#/components/schemas/common_TargetId'
       responses:
         '200':
           description: Response with status 200
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1_targets_Target'
-  /method-api-gateway/api/v1/targets/{targetId}/reports:
+                $ref: '#/components/schemas/v2_targets_Target'
+      security:
+      - client-credentials: []
+  /method-api-gateway/api/v2/targets/{targetId}/reports:
     get:
-      operationId: getTargetReports
+      operationId: targets_getTargetReports
       summary: Get Target Reports
       description: Retrieve reports linked to a targeting run.
       tags:
@@ -69,33 +60,72 @@ paths:
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/type_v1_targets_TargetId'
-      - name: Authorization
-        in: header
-        description: Bearer authentication
-        required: true
-        schema:
-          type: string
+          $ref: '#/components/schemas/common_TargetId'
       responses:
         '200':
           description: Response with status 200
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1_targets_GetTargetReportsResponse'
+                $ref: '#/components/schemas/v2_targets_GetTargetReportsResponse'
+      security:
+      - client-credentials: []
+  /method-api-gateway/api/v2/targets/{targetId}/findings:
+    get:
+      operationId: targets_getTargetFindings
+      summary: Get Target Findings
+      description: Retrieve finding IDs linked to this targeting run.
+      tags:
+      - Targets
+      parameters:
+      - name: targetId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/common_TargetId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_targets_GetTargetFindingsResponse'
+      security:
+      - client-credentials: []
 components:
   schemas:
-    type_v1_targets_SearchTargetsRequest:
+    v2_targets_TargetStage:
+      type: string
+      enum:
+      - TARGETED
+      - RESEARCHED
+      - VULNERABLE
+      - COMPROMISED
+      - REMEDIATED
+      description: Funnel stage of a targeting run. These names match the Targeting UI (Targeted, Researched, Vulnerable, Compromised, Remediated).
+      title: TargetStage
+    v2_targets_TargetStatus:
+      type: string
+      enum:
+      - AWAITING_APPROVAL
+      - IN_PROGRESS
+      - FINISHED
+      - INVALIDATED
+      - BLOCKED
+      - EXHAUSTED
+      - DEFERRED
+      title: TargetStatus
+    v2_targets_GetTargetFindingsResponse:
       type: object
       properties:
-        filter:
-          $ref: '#/components/schemas/type_v1_targets_TargetFilter'
-        pagingToken:
-          type: string
-        pageSize:
-          type: integer
-      title: SearchTargetsRequest
-    type_v1_targets_TargetFilter:
+        findingIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/common_FindingId'
+      required:
+      - findingIds
+      title: GetTargetFindingsResponse
+    v2_targets_TargetFilter:
       oneOf:
       - type: object
         properties:
@@ -107,7 +137,7 @@ components:
           filters:
             type: array
             items:
-              $ref: '#/components/schemas/type_v1_targets_TargetFilter'
+              $ref: '#/components/schemas/v2_targets_TargetFilter'
         required:
         - type
         - filters
@@ -121,7 +151,7 @@ components:
           filters:
             type: array
             items:
-              $ref: '#/components/schemas/type_v1_targets_TargetFilter'
+              $ref: '#/components/schemas/v2_targets_TargetFilter'
         required:
         - type
         - filters
@@ -133,7 +163,7 @@ components:
             - notFilter
             description: 'Discriminator value: notFilter'
           filter:
-            $ref: '#/components/schemas/type_v1_targets_TargetFilter'
+            $ref: '#/components/schemas/v2_targets_TargetFilter'
         required:
         - type
         - filter
@@ -145,7 +175,7 @@ components:
             - idFilter
             description: 'Discriminator value: idFilter'
           id:
-            $ref: '#/components/schemas/type_v1_targets_TargetId'
+            $ref: '#/components/schemas/common_TargetId'
         required:
         - type
         - id
@@ -157,7 +187,7 @@ components:
             - stage
             description: 'Discriminator value: stage'
           stage:
-            $ref: '#/components/schemas/type_v1_targets_TargetStage'
+            $ref: '#/components/schemas/v2_targets_TargetStage'
         required:
         - type
         - stage
@@ -169,7 +199,7 @@ components:
             - status
             description: 'Discriminator value: status'
           status:
-            $ref: '#/components/schemas/type_v1_targets_TargetStatus'
+            $ref: '#/components/schemas/v2_targets_TargetStatus'
         required:
         - type
         - status
@@ -245,83 +275,30 @@ components:
             - environment
             description: 'Discriminator value: environment'
           environmentId:
-            $ref: '#/components/schemas/type_common_EnvironmentId'
+            $ref: '#/components/schemas/common_EnvironmentId'
         required:
         - type
         - environmentId
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - enabled
+            description: 'Discriminator value: enabled'
+          isEnabled:
+            type: boolean
+        required:
+        - type
+        - isEnabled
       discriminator:
         propertyName: type
       title: TargetFilter
-    type_common_EnvironmentId:
-      type: string
-      description: The unique identifier for an environment in Method
-      title: EnvironmentId
-    type_v1_targets_SearchTargetsResponse:
-      type: object
-      properties:
-        targets:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_v1_targets_Target'
-        pagingToken:
-          type: string
-      required:
-      - targets
-      title: SearchTargetsResponse
-    type_v1_reports_ReportId:
-      type: string
-      description: The unique identifier for a report document.
-      title: ReportId
-    type_v1_targets_TargetId:
-      type: string
-      description: The unique identifier for a targeting run.
-      title: TargetId
-    type_v1_targets_TargetReportSummary:
+    v2_targets_Target:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/type_v1_reports_ReportId'
-        reportDetailsLink:
-          type: string
-      required:
-      - id
-      - reportDetailsLink
-      description: A report linked to a targeting run.
-      title: TargetReportSummary
-    type_v1_targets_GetTargetReportsResponse:
-      type: object
-      properties:
-        reports:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_v1_targets_TargetReportSummary'
-      required:
-      - reports
-      title: GetTargetReportsResponse
-    type_v1_targets_TargetRelatedLink:
-      type: object
-      properties:
-        kind:
-          $ref: '#/components/schemas/type_v1_targets_TargetRelatedLinkKind'
-        url:
-          type: string
-      required:
-      - kind
-      - url
-      description: A platform URL for a resource related to a targeting run.
-      title: TargetRelatedLink
-    type_v1_targets_TargetStatus:
-      type: string
-      enum:
-      - AWAITING_APPROVAL
-      - IN_PROGRESS
-      - FINISHED
-      title: TargetStatus
-    type_v1_targets_Target:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/type_v1_targets_TargetId'
+          $ref: '#/components/schemas/common_TargetId'
         targetDetailsLink:
           type: string
         targetedAssetName:
@@ -335,23 +312,23 @@ components:
         description:
           type: string
         environmentId:
-          $ref: '#/components/schemas/type_common_EnvironmentId'
+          $ref: '#/components/schemas/common_EnvironmentId'
         environmentName:
           type: string
         environmentDetailsLink:
           type: string
         stage:
-          $ref: '#/components/schemas/type_v1_targets_TargetStage'
+          $ref: '#/components/schemas/v2_targets_TargetStage'
         status:
-          $ref: '#/components/schemas/type_v1_targets_TargetStatus'
+          $ref: '#/components/schemas/v2_targets_TargetStatus'
         relatedLinks:
           type: array
           items:
-            $ref: '#/components/schemas/type_v1_targets_TargetRelatedLink'
+            $ref: '#/components/schemas/v2_targets_TargetRelatedLink'
         reports:
           type: array
           items:
-            $ref: '#/components/schemas/type_v1_targets_TargetReportSummary'
+            $ref: '#/components/schemas/v2_targets_TargetReportSummary'
         createdAt:
           type: string
           format: date-time
@@ -379,19 +356,75 @@ components:
       - createdAt
       - updatedAt
       title: Target
-    type_v1_targets_TargetStage:
+    v2_targets_TargetReportSummary:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/v1_reports_ReportId'
+        reportDetailsLink:
+          type: string
+      required:
+      - id
+      - reportDetailsLink
+      description: A report linked to a targeting run.
+      title: TargetReportSummary
+    v2_targets_GetTargetReportsResponse:
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2_targets_TargetReportSummary'
+      required:
+      - reports
+      title: GetTargetReportsResponse
+    v2_targets_SearchTargetsResponse:
+      type: object
+      properties:
+        targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2_targets_Target'
+        pagingToken:
+          type: string
+      required:
+      - targets
+      title: SearchTargetsResponse
+    common_FindingId:
       type: string
-      enum:
-      - TARGETED
-      - VALIDATED
-      - EXPLOITABLE
-      - EXPLOITED
-      - REMEDIATED
-      - INVALIDATED
-      - DEFERRED
-      - BLOCKED
-      title: TargetStage
-    type_v1_targets_TargetRelatedLinkKind:
+      description: The unique identifier for a finding. Same RID as an ontology-gateway Issue.
+      title: FindingId
+    v2_targets_SearchTargetsRequest:
+      type: object
+      properties:
+        filter:
+          $ref: '#/components/schemas/v2_targets_TargetFilter'
+        pagingToken:
+          type: string
+        pageSize:
+          type: integer
+      title: SearchTargetsRequest
+    v1_reports_ReportId:
+      type: string
+      description: The unique identifier for a report document.
+      title: ReportId
+    v2_targets_TargetRelatedLink:
+      type: object
+      properties:
+        kind:
+          $ref: '#/components/schemas/v2_targets_TargetRelatedLinkKind'
+        url:
+          type: string
+      required:
+      - kind
+      - url
+      description: A platform URL for a resource related to a targeting run.
+      title: TargetRelatedLink
+    common_EnvironmentId:
+      type: string
+      description: The unique identifier for an environment in Method
+      title: EnvironmentId
+    v2_targets_TargetRelatedLinkKind:
       type: string
       enum:
       - ISSUE
@@ -401,6 +434,10 @@ components:
       - OVERWATCH_SESSION
       - AGENT_SESSION
       title: TargetRelatedLinkKind
+    common_TargetId:
+      type: string
+      description: The unique identifier for a targeting run.
+      title: TargetId
   securitySchemes:
     client-credentials:
       type: http

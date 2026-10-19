@@ -7,28 +7,23 @@ tags:
 paths:
   /method-api-gateway/api/v1/blueprints/:
     get:
-      operationId: listBlueprints
+      operationId: blueprints_listBlueprints
       summary: List Blueprints
       description: List available Method blueprints and their parameter definitions.
       tags:
       - Blueprints
-      parameters:
-      - name: Authorization
-        in: header
-        description: Bearer authentication
-        required: true
-        schema:
-          type: string
       responses:
         '200':
           description: Response with status 200
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1_blueprints_ListBlueprintsResponse'
+                $ref: '#/components/schemas/v1_blueprints_ListBlueprintsResponse'
+      security:
+      - client-credentials: []
   /method-api-gateway/api/v1/blueprints/{blueprintId}/run:
     post:
-      operationId: runBlueprint
+      operationId: blueprints_runBlueprint
       summary: Run Blueprint
       description: Run a blueprint in an environment.
       tags:
@@ -38,32 +33,28 @@ paths:
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/type_v1_blueprints_BlueprintId'
-      - name: Authorization
-        in: header
-        description: Bearer authentication
-        required: true
-        schema:
-          type: string
+          $ref: '#/components/schemas/v1_blueprints_BlueprintId'
       responses:
         '200':
           description: Response with status 200
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1_blueprints_RunBlueprintResponse'
+                $ref: '#/components/schemas/v1_blueprints_RunBlueprintResponse'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/type_v1_blueprints_RunBlueprintRequest'
+              $ref: '#/components/schemas/v1_blueprints_RunBlueprintRequest'
+      security:
+      - client-credentials: []
 components:
   schemas:
-    type_v1_blueprints_Blueprint:
+    v1_blueprints_Blueprint:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/type_v1_blueprints_BlueprintId'
+          $ref: '#/components/schemas/v1_blueprints_BlueprintId'
         displayName:
           type: string
         description:
@@ -71,12 +62,12 @@ components:
         parameters:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/type_v1_blueprints_ParameterDefinition'
+            $ref: '#/components/schemas/v1_blueprints_ParameterDefinition'
         objectTypesCreated:
           type: array
           uniqueItems: true
           items:
-            $ref: '#/components/schemas/type_v1_blueprints_ObjectTypeApiName'
+            $ref: '#/components/schemas/v1_blueprints_ObjectTypeApiName'
       required:
       - id
       - displayName
@@ -84,36 +75,11 @@ components:
       - parameters
       - objectTypesCreated
       title: Blueprint
-    type_v1_blueprints_ObjectTypeApiName:
-      type: string
-      description: The API name of an ontology object type.
-      title: ObjectTypeApiName
-    type_v1_blueprints_BlueprintId:
-      type: string
-      description: The unique identifier for a Method blueprint.
-      title: BlueprintId
-    type_common_EnvironmentId:
-      type: string
-      description: The unique identifier for an environment in Method
-      title: EnvironmentId
-    type_v1_blueprints_RunBlueprintRequest:
-      type: object
-      properties:
-        environmentId:
-          $ref: '#/components/schemas/type_common_EnvironmentId'
-        parameters:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/type_v1_blueprints_ParameterValue'
-      required:
-      - environmentId
-      - parameters
-      title: RunBlueprintRequest
-    type_v1_blueprints_ParameterDefinition:
+    v1_blueprints_ParameterDefinition:
       type: object
       properties:
         key:
-          $ref: '#/components/schemas/type_v1_blueprints_ParameterKey'
+          $ref: '#/components/schemas/v1_blueprints_ParameterKey'
         displayName:
           type: string
         description:
@@ -135,7 +101,7 @@ components:
       - requirements
       description: Blueprint parameter metadata.
       title: ParameterDefinition
-    type_v1_blueprints_ParameterValue:
+    v1_blueprints_ParameterValue:
       type: object
       properties:
         type:
@@ -147,11 +113,15 @@ components:
       - value
       description: A typed blueprint parameter value.
       title: ParameterValue
-    type_v1_blueprints_BlueprintError:
+    v1_blueprints_ParameterKey:
+      type: string
+      description: A blueprint parameter key.
+      title: ParameterKey
+    v1_blueprints_BlueprintError:
       type: object
       properties:
         key:
-          $ref: '#/components/schemas/type_v1_blueprints_ParameterKey'
+          $ref: '#/components/schemas/v1_blueprints_ParameterKey'
         type:
           type: string
         message:
@@ -160,39 +130,60 @@ components:
       - type
       - message
       title: BlueprintError
-    type_v1_blueprints_ParameterKey:
-      type: string
-      description: A blueprint parameter key.
-      title: ParameterKey
-    type_v1_blueprints_ListBlueprintsResponse:
-      type: object
-      properties:
-        blueprints:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_v1_blueprints_Blueprint'
-      required:
-      - blueprints
-      title: ListBlueprintsResponse
-    type_v1_blueprints_RunBlueprintResponse:
+    v1_blueprints_RunBlueprintResponse:
       type: object
       properties:
         objectIds:
           type: array
           items:
-            $ref: '#/components/schemas/type_v1_objects_ObjectId'
+            $ref: '#/components/schemas/v1_objects_ObjectId'
         errors:
           type: array
           items:
-            $ref: '#/components/schemas/type_v1_blueprints_BlueprintError'
+            $ref: '#/components/schemas/v1_blueprints_BlueprintError'
       required:
       - objectIds
       - errors
       title: RunBlueprintResponse
-    type_v1_objects_ObjectId:
+    v1_blueprints_ObjectTypeApiName:
+      type: string
+      description: The API name of an ontology object type.
+      title: ObjectTypeApiName
+    v1_objects_ObjectId:
       type: string
       description: The unique identifier for an object in Method
       title: ObjectId
+    v1_blueprints_BlueprintId:
+      type: string
+      description: The unique identifier for a Method blueprint.
+      title: BlueprintId
+    v1_blueprints_ListBlueprintsResponse:
+      type: object
+      properties:
+        blueprints:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1_blueprints_Blueprint'
+      required:
+      - blueprints
+      title: ListBlueprintsResponse
+    v1_blueprints_RunBlueprintRequest:
+      type: object
+      properties:
+        environmentId:
+          $ref: '#/components/schemas/common_EnvironmentId'
+        parameters:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/v1_blueprints_ParameterValue'
+      required:
+      - environmentId
+      - parameters
+      title: RunBlueprintRequest
+    common_EnvironmentId:
+      type: string
+      description: The unique identifier for an environment in Method
+      title: EnvironmentId
   securitySchemes:
     client-credentials:
       type: http

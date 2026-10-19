@@ -7,7 +7,7 @@ tags:
 paths:
   /method-api-gateway/api/v1/audit/getAuditEvents:
     post:
-      operationId: getAuditEvents
+      operationId: audit_getAuditEvents
       summary: Get Audit Events
       description: Retrieves all audit events in the specified time range
       tags:
@@ -23,281 +23,23 @@ paths:
         required: false
         schema:
           type: string
-      - name: Authorization
-        in: header
-        description: Bearer authentication
-        required: true
-        schema:
-          type: string
       responses:
         '200':
           description: Response with status 200
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1_audit_AuditEventsResponse'
+                $ref: '#/components/schemas/v1_audit_AuditEventsResponse'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/type_v1_audit_GetAuditEventsRequest'
+              $ref: '#/components/schemas/v1_audit_GetAuditEventsRequest'
+      security:
+      - client-credentials: []
 components:
   schemas:
-    type_v1_audit_ExternalUserId:
-      type: string
-      description: The identifier of a user in Method according to an external auth provider
-      title: ExternalUserId
-    type_v1_audit_AuditEventsResponse:
-      type: object
-      properties:
-        auditEvents:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_v1_audit_AuditEvent'
-        pagingToken:
-          type: string
-      required:
-      - auditEvents
-      title: AuditEventsResponse
-    type_v1_audit_Actor:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - user
-            description: 'Discriminator value: user'
-          id:
-            $ref: '#/components/schemas/type_v1_audit_UserId'
-          name:
-            type: string
-          email:
-            type: string
-          externalId:
-            $ref: '#/components/schemas/type_v1_audit_ExternalUserId'
-        required:
-        - type
-        - id
-        - name
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - serviceAccount
-            description: 'Discriminator value: serviceAccount'
-          id:
-            $ref: '#/components/schemas/type_v1_audit_ServiceAccountId'
-        required:
-        - type
-        - id
-      discriminator:
-        propertyName: type
-      title: Actor
-    type_v1_audit_Resource:
-      oneOf:
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - userAccount
-            description: 'Discriminator value: userAccount'
-          user:
-            $ref: '#/components/schemas/type_v1_audit_User'
-        required:
-        - type
-        - user
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - group
-            description: 'Discriminator value: group'
-          id:
-            $ref: '#/components/schemas/type_v1_audit_GroupId'
-          name:
-            type: string
-        required:
-        - type
-        - id
-        - name
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - issue
-            description: 'Discriminator value: issue'
-          id:
-            $ref: '#/components/schemas/type_v1_issues_IssueId'
-        required:
-        - type
-        - id
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - ontologyObject
-            description: 'Discriminator value: ontologyObject'
-          id:
-            $ref: '#/components/schemas/type_v1_objects_ObjectId'
-        required:
-        - type
-        - id
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - platformResource
-            description: 'Discriminator value: platformResource'
-          kind:
-            $ref: '#/components/schemas/type_v1_audit_ResourceKind'
-          id:
-            $ref: '#/components/schemas/type_v1_audit_PlatformResourceId'
-        required:
-        - type
-        - kind
-        - id
-      discriminator:
-        propertyName: type
-      title: Resource
-    type_v1_audit_AuditEventId:
-      type: string
-      description: The unique identifier for an audit event in Method
-      title: AuditEventId
-    type_v1_issues_IssueId:
-      type: string
-      description: The unique identifier for an issue in Method
-      title: IssueId
-    type_v1_audit_AuditEvent:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/type_v1_audit_AuditEventId'
-        tenantId:
-          $ref: '#/components/schemas/type_v1_audit_TenantId'
-        timestamp:
-          type: string
-          format: date-time
-        actor:
-          $ref: '#/components/schemas/type_v1_audit_Actor'
-        action:
-          $ref: '#/components/schemas/type_v1_audit_Action'
-        resource:
-          $ref: '#/components/schemas/type_v1_audit_Resource'
-        context:
-          $ref: '#/components/schemas/type_v1_audit_Context'
-        status:
-          $ref: '#/components/schemas/type_v1_audit_AuditEventStatus'
-      required:
-      - id
-      - tenantId
-      - timestamp
-      - actor
-      - action
-      - context
-      - status
-      title: AuditEvent
-    type_v1_audit_ServiceAccountId:
-      type: string
-      description: The unique identifier of a service account in Method
-      title: ServiceAccountId
-    type_v1_audit_PlatformActionOperation:
-      type: string
-      enum:
-      - CREATE
-      - UPDATE
-      - DELETE
-      - LOAD
-      - QUERY
-      - DECRYPT
-      title: PlatformActionOperation
-    type_v1_audit_TenantId:
-      type: string
-      description: The unique identifier of the tenant for which the audit event was emitted
-      title: TenantId
-    type_v1_audit_User:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/type_v1_audit_UserId'
-        name:
-          type: string
-        email:
-          type: string
-        externalId:
-          $ref: '#/components/schemas/type_v1_audit_ExternalUserId'
-      required:
-      - id
-      - name
-      title: User
-    type_v1_audit_PlatformResourceId:
-      type: string
-      description: The unique identifier for a Method platform resource.
-      title: PlatformResourceId
-    type_v1_audit_UserId:
-      type: string
-      description: The unique identifier of a human user in Method
-      title: UserId
-    type_v1_audit_GroupId:
-      type: string
-      description: The unique identifier of a user group in Method
-      title: GroupId
-    type_v1_audit_Context:
-      type: object
-      properties:
-        sourceIp:
-          $ref: '#/components/schemas/type_v1_audit_IpAddress'
-        userAgent:
-          $ref: '#/components/schemas/type_v1_audit_UserAgent'
-      title: Context
-    type_v1_audit_IpAddress:
-      type: string
-      description: The source IP for a request made to the Method platform
-      title: IpAddress
-    type_v1_audit_ResourceKind:
-      type: string
-      enum:
-      - AGENT
-      - ENVIRONMENT
-      - GROUP
-      - ISSUE
-      - ISSUE_DEFINITION
-      - JACKAL
-      - MODEL
-      - MODEL_PROVIDER
-      - OAUTH_CLIENT
-      - OBJECT_SET
-      - ONTOLOGY_OBJECT
-      - OPERATOR_SESSION
-      - REPORT
-      - SENSITIVE_VALUE
-      - SKILL
-      - TASK
-      - TASK_RUN
-      - TOKEN
-      - TOOL
-      - USER_ACCOUNT
-      title: ResourceKind
-    type_v1_audit_GetAuditEventsRequest:
-      type: object
-      properties:
-        startTime:
-          type: string
-          format: date-time
-        endTime:
-          type: string
-          format: date-time
-      required:
-      - startTime
-      - endTime
-      title: GetAuditEventsRequest
-    type_v1_audit_Action:
+    v1_audit_Action:
       oneOf:
       - type: object
         properties:
@@ -366,6 +108,61 @@ components:
           type:
             type: string
             enum:
+            - groupMembershipAddition
+            description: 'Discriminator value: groupMembershipAddition'
+          userIds:
+            type: array
+            items:
+              $ref: '#/components/schemas/v1_audit_UserId'
+        required:
+        - type
+        - userIds
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - groupMembershipRemoval
+            description: 'Discriminator value: groupMembershipRemoval'
+          userIds:
+            type: array
+            items:
+              $ref: '#/components/schemas/v1_audit_UserId'
+        required:
+        - type
+        - userIds
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - scimIntegrationCreation
+            description: 'Discriminator value: scimIntegrationCreation'
+          name:
+            type: string
+          identityProviderType:
+            type: string
+        required:
+        - type
+        - name
+        - identityProviderType
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - updateNoStrikeList
+            description: 'Discriminator value: updateNoStrikeList'
+          noStrikeListObjectSetId:
+            $ref: '#/components/schemas/v1_objects_ObjectSetId'
+        required:
+        - type
+        - noStrikeListObjectSetId
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
             - load
             description: 'Discriminator value: load'
         required:
@@ -378,16 +175,97 @@ components:
             - platformAction
             description: 'Discriminator value: platformAction'
           operation:
-            $ref: '#/components/schemas/type_v1_audit_PlatformActionOperation'
+            $ref: '#/components/schemas/v1_audit_PlatformActionOperation'
           resourceKind:
-            $ref: '#/components/schemas/type_v1_audit_ResourceKind'
+            $ref: '#/components/schemas/v1_audit_ResourceKind'
         required:
         - type
         - operation
       discriminator:
         propertyName: type
       title: Action
-    type_v1_audit_AuditEventStatus:
+    v1_audit_Context:
+      type: object
+      properties:
+        sourceIp:
+          $ref: '#/components/schemas/v1_audit_IpAddress'
+        userAgent:
+          $ref: '#/components/schemas/v1_audit_UserAgent'
+      title: Context
+    v1_issues_IssueId:
+      type: string
+      description: The unique identifier for an issue in Method
+      title: IssueId
+    v1_audit_AgentRunPrincipal:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - user
+            description: 'Discriminator value: user'
+          id:
+            $ref: '#/components/schemas/v1_audit_UserId'
+          name:
+            type: string
+          email:
+            type: string
+          externalId:
+            $ref: '#/components/schemas/v1_audit_ExternalUserId'
+        required:
+        - type
+        - id
+        - name
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - serviceAccount
+            description: 'Discriminator value: serviceAccount'
+          id:
+            $ref: '#/components/schemas/v1_audit_ServiceAccountId'
+        required:
+        - type
+        - id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - oauthApplication
+            description: 'Discriminator value: oauthApplication'
+          id:
+            $ref: '#/components/schemas/v1_audit_OauthApplicationId'
+          clientId:
+            $ref: '#/components/schemas/v1_audit_ClientId'
+        required:
+        - type
+        - id
+        - clientId
+      discriminator:
+        propertyName: type
+      description: 'The principal on whose behalf an agent run acts. This excludes agent runs so that an agent run cannot be
+
+        nested inside another agent run.'
+      title: AgentRunPrincipal
+    v1_audit_User:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/v1_audit_UserId'
+        name:
+          type: string
+        email:
+          type: string
+        externalId:
+          $ref: '#/components/schemas/v1_audit_ExternalUserId'
+      required:
+      - id
+      - name
+      title: User
+    v1_audit_AuditEventStatus:
       oneOf:
       - type: object
         properties:
@@ -412,14 +290,293 @@ components:
       discriminator:
         propertyName: type
       title: AuditEventStatus
-    type_v1_audit_UserAgent:
+    v1_audit_AuditEventId:
       type: string
-      description: The user agent for a request made to the Method platform
+      description: The unique identifier for an audit event in Method
+      title: AuditEventId
+    v1_audit_ResourceKind:
+      type: string
+      enum:
+      - AGENT
+      - AGENT_SESSION
+      - ENVIRONMENT
+      - GROUP
+      - ISSUE
+      - ISSUE_DEFINITION
+      - JACKAL
+      - MODEL
+      - MODEL_PROVIDER
+      - OAUTH_CLIENT
+      - OBJECT_SET
+      - ONTOLOGY_OBJECT
+      - OPERATOR_SESSION
+      - REPORT
+      - SCIM_INTEGRATION
+      - SENSITIVE_VALUE
+      - SKILL
+      - TARGET
+      - TARGET_PACKAGE
+      - TASK
+      - TASK_RUN
+      - TOKEN
+      - TOOL
+      - USER_ACCOUNT
+      title: ResourceKind
+    v1_audit_TenantId:
+      type: string
+      description: The unique identifier of the tenant for which the audit event was emitted
+      title: TenantId
+    v1_audit_AgentSessionId:
+      type: string
+      description: The unique identifier of an agent session in Method
+      title: AgentSessionId
+    v1_audit_Resource:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - userAccount
+            description: 'Discriminator value: userAccount'
+          user:
+            $ref: '#/components/schemas/v1_audit_User'
+        required:
+        - type
+        - user
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - group
+            description: 'Discriminator value: group'
+          id:
+            $ref: '#/components/schemas/v1_audit_GroupId'
+          name:
+            type: string
+        required:
+        - type
+        - id
+        - name
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - issue
+            description: 'Discriminator value: issue'
+          id:
+            $ref: '#/components/schemas/v1_issues_IssueId'
+        required:
+        - type
+        - id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - ontologyObject
+            description: 'Discriminator value: ontologyObject'
+          id:
+            $ref: '#/components/schemas/v1_objects_ObjectId'
+        required:
+        - type
+        - id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - platformResource
+            description: 'Discriminator value: platformResource'
+          kind:
+            $ref: '#/components/schemas/v1_audit_ResourceKind'
+          id:
+            $ref: '#/components/schemas/v1_audit_PlatformResourceId'
+        required:
+        - type
+        - kind
+        - id
+      discriminator:
+        propertyName: type
+      title: Resource
+    v1_objects_ObjectSetId:
+      type: string
+      description: The unique identifier for an object set in Method
+      title: ObjectSetId
+    v1_audit_GroupId:
+      type: string
+      description: The unique identifier of a user group in Method
+      title: GroupId
+    v1_audit_UserAgent:
+      type: string
+      description: The user agent for a request made to the Method platform.
       title: UserAgent
-    type_v1_objects_ObjectId:
+    v1_audit_ClientId:
+      type: string
+      description: The OAuth client identifier for an OAuth application
+      title: ClientId
+    v1_audit_GetAuditEventsRequest:
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+      required:
+      - startTime
+      - endTime
+      title: GetAuditEventsRequest
+    v1_audit_Actor:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - user
+            description: 'Discriminator value: user'
+          id:
+            $ref: '#/components/schemas/v1_audit_UserId'
+          name:
+            type: string
+          email:
+            type: string
+          externalId:
+            $ref: '#/components/schemas/v1_audit_ExternalUserId'
+        required:
+        - type
+        - id
+        - name
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - serviceAccount
+            description: 'Discriminator value: serviceAccount'
+          id:
+            $ref: '#/components/schemas/v1_audit_ServiceAccountId'
+        required:
+        - type
+        - id
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - oauthApplication
+            description: 'Discriminator value: oauthApplication'
+          id:
+            $ref: '#/components/schemas/v1_audit_OauthApplicationId'
+          clientId:
+            $ref: '#/components/schemas/v1_audit_ClientId'
+        required:
+        - type
+        - id
+        - clientId
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - agentRun
+            description: 'Discriminator value: agentRun'
+          principal:
+            $ref: '#/components/schemas/v1_audit_AgentRunPrincipal'
+          agentSessionId:
+            $ref: '#/components/schemas/v1_audit_AgentSessionId'
+        required:
+        - type
+        - principal
+        - agentSessionId
+      discriminator:
+        propertyName: type
+      title: Actor
+    v1_audit_AuditEvent:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/v1_audit_AuditEventId'
+        tenantId:
+          $ref: '#/components/schemas/v1_audit_TenantId'
+        timestamp:
+          type: string
+          format: date-time
+        actor:
+          $ref: '#/components/schemas/v1_audit_Actor'
+        action:
+          $ref: '#/components/schemas/v1_audit_Action'
+        resource:
+          $ref: '#/components/schemas/v1_audit_Resource'
+        context:
+          $ref: '#/components/schemas/v1_audit_Context'
+        status:
+          $ref: '#/components/schemas/v1_audit_AuditEventStatus'
+      required:
+      - id
+      - tenantId
+      - timestamp
+      - actor
+      - action
+      - context
+      - status
+      title: AuditEvent
+    v1_audit_AuditEventsResponse:
+      type: object
+      properties:
+        auditEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1_audit_AuditEvent'
+        pagingToken:
+          type: string
+      required:
+      - auditEvents
+      title: AuditEventsResponse
+    v1_audit_OauthApplicationId:
+      type: string
+      description: The unique identifier of an OAuth application in Method
+      title: OauthApplicationId
+    v1_objects_ObjectId:
       type: string
       description: The unique identifier for an object in Method
       title: ObjectId
+    v1_audit_IpAddress:
+      type: string
+      description: The source IP for a request made to the Method platform
+      title: IpAddress
+    v1_audit_ServiceAccountId:
+      type: string
+      description: The unique identifier of a service account in Method
+      title: ServiceAccountId
+    v1_audit_PlatformResourceId:
+      type: string
+      description: The unique identifier for a Method platform resource.
+      title: PlatformResourceId
+    v1_audit_UserId:
+      type: string
+      description: The unique identifier of a human user in Method
+      title: UserId
+    v1_audit_ExternalUserId:
+      type: string
+      description: The identifier of a user in Method according to an external auth provider
+      title: ExternalUserId
+    v1_audit_PlatformActionOperation:
+      type: string
+      enum:
+      - APPROVE
+      - CREATE
+      - UPDATE
+      - DELETE
+      - LOAD
+      - LAUNCH
+      - QUERY
+      - DECRYPT
+      title: PlatformActionOperation
   securitySchemes:
     client-credentials:
       type: http

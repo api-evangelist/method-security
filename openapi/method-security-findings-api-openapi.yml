@@ -1,0 +1,206 @@
+openapi: 3.2.0
+info:
+  title: Reference Findings API
+  version: 1.0.0
+tags:
+- name: Findings
+paths:
+  /method-api-gateway/api/v2/findings/{findingId}:
+    get:
+      operationId: findings_getFinding
+      summary: Get Finding
+      description: Retrieve a finding by ID.
+      tags:
+      - Findings
+      parameters:
+      - name: findingId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/common_FindingId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_findings_Finding'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common_FindingId'
+      security:
+      - client-credentials: []
+  /method-api-gateway/api/v2/findings/{findingId}/update:
+    post:
+      operationId: findings_updateFinding
+      summary: Update Finding
+      description: Update a finding. Omitted fields are unchanged. closeReason is required when status is CLOSED.
+      tags:
+      - Findings
+      parameters:
+      - name: findingId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/common_FindingId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v2_findings_Finding'
+        '404':
+          description: Error response with status 404
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/common_FindingId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v2_findings_UpdateFindingRequest'
+      security:
+      - client-credentials: []
+components:
+  schemas:
+    v2_findings_UpdateFindingRequest:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/v2_findings_FindingStatus'
+        closeReason:
+          $ref: '#/components/schemas/v2_findings_FindingClosedReason'
+        comment:
+          type: string
+      description: Patch workflow fields. Omitted fields are unchanged.
+      title: UpdateFindingRequest
+    v2_findings_FindingSeverity:
+      type: string
+      enum:
+      - CRITICAL
+      - HIGH
+      - MEDIUM
+      - LOW
+      - INFO
+      title: FindingSeverity
+    common_FindingDefinitionId:
+      type: string
+      description: The unique identifier for a finding definition. Same RID as an ontology-gateway IssueDefinition.
+      title: FindingDefinitionId
+    v2_findings_FindingClosedReason:
+      type: string
+      enum:
+      - RESOLVED
+      - CLOSED_BY_AGENT
+      - ACCEPTED_RISK
+      - FALSE_POSITIVE
+      - NOT_APPLICABLE
+      title: FindingClosedReason
+    v2_findings_FindingSource:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - findingDefinition
+            description: 'Discriminator value: findingDefinition'
+          findingDefinitionId:
+            $ref: '#/components/schemas/common_FindingDefinitionId'
+        required:
+        - type
+        - findingDefinitionId
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - agent
+            description: 'Discriminator value: agent'
+          agentId:
+            type: string
+          sessionId:
+            type: string
+        required:
+        - type
+        - agentId
+        - sessionId
+      discriminator:
+        propertyName: type
+      title: FindingSource
+    common_EnvironmentId:
+      type: string
+      description: The unique identifier for an environment in Method
+      title: EnvironmentId
+    common_FindingId:
+      type: string
+      description: The unique identifier for a finding. Same RID as an ontology-gateway Issue.
+      title: FindingId
+    v1_objects_ObjectId:
+      type: string
+      description: The unique identifier for an object in Method
+      title: ObjectId
+    v2_findings_FindingStatus:
+      type: string
+      enum:
+      - OPEN
+      - CLOSED
+      - ARCHIVED
+      title: FindingStatus
+    v2_findings_Finding:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/common_FindingId'
+        findingDetailsLink:
+          type: string
+        environmentId:
+          $ref: '#/components/schemas/common_EnvironmentId'
+        environmentName:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        remediation:
+          type: string
+        status:
+          $ref: '#/components/schemas/v2_findings_FindingStatus'
+        severity:
+          $ref: '#/components/schemas/v2_findings_FindingSeverity'
+        closedReason:
+          $ref: '#/components/schemas/v2_findings_FindingClosedReason'
+        affectedObjectId:
+          $ref: '#/components/schemas/v1_objects_ObjectId'
+        affectedObjectTitle:
+          type: string
+        affectedObjectDetailsLink:
+          type: string
+        sources:
+          type: array
+          items:
+            $ref: '#/components/schemas/v2_findings_FindingSource'
+      required:
+      - id
+      - findingDetailsLink
+      - environmentId
+      - environmentName
+      - title
+      - description
+      - remediation
+      - status
+      - severity
+      - affectedObjectId
+      - affectedObjectTitle
+      - affectedObjectDetailsLink
+      - sources
+      title: Finding
+  securitySchemes:
+    client-credentials:
+      type: http
+      scheme: bearer

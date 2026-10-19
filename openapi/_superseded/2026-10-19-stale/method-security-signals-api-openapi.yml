@@ -1,0 +1,43 @@
+openapi: 3.2.0
+info:
+  title: Reference Signals API
+  version: 1.0.0
+tags:
+- name: Signals
+paths:
+  /method-api-gateway/api/v1/signals/{signalId}/content:
+    get:
+      operationId: getSignalContentServer
+      summary: Get Signal Content Server
+      description: Retrieve the raw content for a signal using its ID.
+      tags:
+      - Signals
+      parameters:
+      - name: signalId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_v1_signals_SignalId'
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                description: Any type
+components:
+  schemas:
+    type_v1_signals_SignalId:
+      type: string
+      description: The unique identifier for a signal in Method.
+      title: SignalId
+  securitySchemes:
+    client-credentials:
+      type: http
+      scheme: bearer

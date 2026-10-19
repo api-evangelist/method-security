@@ -7,7 +7,7 @@ tags:
 paths:
   /method-api-gateway/api/auth/getToken:
     post:
-      operationId: getTokenWithClientCredentials
+      operationId: auth_getTokenWithClientCredentials
       summary: Get Token With Client Credentials
       tags:
       - Auth
@@ -17,7 +17,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_auth_TokenResponse'
+                $ref: '#/components/schemas/auth_TokenResponse'
       requestBody:
         content:
           application/json:
@@ -40,7 +40,7 @@ paths:
               - grant_type
 components:
   schemas:
-    type_auth_TokenResponse:
+    auth_TokenResponse:
       type: object
       properties:
         access_token:

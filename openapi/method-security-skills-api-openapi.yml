@@ -7,33 +7,28 @@ tags:
 paths:
   /method-api-gateway/api/v1/skills/search:
     post:
-      operationId: searchSkills
+      operationId: skills_searchSkills
       summary: Search Skills
       description: Search the skills available to agents.
       tags:
       - Skills
-      parameters:
-      - name: Authorization
-        in: header
-        description: Bearer authentication
-        required: true
-        schema:
-          type: string
       responses:
         '200':
           description: Response with status 200
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1_skills_SearchSkillsResponse'
+                $ref: '#/components/schemas/v1_skills_SearchSkillsResponse'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/type_v1_skills_SearchSkillsRequest'
+              $ref: '#/components/schemas/v1_skills_SearchSkillsRequest'
+      security:
+      - client-credentials: []
   /method-api-gateway/api/v1/skills/{skillId}:
     get:
-      operationId: getSkill
+      operationId: skills_getSkill
       summary: Get Skill
       description: Retrieve a skill, including its markdown content.
       tags:
@@ -43,22 +38,18 @@ paths:
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/type_v1_skills_SkillId'
-      - name: Authorization
-        in: header
-        description: Bearer authentication
-        required: true
-        schema:
-          type: string
+          $ref: '#/components/schemas/v1_skills_SkillId'
       responses:
         '200':
           description: Response with status 200
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1_skills_Skill'
+                $ref: '#/components/schemas/v1_skills_Skill'
+      security:
+      - client-credentials: []
     put:
-      operationId: updateSkill
+      operationId: skills_updateSkill
       summary: Update Skill
       description: Update an existing skill's content, metadata, and labels.
       tags:
@@ -68,54 +59,45 @@ paths:
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/type_v1_skills_SkillId'
-      - name: Authorization
-        in: header
-        description: Bearer authentication
-        required: true
-        schema:
-          type: string
+          $ref: '#/components/schemas/v1_skills_SkillId'
       responses:
         '200':
           description: Response with status 200
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1_skills_Skill'
+                $ref: '#/components/schemas/v1_skills_Skill'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/type_v1_skills_UpdateSkillRequest'
+              $ref: '#/components/schemas/v1_skills_UpdateSkillRequest'
+      security:
+      - client-credentials: []
   /method-api-gateway/api/v1/skills/:
     post:
-      operationId: createSkill
+      operationId: skills_createSkill
       summary: Create Skill
       description: Create a skill from markdown content.
       tags:
       - Skills
-      parameters:
-      - name: Authorization
-        in: header
-        description: Bearer authentication
-        required: true
-        schema:
-          type: string
       responses:
         '200':
           description: Response with status 200
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1_skills_Skill'
+                $ref: '#/components/schemas/v1_skills_Skill'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/type_v1_skills_CreateSkillRequest'
+              $ref: '#/components/schemas/v1_skills_CreateSkillRequest'
+      security:
+      - client-credentials: []
 components:
   schemas:
-    type_v1_skills_CreateSkillRequest:
+    v1_skills_CreateSkillRequest:
       type: object
       properties:
         name:
@@ -134,11 +116,27 @@ components:
       - name
       - content
       title: CreateSkillRequest
-    type_v1_skills_Skill:
+    v1_skills_SkillId:
+      type: string
+      description: The unique identifier for a skill.
+      title: SkillId
+    v1_skills_SearchSkillsResponse:
+      type: object
+      properties:
+        skills:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1_skills_Skill'
+        pagingToken:
+          type: string
+      required:
+      - skills
+      title: SearchSkillsResponse
+    v1_skills_Skill:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/type_v1_skills_SkillId'
+          $ref: '#/components/schemas/v1_skills_SkillId'
         name:
           type: string
         description:
@@ -166,23 +164,7 @@ components:
       - createdAt
       - updatedAt
       title: Skill
-    type_v1_skills_SearchSkillsResponse:
-      type: object
-      properties:
-        skills:
-          type: array
-          items:
-            $ref: '#/components/schemas/type_v1_skills_Skill'
-        pagingToken:
-          type: string
-      required:
-      - skills
-      title: SearchSkillsResponse
-    type_v1_skills_SkillId:
-      type: string
-      description: The unique identifier for a skill.
-      title: SkillId
-    type_v1_skills_SearchSkillsRequest:
+    v1_skills_SearchSkillsRequest:
       type: object
       properties:
         nameLike:
@@ -192,7 +174,7 @@ components:
         pagingToken:
           type: string
       title: SearchSkillsRequest
-    type_v1_skills_UpdateSkillRequest:
+    v1_skills_UpdateSkillRequest:
       type: object
       properties:
         name:

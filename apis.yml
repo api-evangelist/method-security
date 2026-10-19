@@ -203,6 +203,27 @@ apis:
     url: openapi/method-security-targets-api-openapi.yml
   - type: x-openapi-original
     url: openapi/_original/method-security-openapi-original.yml
+- aid: method-security:method-security-finding-definitions-api
+  name: Method Security Finding Definitions API
+  description: >-
+    The finding_definitions API from Method Security — 3 operation(s) for finding_definitions.
+  humanURL: https://docs.method.security/developer/api-reference/api-reference
+  baseURL: https://your-instance.method.delivery/method-api-gateway/api
+  tags:
+  - finding_definitions
+  properties:
+  - type: OpenAPI
+    url: openapi/method-security-finding-definitions-api-openapi.yml
+- aid: method-security:method-security-findings-api
+  name: Method Security Findings API
+  description: The findings API from Method Security — 2 operation(s) for findings.
+  humanURL: https://docs.method.security/developer/api-reference/api-reference
+  baseURL: https://your-instance.method.delivery/method-api-gateway/api
+  tags:
+  - findings
+  properties:
+  - type: OpenAPI
+    url: openapi/method-security-findings-api-openapi.yml
 common:
 - type: Overlay
   url: overlays/method-security-openapi-overlay.yaml

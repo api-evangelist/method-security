@@ -1,0 +1,71 @@
+openapi: 3.2.0
+info:
+  title: Reference Reports API
+  version: 1.0.0
+tags:
+- name: Reports
+paths:
+  /method-api-gateway/api/v1/reports/{reportId}:
+    get:
+      operationId: getReport
+      summary: Get Report
+      description: Retrieve a report document as markdown.
+      tags:
+      - Reports
+      parameters:
+      - name: reportId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/type_v1_reports_ReportId'
+      - name: Authorization
+        in: header
+        description: Bearer authentication
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/type_v1_reports_Report'
+components:
+  schemas:
+    type_v1_reports_ReportId:
+      type: string
+      description: The unique identifier for a report document.
+      title: ReportId
+    type_v1_reports_Report:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/type_v1_reports_ReportId'
+        reportDetailsLink:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        markdown:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - reportDetailsLink
+      - title
+      - markdown
+      - createdAt
+      - updatedAt
+      description: A Method report document.
+      title: Report
+  securitySchemes:
+    client-credentials:
+      type: http
+      scheme: bearer

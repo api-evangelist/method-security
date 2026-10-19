@@ -7,53 +7,48 @@ tags:
 paths:
   /method-api-gateway/api/v1/system/externalIp:
     get:
-      operationId: getExternalIPAddresses
+      operationId: system_getExternalIPAddresses
       summary: Get External IP Addresses
       description: Retrieves the source IP addresses for scans from the Method platform
       tags:
       - System
-      parameters:
-      - name: Authorization
-        in: header
-        description: Bearer authentication
-        required: true
-        schema:
-          type: string
       responses:
         '200':
           description: Response with status 200
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1_system_ExternalIPAddresses'
+                $ref: '#/components/schemas/v1_system_ExternalIPAddresses'
+      security:
+      - client-credentials: []
 components:
   schemas:
-    type_v1_system_Ipv4Address:
-      type: string
-      description: An IPv4 address represented in dot-decimal notation (e.g. 192.168.1.1)
-      title: Ipv4Address
-    type_v1_system_Ipv6Range:
+    v1_system_Ipv6Range:
       type: string
       description: An IPv6 CIDR range (e.g. 2605:B00::/32)
       title: Ipv6Range
-    type_v1_system_ExternalIPAddresses:
+    v1_system_ExternalIPAddresses:
       type: object
       properties:
         ipv4:
           type: array
           items:
-            $ref: '#/components/schemas/type_v1_system_Ipv4Address'
+            $ref: '#/components/schemas/v1_system_Ipv4Address'
           description: The source IPv4 addresses for scans from the Method platform
         ipv6Ranges:
           type: array
           items:
-            $ref: '#/components/schemas/type_v1_system_Ipv6Range'
+            $ref: '#/components/schemas/v1_system_Ipv6Range'
           description: The source IPv6 CIDR ranges for scans from the Method platform
       required:
       - ipv4
       - ipv6Ranges
       description: The source IP addresses for scans from the Method platform
       title: ExternalIPAddresses
+    v1_system_Ipv4Address:
+      type: string
+      description: An IPv4 address represented in dot-decimal notation (e.g. 192.168.1.1)
+      title: Ipv4Address
   securitySchemes:
     client-credentials:
       type: http

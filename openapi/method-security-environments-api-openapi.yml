@@ -5,35 +5,78 @@ info:
 tags:
 - name: Environments
 paths:
-  /method-api-gateway/api/v1/environments/:
-    post:
-      operationId: createEnvironment
-      summary: Create Environment
-      description: Create a new Method environment.
+  /method-api-gateway/api/v1/environments/{environmentId}:
+    get:
+      operationId: environments_getEnvironment
+      summary: Get Environment
+      description: Retrieve an environment from Method using its ID.
       tags:
       - Environments
       parameters:
-      - name: Authorization
-        in: header
-        description: Bearer authentication
+      - name: environmentId
+        in: path
         required: true
         schema:
-          type: string
+          $ref: '#/components/schemas/common_EnvironmentId'
       responses:
         '200':
           description: Response with status 200
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1_environments_CreateEnvironmentResponse'
+                $ref: '#/components/schemas/v1_environments_Environment'
+      security:
+      - client-credentials: []
+  /method-api-gateway/api/v1/environments/{environmentId}/tag-hierarchy:
+    get:
+      operationId: environments_getEnvironmentTagHierarchy
+      summary: Get Environment Tag Hierarchy
+      description: Retrieve the ordered environment tag hierarchy paths containing an environment.
+      tags:
+      - Environments
+      parameters:
+      - name: environmentId
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/common_EnvironmentId'
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/v1_tags_Tag'
+      security:
+      - client-credentials: []
+  /method-api-gateway/api/v1/environments/:
+    post:
+      operationId: environments_createEnvironment
+      summary: Create Environment
+      description: Create a new Method environment.
+      tags:
+      - Environments
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_environments_CreateEnvironmentResponse'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/type_v1_environments_CreateEnvironmentRequest'
+              $ref: '#/components/schemas/v1_environments_CreateEnvironmentRequest'
+      security:
+      - client-credentials: []
   /method-api-gateway/api/v1/environments/{environmentId}/intel:
     post:
-      operationId: uploadEnvironmentIntel
+      operationId: environments_uploadEnvironmentIntel
       summary: Upload Environment Intel
       description: Upload an intelligence attachment and associate it with an environment.
       tags:
@@ -43,62 +86,58 @@ paths:
         in: path
         required: true
         schema:
-          $ref: '#/components/schemas/type_common_EnvironmentId'
-      - name: Authorization
-        in: header
-        description: Bearer authentication
-        required: true
-        schema:
-          type: string
+          $ref: '#/components/schemas/common_EnvironmentId'
       responses:
         '200':
           description: Response with status 200
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/type_v1_environments_UploadEnvironmentIntelResponse'
+                $ref: '#/components/schemas/v1_environments_UploadEnvironmentIntelResponse'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/type_v1_environments_UploadEnvironmentIntelRequest'
+              $ref: '#/components/schemas/v1_environments_UploadEnvironmentIntelRequest'
+      security:
+      - client-credentials: []
+  /method-api-gateway/api/v1/environments/search:
+    post:
+      operationId: environments_searchEnvironments
+      summary: Search Environments
+      description: 'Search environments. Omit filter to return all.
+
+        tags matches environments that have any of the given tag ids.'
+      tags:
+      - Environments
+      responses:
+        '200':
+          description: Response with status 200
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/v1_environments_SearchEnvironmentsResponse'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/v1_environments_SearchEnvironmentsRequest'
+      security:
+      - client-credentials: []
 components:
   schemas:
-    type_v1_environments_UploadEnvironmentIntelResponse:
+    v1_environments_SearchEnvironmentsRequest:
       type: object
       properties:
-        attachmentId:
-          $ref: '#/components/schemas/type_v1_environments_AttachmentId'
-      required:
-      - attachmentId
-      title: UploadEnvironmentIntelResponse
-    type_common_EnvironmentId:
-      type: string
-      description: The unique identifier for an environment in Method
-      title: EnvironmentId
-    type_v1_environments_CreateEnvironmentRequest:
-      type: object
-      properties:
-        title:
+        filter:
+          $ref: '#/components/schemas/v1_environments_EnvironmentFilter'
+        pagingToken:
           type: string
-          description: Human-readable environment title.
-      required:
-      - title
-      description: Request to create an environment.
-      title: CreateEnvironmentRequest
-    type_v1_environments_CreateEnvironmentResponse:
-      type: object
-      properties:
-        environmentId:
-          $ref: '#/components/schemas/type_common_EnvironmentId'
-      required:
-      - environmentId
-      title: CreateEnvironmentResponse
-    type_v1_environments_AttachmentId:
-      type: string
-      description: The unique identifier for an uploaded attachment in Method.
-      title: AttachmentId
-    type_v1_environments_UploadEnvironmentIntelRequest:
+        pageSize:
+          type: integer
+          description: Maximum 100. If omitted, the service default is used.
+      title: SearchEnvironmentsRequest
+    v1_environments_UploadEnvironmentIntelRequest:
       type: object
       properties:
         filename:
@@ -115,6 +154,156 @@ components:
       - contentBase64
       description: Request to upload environment intelligence content.
       title: UploadEnvironmentIntelRequest
+    v1_environments_UploadEnvironmentIntelResponse:
+      type: object
+      properties:
+        attachmentId:
+          $ref: '#/components/schemas/v1_environments_AttachmentId'
+      required:
+      - attachmentId
+      title: UploadEnvironmentIntelResponse
+    v1_tags_TagNamespace:
+      type: string
+      enum:
+      - ENVIRONMENT
+      title: TagNamespace
+    v1_environments_EnvironmentFilter:
+      oneOf:
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - andFilter
+            description: 'Discriminator value: andFilter'
+          filters:
+            type: array
+            items:
+              $ref: '#/components/schemas/v1_environments_EnvironmentFilter'
+        required:
+        - type
+        - filters
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - orFilter
+            description: 'Discriminator value: orFilter'
+          filters:
+            type: array
+            items:
+              $ref: '#/components/schemas/v1_environments_EnvironmentFilter'
+        required:
+        - type
+        - filters
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - notFilter
+            description: 'Discriminator value: notFilter'
+          filter:
+            $ref: '#/components/schemas/v1_environments_EnvironmentFilter'
+        required:
+        - type
+        - filter
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - tags
+            description: 'Discriminator value: tags'
+          tagIds:
+            type: array
+            items:
+              $ref: '#/components/schemas/common_TagId'
+        required:
+        - type
+        - tagIds
+      discriminator:
+        propertyName: type
+      title: EnvironmentFilter
+    v1_tags_Tag:
+      type: object
+      properties:
+        tagId:
+          $ref: '#/components/schemas/common_TagId'
+        value:
+          type: string
+        namespaces:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1_tags_TagNamespace'
+      required:
+      - tagId
+      - value
+      - namespaces
+      title: Tag
+    common_TagId:
+      type: string
+      description: The unique identifier for a tag in Method.
+      title: TagId
+    v1_environments_SearchEnvironmentsResponse:
+      type: object
+      properties:
+        environments:
+          type: array
+          items:
+            $ref: '#/components/schemas/v1_environments_Environment'
+        pagingToken:
+          type: string
+      required:
+      - environments
+      title: SearchEnvironmentsResponse
+    v1_environments_CreateEnvironmentRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Human-readable environment title.
+      required:
+      - title
+      description: Request to create an environment.
+      title: CreateEnvironmentRequest
+    v1_environments_EnvironmentNetworkType:
+      type: string
+      enum:
+      - ON_PREM
+      - CLOUD
+      - HYBRID
+      title: EnvironmentNetworkType
+    common_EnvironmentId:
+      type: string
+      description: The unique identifier for an environment in Method
+      title: EnvironmentId
+    v1_environments_CreateEnvironmentResponse:
+      type: object
+      properties:
+        environmentId:
+          $ref: '#/components/schemas/common_EnvironmentId'
+      required:
+      - environmentId
+      title: CreateEnvironmentResponse
+    v1_environments_Environment:
+      type: object
+      properties:
+        environmentId:
+          $ref: '#/components/schemas/common_EnvironmentId'
+        title:
+          type: string
+        networkType:
+          $ref: '#/components/schemas/v1_environments_EnvironmentNetworkType'
+      required:
+      - environmentId
+      - title
+      title: Environment
+    v1_environments_AttachmentId:
+      type: string
+      description: The unique identifier for an uploaded attachment in Method.
+      title: AttachmentId
   securitySchemes:
     client-credentials:
       type: http
